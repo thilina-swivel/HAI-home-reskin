@@ -441,81 +441,21 @@
   }
 
 
-  /* ============================================================
-     PROOF — gradient + grid panel
-     FRAMER MAP
-       Section "Proof" (Frame · 100% · min-h 640 · Clip content ON · Fill #0B0620)
-        ├ proof-bg (Frame · absolute inset 0 · Clip content ON)
-        │    ├ pg-grid → Frame, a repeating 1px grid fill, radial mask so it
-        │    │            fades out before the edges. Scroll Transform Y ±18.
-        │    ├ pg-a    → Frame, indigo radial fill · Loop 30s alternate
-        │    └ pg-b    → Frame, tangelo radial fill · Loop 38s alternate
-        │   Two drifting fills carry all the movement; the grid stays put so
-        │   the 1px lines never shimmer. No photo, so nothing to art-direct
-        │   and nothing to download.
-        ├ proof-scrim  → Frame, one gradient fill keeping the left column dark
-        │                  enough for the copy whatever the glows are doing
-        └ proof-inner  → Stack (vertical), each child an Appear animation
-             proof-stats → Stack horizontal, 3 columns, hairline top border
-             The counting numbers need a code component — Framer's marketplace
-             "stats-section" (linked in the content doc) does exactly this.
-     ============================================================ */
+  /* Shared dark-section styling — the incubator still uses this. */
   .dark{background:var(--violet);color:#fff}
   .dark h2{color:#fff}
   .dark .lede{color:rgba(255,255,255,.75)}
 
-  .proof{position:relative;overflow:clip;background:#0B0620;isolation:isolate;
-    min-height:min(88svh,720px);display:flex;align-items:center;
-    padding:clamp(88px,11vw,150px) 0}
-  .proof-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-  /* Grid: 1px lines, masked so it dissolves before it reaches an edge —
-     otherwise it reads as a table rather than as texture. Static by design;
-     a moving 1px grid moirés against the pixel grid at most sizes. */
-  .pg-grid{position:absolute;inset:0;
-    background-image:linear-gradient(rgba(174,173,240,.13) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(174,173,240,.13) 1px,transparent 1px);
-    background-size:clamp(46px,4.6vw,72px) clamp(46px,4.6vw,72px);
-    -webkit-mask-image:radial-gradient(112% 84% at 46% 44%,#000 22%,transparent 74%);
-            mask-image:radial-gradient(112% 84% at 46% 44%,#000 22%,transparent 74%)}
-  /* The two glows are the whole animation. They sit right of centre, away from
-     the copy, and inset -25% so their soft edges never enter the frame. */
-  .pg-a,.pg-b{position:absolute;inset:-25%}
-  .pg-a{background:radial-gradient(38% 42% at 70% 28%,rgba(87,0,255,.50),transparent 68%);
-    animation:pgA 30s ease-in-out infinite alternate}
-  .pg-b{background:radial-gradient(34% 38% at 84% 78%,rgba(254,74,1,.24),transparent 68%);
-    animation:pgB 38s ease-in-out infinite alternate}
-  @keyframes pgA{from{transform:translate3d(-2.5%,-2%,0) scale(1)}
-                 to{transform:translate3d(3.5%,2.5%,0) scale(1.16)}}
-  @keyframes pgB{from{transform:translate3d(2.5%,2%,0) scale(1.1)}
-                 to{transform:translate3d(-3.5%,-2.5%,0) scale(.94)}}
-  /* Keeps the left column dark enough for the copy whatever the glows do. */
-  .proof-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
-    linear-gradient(96deg,rgba(9,5,26,.80) 0%,rgba(9,5,26,.46) 34%,rgba(9,5,26,0) 68%),
-    linear-gradient(180deg,rgba(9,5,26,.34) 0%,rgba(9,5,26,0) 26%,rgba(9,5,26,0) 62%,rgba(9,5,26,.52) 100%)}
-  .proof-inner{position:relative;z-index:2;width:100%}
-  .proof h2{max-width:18ch}
-  .proof .lede{margin-top:18px;max-width:52ch}
-  /* stat row */
-  .proof-stats{display:grid;gap:30px;margin-top:clamp(44px,6vw,72px);
-    border-top:1px solid rgba(255,255,255,.2);padding-top:clamp(30px,4vw,44px)}
-  @media(min-width:820px){.proof-stats{grid-template-columns:repeat(3,1fr);gap:clamp(28px,4vw,56px)}}
-  .pstat .n{display:block;font-family:var(--display);font-weight:600;line-height:.92;
-    font-size:clamp(46px,6vw,88px);letter-spacing:-.04em;font-variant-numeric:tabular-nums;
-    background:linear-gradient(92deg,#fff,var(--periwinkle));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .pstat .n.orange{background:linear-gradient(92deg,#FFB08C,var(--tangelo));-webkit-background-clip:text;background-clip:text}
-  .pstat p{font-size:16px;line-height:1.45;color:rgba(255,255,255,.76);margin-top:12px;max-width:24ch}
-
   /* ============================================================
-     PROOF · variant B — minimal, light
-     A duplicate of the section above with everything decorative removed:
-     no photo, no gradient, no grid. Title and lede split across the top,
+     PROOF — minimal, light
+     No photo, no gradient, no grid. Title and lede split across the top,
      then the numbers in a hairline-divided row.
      FRAMER MAP
-       Section "Proof (minimal)" (Fill #FFF)
+       Section "Proof" (Fill #FFF)
         ├ head.split → the existing two-column header component
         └ pmin-stats → Stack horizontal, 3 columns, 1px dividers between
-             The numbers reuse the same [data-count] hook, so the count-up
-             component drives both variants.
+             The numbers use the [data-count] hook that the count-up
+             component reads.
      Divider logic is the fiddly part: a top border on the row plus a
      left border on every item except the first, which gives single hairlines
      with no doubling and no trailing rule. Stacked, it flips to top borders.
@@ -1236,50 +1176,11 @@
 </section>
 
 <!-- ============================================================
-     PROOF  ·  gradient + grid panel
-     Copy verbatim from "humaniseAI Homepage Content" → PROOF.
-     No photography here: two brand-coloured radial fills drift over a masked
-     grid. To put real client footage back, drop the hero's
-     <video autoplay muted loop playsinline> in place of .proof-bg.
+     PROOF  ·  minimal, light
+     Replaced the full-bleed gradient panel; it takes the #proof id so links
+     and the Framer handoff keep one canonical name for this section.
      ============================================================ -->
-<section class="dark proof" id="proof">
-
-  <div class="proof-bg" aria-hidden="true">
-    <span class="pg-grid" data-parallax="proof"></span>
-    <span class="pg-a"></span>
-    <span class="pg-b"></span>
-  </div>
-  <div class="proof-scrim"></div>
-
-  <div class="wrap proof-inner">
-    <span class="label" data-reveal>Proof</span>
-    <h2 data-reveal style="--d:.06s">What this delivers, in numbers</h2>
-    <p class="lede" data-reveal style="--d:.12s">Real outcomes from AI systems built inside real operations, not lab demos.</p>
-
-    <div class="proof-stats">
-      <div class="pstat" data-reveal style="--d:.18s">
-        <span class="n" data-count="70" data-suffix="+">70+</span>
-        <p>hrs saved per team, per month.</p>
-      </div>
-      <div class="pstat" data-reveal style="--d:.26s">
-        <span class="n" data-count="60" data-suffix="%">60%</span>
-        <p>compliance time cut.</p>
-      </div>
-      <div class="pstat" data-reveal style="--d:.34s">
-        <span class="n orange">$0</span>
-        <p>to start with the Incubator.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     PROOF  ·  variant B — minimal, light
-     Same copy and the same [data-count] numbers as the section above, with
-     the artwork stripped out. Both are live so they can be compared: add the
-     hidden attribute to whichever loses.
-     ============================================================ -->
-<section class="proof-min" id="proof-minimal">
+<section class="proof-min" id="proof">
   <div class="wrap">
     <div class="head split" data-stagger="0.08">
       <div>
@@ -2031,22 +1932,6 @@
       requestAnimationFrame(frame);
     }
 
-    // Scroll Transform on the grid (Framer: Y −18 → 18 over the section).
-    // Y only now — the old version also scaled, which on a 1px grid changes
-    // the line weight as you scroll.
-    var sec = document.getElementById('proof'), media = document.querySelector('[data-parallax="proof"]');
-    if (sec && media && !reduce.matches) {
-      var q = false;
-      function pf(){
-        q = false;
-        var r = sec.getBoundingClientRect();
-        var p = Math.min(1, Math.max(0, 1 - r.bottom / (innerHeight + r.height)));
-        media.style.transform = 'translate3d(0,' + ((p - .5) * 36).toFixed(1) + 'px,0)';
-      }
-      addEventListener('scroll', function(){ if (!q) { q = true; requestAnimationFrame(pf); } }, { passive: true });
-      addEventListener('resize', pf);
-      pf();
-    }
 
     if (!('IntersectionObserver' in window)) { nums.forEach(run); return; }
     var io = new IntersectionObserver(function(entries){

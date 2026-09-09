@@ -117,7 +117,8 @@
         │   hero-media itself gets the Scroll Transform (Y 0→120, Scale 1→1.06)
         ├ hero-scrim (Frame · absolute inset 0 · stacked gradient fills)
         ├ hero-inner (Stack · vertical · max-w 860 · z above scrim)
-        │        every child = its own Appear animation, delay stepped by --d
+        │        headline + CTAs only; the trust block that used to sit here
+        │        now has its own section, so it is not competing with the H1
         └ hero-cue  (Frame · absolute bottom centre · Loop animation)
      ============================================================ */
   .hero{position:relative;min-height:min(100svh,940px);display:flex;align-items:flex-end;
@@ -147,16 +148,6 @@
     .hero .ctas .btn{width:100%;justify-content:center;padding:16px 14px;
       font-size:clamp(14px,3.9vw,16px)}
   }
-
-  /* hero trust strip */
-  .hero-trust{margin-top:clamp(34px,6vh,58px);display:grid;gap:16px;max-width:600px}
-  .hero-trust .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)}
-  .tr-row{display:flex;gap:14px;align-items:flex-start}
-  .tr-logo{flex:none;width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.3)}
-  .tr-logo svg{width:20px;height:20px;display:block}
-  .tr-row b{display:block;font-size:15px;font-weight:600;color:#fff;letter-spacing:-.01em}
-  .tr-row small{display:block;font-size:14px;line-height:1.45;color:rgba(255,255,255,.62)}
-  .hero-cert{font-size:13px;font-style:italic;color:rgba(255,255,255,.44);margin-top:2px}
 
   /* scroll cue */
   .hero-cue{position:absolute;right:clamp(20px,5vw,64px);bottom:clamp(30px,5vh,52px);z-index:2;display:none;
@@ -196,43 +187,54 @@
   [data-reveal].in{opacity:1;transform:none;clip-path:inset(0);filter:none}
 
   /* ============================================================
-     LOGO BAND — infinite ticker under the hero
-     FRAMER MAP  →  Ticker component (Direction Left · Speed 40 · Gap 56 · Hover pause)
-     The edge fades are two absolute Frames with a gradient fill to the section colour.
+     TRUSTED BY — static logo wall + technology partners
+     FRAMER MAP
+       Section "Trusted by"
+        ├ head        → label + H2
+        ├ logowall    → Grid, 2 cols → 3 from 640
+        │    each cell: Frame with a centred Image layer, desaturated
+        │    Hover variant: Image saturation 0 → 1, cell Fill --ground
+        │    → in Framer this is a CMS Collection List on "Clients"
+        └ partners    → Stack, 2 up, the rows moved out of the hero
+       Deliberately NOT a ticker. A moving logo row reads as decoration and
+       cannot be studied; these need to carry weight, so the wall is static
+       and every name stays put long enough to read.
      ============================================================ */
-  .logo-band{padding:clamp(26px,3.6vw,38px) 0;background:var(--paper);border-bottom:1px solid var(--line)}
-  .band-grid{display:grid;gap:22px;align-items:center}
-  @media(min-width:900px){.band-grid{grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:clamp(32px,4vw,56px)}}
-  .band-lead{font-family:var(--display);font-weight:500;font-size:clamp(18px,2vw,23px);letter-spacing:-.02em;line-height:1.2;max-width:24ch}
-  .marquee{position:relative;overflow:hidden}
-  .marquee::before,.marquee::after{content:"";position:absolute;top:0;bottom:0;width:clamp(28px,6%,72px);z-index:2;pointer-events:none}
-  .marquee::before{left:0;background:linear-gradient(90deg,var(--paper),rgba(255,255,255,0))}
-  .marquee::after{right:0;background:linear-gradient(270deg,var(--paper),rgba(255,255,255,0))}
-  .marquee-track{--g:clamp(36px,5vw,64px);display:flex;width:max-content;animation:marquee 36s linear infinite}
-  .marquee:hover .marquee-track{animation-play-state:paused}
-  .mg{display:flex;align-items:center;gap:var(--g);padding-right:var(--g)}
-  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  .cl{display:inline-flex;align-items:center;gap:9px;white-space:nowrap;font-family:var(--display);font-weight:500;font-size:17px;letter-spacing:-.01em;color:var(--ink-3);opacity:.72;transition:opacity .25s,color .25s}
-  .cl:hover{opacity:1;color:var(--ink)}
-  .cl .dot{width:22px;height:22px;border-radius:6px;background:var(--tint);display:grid;place-items:center;flex:none}
-  .cl .dot svg{width:12px;height:12px;display:block}
-  .cl.slot{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.45}
+  .trust{padding-top:clamp(48px,6vw,88px);padding-bottom:clamp(48px,6vw,88px);
+    background:var(--paper);border-bottom:1px solid var(--line)}
+  .trust .head{margin-bottom:clamp(26px,3.4vw,42px)}
 
-  /* trust */
-  .trust{padding-top:56px;padding-bottom:56px;border-bottom:1px solid var(--line)}
-  .trust-grid{display:grid;gap:36px}
-  @media(min-width:900px){.trust-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:start}}
-  .logos{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-  @media(min-width:600px){.logos{grid-template-columns:repeat(3,1fr)}}
-  .logos div{height:64px;border:1px dashed var(--line-2);border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-weight:500;font-size:15px;letter-spacing:-.01em;color:var(--ink-2);background:#fff;padding:0 10px;text-align:center}
-  .logos div.slot{color:var(--ink-3);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:transparent}
+  /* One hairline between cells: the wall's own background shows through a 1px
+     grid gap, so there are no doubled borders to reconcile. */
+  .logowall{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+  @media(min-width:640px){.logowall{grid-template-columns:repeat(3,1fr)}}
+  .logowall .cell{background:var(--paper);display:grid;place-items:center;
+    min-height:clamp(104px,11vw,148px);padding:22px 20px;transition:background .3s ease}
+  .logowall .cell:hover{background:var(--ground)}
+  /* Desaturated so a wall of unrelated brand colours still reads as one set;
+     colour comes back on hover. Delete the filter line for full colour. */
+  .logowall img{max-width:min(100%,170px);max-height:clamp(36px,3.8vw,52px);
+    width:auto;height:auto;object-fit:contain;display:block;
+    filter:grayscale(1);opacity:.74;transition:filter .35s ease,opacity .35s ease}
+  .logowall .cell:hover img{filter:none;opacity:1}
+  .logowall .slot{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-3);opacity:.55}
+
+  /* technology partners — same copy as the old hero strip, given room */
+  .trust .label.mid{margin-top:clamp(34px,4vw,52px)}
   .partners{display:grid;gap:14px}
-  @media(min-width:600px){.partners{grid-template-columns:1fr 1fr}}
-  .partner{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;display:grid;gap:8px}
-  .partner .name{font-family:var(--display);font-weight:600;font-size:22px}
-  .partner .role{font-size:14px;font-weight:600;color:var(--indigo)}
-  .partner p{font-size:15px;color:var(--ink-2);font-style:italic}
-  .cert{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--ink-3)}
+  @media(min-width:760px){.partners{grid-template-columns:1fr 1fr}}
+  .partner{display:flex;gap:16px;align-items:flex-start;background:var(--ground);
+    border:1px solid var(--line);border-radius:var(--r);padding:22px 24px}
+  .partner .mark{flex:none;width:42px;height:42px;border-radius:11px;background:var(--paper);
+    border:1px solid var(--line);display:grid;place-items:center}
+  .partner .mark svg{width:22px;height:22px;display:block}
+  .partner b{display:block;font-family:var(--display);font-weight:600;font-size:17px;
+    line-height:1.3;letter-spacing:-.01em}
+  .partner small{display:block;margin-top:5px;font-size:14.5px;line-height:1.5;color:var(--ink-2)}
+  .cert{margin-top:clamp(18px,2vw,26px);font-family:var(--mono);font-size:12px;
+    letter-spacing:.05em;color:var(--ink-3)}
 
   /* ============================================================
      PROBLEM — text block, then the reel
@@ -845,28 +847,6 @@
         <a class="btn btn-white" href="#incubator">Apply for the AI Council Incubator</a>
       </div>
 
-      <div class="hero-trust">
-        <span class="kicker" data-appear style="--d:.66s">Trusted by teams like yours</span>
-
-        <!-- Partner rows. Logo chips are swap-in slots — drop the supplied SVG/PNG in Framer. -->
-        <div class="tr-row" data-appear style="--d:.76s">
-          <span class="tr-logo" data-logo="New Relic — replace with supplied mark">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.6l8.1 4.7v9.4L12 21.4 3.9 16.7V7.3z" stroke="#00AC69" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 12l8.1-4.7M12 12v9.4M12 12L3.9 7.3" stroke="#1CE783" stroke-width="1.7" stroke-linejoin="round"/></svg>
-          </span>
-          <span><b>New Relic — Official observability and performance partner</b>
-          <small>Giving every system we build real-time visibility into how it's actually performing.</small></span>
-        </div>
-
-        <div class="tr-row" data-appear style="--d:.86s">
-          <span class="tr-logo" data-logo="Odoo — replace with supplied mark">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#714B67" stroke-width="2.1"><circle cx="6" cy="14.4" r="3.4"/><circle cx="15" cy="14.4" r="3.4"/></g><circle cx="21.2" cy="8.4" r="1.5" fill="#8F8F8F"/></svg>
-          </span>
-          <span><b>Odoo — Accounting and ERP integration partner</b>
-          <small>Connecting the financial and operational systems businesses already run on.</small></span>
-        </div>
-
-        <p class="hero-cert" data-appear style="--d:.96s">Certifications: [Placeholder — pending Legal/Operations verification]</p>
-      </div>
     </div>
   </div>
 
@@ -875,33 +855,44 @@
 </section>
 
 <!-- ============================================================
-     LOGO BAND  ·  infinite ticker  (Framer: Ticker component)
-     Note: New Relic / Odoo partner detail now lives in the hero, so this band
-     carries client logos only — no duplicate partner cards.
+     TRUSTED BY  ·  static logo wall
+     Moved out of the hero and given its own section so the client logos are
+     not competing with the H1. Static on purpose, not a ticker.
+     Cells are swap-in slots: drop assets/logo-<client>.png in and add a cell.
      ============================================================ -->
-<section class="logo-band" id="trust">
-  <div class="wrap band-grid">
-    <p class="band-lead" data-reveal>Trusted by teams across <strong style="font-weight:600">Australia &amp; the UK</strong>.</p>
-    <div class="marquee" data-reveal style="--d:.1s" aria-label="Client logos">
-      <div class="marquee-track">
-        <div class="mg">
-          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><path d="M1 6h10M6 1v10"/></svg></span>Wunderman Thompson</span>
-          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><circle cx="6" cy="6" r="4.2"/></svg></span>PragmaTech</span>
-          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><rect x="1.6" y="1.6" width="8.8" height="8.8" rx="2"/></svg></span>InCorp Advisory</span>
-          <span class="cl slot">Client logo</span>
-          <span class="cl slot">Client logo</span>
-          <span class="cl slot">Client logo</span>
-        </div>
-        <div class="mg" aria-hidden="true">
-          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><path d="M1 6h10M6 1v10"/></svg></span>Wunderman Thompson</span>
-          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><circle cx="6" cy="6" r="4.2"/></svg></span>PragmaTech</span>
-          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><rect x="1.6" y="1.6" width="8.8" height="8.8" rx="2"/></svg></span>InCorp Advisory</span>
-          <span class="cl slot">Client logo</span>
-          <span class="cl slot">Client logo</span>
-          <span class="cl slot">Client logo</span>
-        </div>
+<section class="trust" id="trust">
+  <div class="wrap">
+    <div class="head" data-reveal>
+      <div>
+        <span class="label">Clients</span>
+        <h2>Trusted by teams across Australia &amp; the UK</h2>
       </div>
     </div>
+
+    <div class="logowall" data-reveal style="--d:.08s">
+      <div class="cell"><img src="assets/logo-wunderman-thompson.png" alt="Wunderman Thompson"></div>
+      <div class="cell"><img src="assets/logo-pragmatech.png" alt="PragmaTech"></div>
+      <div class="cell"><img src="assets/logo-incorp.png" alt="InCorp Advisory Australia"></div>
+      <div class="cell"><span class="slot">Client logo</span></div>
+      <div class="cell"><span class="slot">Client logo</span></div>
+      <div class="cell"><span class="slot">Client logo</span></div>
+    </div>
+
+    <span class="label mid" data-reveal style="--d:.14s">Technology partners</span>
+    <div class="partners" data-reveal style="--d:.18s">
+      <div class="partner">
+        <span class="mark" data-logo="New Relic — replace with supplied mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.6l8.1 4.7v9.4L12 21.4 3.9 16.7V7.3z" stroke="#00AC69" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 12l8.1-4.7M12 12v9.4M12 12L3.9 7.3" stroke="#1CE783" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+        <span><b>New Relic &mdash; Official observability and performance partner</b>
+        <small>Giving every system we build real-time visibility into how it's actually performing.</small></span>
+      </div>
+      <div class="partner">
+        <span class="mark" data-logo="Odoo — replace with supplied mark"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#714B67" stroke-width="2.1"><circle cx="6" cy="14.4" r="3.4"/><circle cx="15" cy="14.4" r="3.4"/></g><circle cx="21.2" cy="8.4" r="1.5" fill="#8F8F8F"/></svg></span>
+        <span><b>Odoo &mdash; Accounting and ERP integration partner</b>
+        <small>Connecting the financial and operational systems businesses already run on.</small></span>
+      </div>
+    </div>
+
+    <p class="cert" data-reveal style="--d:.24s">Certifications: [Placeholder &mdash; pending Legal/Operations verification]</p>
   </div>
 </section>
 

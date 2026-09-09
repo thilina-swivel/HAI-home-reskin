@@ -139,6 +139,14 @@
   .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(28px,4.5vh,44px)}
   .btn-white{background:#fff;color:var(--ink)}
   .btn-white:hover{background:#fff;transform:translateY(-1px);box-shadow:0 14px 34px rgba(0,0,0,.28)}
+  /* Phone: the two CTAs stack and match each other exactly, instead of each
+     sizing to its own label. Framer: on the Phone breakpoint set the CTA stack
+     to 1 column and both buttons to Fill width — no code needed. */
+  @media(max-width:640px){
+    .hero .ctas{display:grid;grid-template-columns:1fr;gap:12px;max-width:430px;width:100%}
+    .hero .ctas .btn{width:100%;justify-content:center;padding:16px 14px;
+      font-size:clamp(14px,3.9vw,16px)}
+  }
 
   /* hero trust strip */
   .hero-trust{margin-top:clamp(34px,6vh,58px);display:grid;gap:16px;max-width:600px}
@@ -508,25 +516,45 @@
      TESTIMONIALS · variant B — photo card, quote over the image
      Rides the same ticker as the section above; only the card differs.
      FRAMER MAP
-       qcard → Frame · ratio 7/8 · radius 12 · clip
+       qcard → Frame · ratio 4/5 (3/4 on Phone) · radius 12 · clip
                 ├ Image layer (Fill Cover) — Hover variant Scale 1 → 1.05
-                ├ Scrim frame (linear gradient fill, transparent → ink)
+                ├ Scrim frame — one gradient fill over the whole card
+                ├ Text scrim — Frame hugging the text stack, gradient fill +
+                │                Background blur 8, top edge feathered with a mask
                 └ Text stack pinned to the bottom
+       Three overlay layers, not one: the card tint calms bright photos, the
+       card ramp anchors the bottom, and the text scrim is sized to the quote
+       itself — that last one is what keeps a long quote readable, because it
+       grows with the text instead of sitting at a fixed height.
      ============================================================ */
-  .qmarquee .qcard{position:relative;flex:0 0 clamp(252px,24vw,340px);aspect-ratio:7/8;
+  .qmarquee .qcard{position:relative;flex:0 0 clamp(252px,24vw,340px);aspect-ratio:4/5;
     border-radius:12px;overflow:hidden;background:#0B0620;margin:0}
   .qcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
     transition:transform .7s cubic-bezier(.16,.84,.44,1)}
   .qcard:hover img{transform:scale(1.05)}
-  .qcard::after{content:"";position:absolute;inset:0;pointer-events:none;background:
-    linear-gradient(180deg,rgba(11,6,32,0) 38%,rgba(11,6,32,.22) 56%,rgba(11,6,32,.74) 80%,rgba(11,6,32,.93) 100%)}
-  .qcard-text{position:absolute;left:20px;right:20px;bottom:20px;z-index:2;
-    text-shadow:0 1px 14px rgba(11,6,32,.6)}
+  /* layer 1 + 2 — overall tint and bottom ramp */
+  .qcard::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:
+    linear-gradient(180deg,rgba(11,6,32,.36) 0%,rgba(11,6,32,.14) 32%,rgba(11,6,32,.50) 60%,rgba(11,6,32,.86) 86%,rgba(11,6,32,.95) 100%)}
+  .qcard-text{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 20px 20px;
+    text-shadow:0 1px 16px rgba(11,6,32,.7)}
+  /* layer 3 — tied to the height of the text block, feathered at the top */
+  .qcard-text::before{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:0;top:-40px;
+    background:linear-gradient(180deg,rgba(11,6,32,0),rgba(11,6,32,.56) 44%,rgba(11,6,32,.80));
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 48%);
+            mask-image:linear-gradient(180deg,transparent,#000 48%)}
   .qcard blockquote{margin:0;color:#fff;font-family:var(--display);font-weight:500;
     font-size:clamp(15.5px,1.2vw,18px);line-height:1.36;letter-spacing:-.01em;text-wrap:pretty}
   .qcard .attr{display:block;margin-top:14px;font-size:14px;line-height:1.4}
   .qcard .attr b{font-weight:600;color:#fff}
-  .qcard .attr span{color:rgba(255,255,255,.6)}
+  .qcard .attr span{color:rgba(255,255,255,.72)}
+  /* Phone: a wider, taller card, so the longest quote stops climbing into the
+     lit part of the photo. One set stays ~950px, so 4 sets still cover the
+     screen and the loop keeps its -25% travel. */
+  @media(max-width:640px){
+    .qmarquee .qcard{flex:0 0 min(78vw,300px);aspect-ratio:3/4}
+    .qcard-text{padding:0 18px 18px}
+  }
 
   .qmarquee .quote{flex:0 0 clamp(290px,29vw,400px)}
   /* the row is already moving, so each card only needs a soft lift on hover */

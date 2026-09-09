@@ -524,7 +524,7 @@
      Rides the same ticker as the section above; only the card differs.
      FRAMER MAP
        qcard → Frame · vertical stack · Fill #FFF · 1px --line · radius 22
-                ├ qlogo  → Frame, fixed 30px tall, the client mark
+                ├ qlogo  → Frame, fixed 44px tall, the client mark
                 ├ quote  → Text, Fill container so it takes up the slack
                 └ attr   → Text stack, name over role, sits at the bottom
        Every card ends up the same height because the sets and the cards are
@@ -540,11 +540,14 @@
     padding:clamp(26px,2.4vw,34px);
     transition:transform .35s cubic-bezier(.16,.84,.44,1),box-shadow .35s ease,border-color .35s ease}
   .qmarquee .qcard:hover{transform:translateY(-5px);box-shadow:0 24px 48px rgba(30,12,102,.09);border-color:var(--line-2)}
-  /* Logo slot — a fixed height, so dropping in the real SVG never shifts the
-     card. Until then the client name stands in as a wordmark, set in the brand
-     display face rather than as a fabricated mark. */
-  .qlogo{height:30px;display:flex;align-items:center;flex:none}
-  .qlogo img,.qlogo svg{max-height:100%;width:auto;display:block}
+  /* Logo slot — a fixed 44px height, so every client mark is optically the
+     same weight and swapping one never shifts the card. Two-line lockups get
+     the full height; a single-line wordmark needs less, set per logo with
+     --lh. If a mark has not been supplied yet the file 404s and the script
+     reveals a wordmark in its place, so no card is ever left empty. */
+  .qlogo{height:44px;display:flex;align-items:center;flex:none}
+  .qlogo img,.qlogo svg{height:var(--lh,100%);width:auto;max-width:200px;display:block;
+    object-fit:contain;object-position:left center}
   .qlogo .wordmark{font-family:var(--display);font-weight:600;letter-spacing:-.02em;
     font-size:clamp(16px,1.3vw,19px);line-height:1;color:var(--ink);white-space:nowrap}
   .qcard blockquote{margin:0;flex:1;font-family:var(--display);font-weight:500;color:var(--ink);
@@ -1267,68 +1270,68 @@
     <div class="qtrack">
       <div class="qset">
         <figure class="qcard">
-          <span class="qlogo" data-logo="Wunderman Thompson — replace with the supplied logo SVG"><span class="wordmark">Wunderman Thompson</span></span>
+          <span class="qlogo"><img src="assets/logo-wunderman-thompson.png" alt="Wunderman Thompson"><span class="wordmark" hidden>Wunderman Thompson</span></span>
           <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, Wunderman Thompson</span></span>
         </figure>
         <figure class="qcard">
-          <span class="qlogo" data-logo="PragmaTech — replace with the supplied logo SVG"><span class="wordmark">PragmaTech</span></span>
+          <span class="qlogo" style="--lh:30px"><img src="assets/logo-pragmatech.png" alt="PragmaTech"><span class="wordmark" hidden>PragmaTech</span></span>
           <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, PragmaTech</span></span>
         </figure>
         <figure class="qcard">
-          <span class="qlogo" data-logo="InCorp Advisory Australia — replace with the supplied logo SVG"><span class="wordmark">InCorp Advisory Australia</span></span>
+          <span class="qlogo"><img src="assets/logo-incorp.png" alt="InCorp Advisory Australia"><span class="wordmark" hidden>InCorp Advisory Australia</span></span>
           <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, InCorp Advisory Australia</span></span>
         </figure>
       </div>
       <div class="qset">
         <figure class="qcard" aria-hidden="true">
-          <span class="qlogo" data-logo="Wunderman Thompson — replace with the supplied logo SVG"><span class="wordmark">Wunderman Thompson</span></span>
+          <span class="qlogo"><img src="assets/logo-wunderman-thompson.png" alt="Wunderman Thompson"><span class="wordmark" hidden>Wunderman Thompson</span></span>
           <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, Wunderman Thompson</span></span>
         </figure>
         <figure class="qcard" aria-hidden="true">
-          <span class="qlogo" data-logo="PragmaTech — replace with the supplied logo SVG"><span class="wordmark">PragmaTech</span></span>
+          <span class="qlogo" style="--lh:30px"><img src="assets/logo-pragmatech.png" alt="PragmaTech"><span class="wordmark" hidden>PragmaTech</span></span>
           <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, PragmaTech</span></span>
         </figure>
         <figure class="qcard" aria-hidden="true">
-          <span class="qlogo" data-logo="InCorp Advisory Australia — replace with the supplied logo SVG"><span class="wordmark">InCorp Advisory Australia</span></span>
+          <span class="qlogo"><img src="assets/logo-incorp.png" alt="InCorp Advisory Australia"><span class="wordmark" hidden>InCorp Advisory Australia</span></span>
           <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, InCorp Advisory Australia</span></span>
         </figure>
       </div>
       <div class="qset">
         <figure class="qcard" aria-hidden="true">
-          <span class="qlogo" data-logo="Wunderman Thompson — replace with the supplied logo SVG"><span class="wordmark">Wunderman Thompson</span></span>
+          <span class="qlogo"><img src="assets/logo-wunderman-thompson.png" alt="Wunderman Thompson"><span class="wordmark" hidden>Wunderman Thompson</span></span>
           <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, Wunderman Thompson</span></span>
         </figure>
         <figure class="qcard" aria-hidden="true">
-          <span class="qlogo" data-logo="PragmaTech — replace with the supplied logo SVG"><span class="wordmark">PragmaTech</span></span>
+          <span class="qlogo" style="--lh:30px"><img src="assets/logo-pragmatech.png" alt="PragmaTech"><span class="wordmark" hidden>PragmaTech</span></span>
           <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, PragmaTech</span></span>
         </figure>
         <figure class="qcard" aria-hidden="true">
-          <span class="qlogo" data-logo="InCorp Advisory Australia — replace with the supplied logo SVG"><span class="wordmark">InCorp Advisory Australia</span></span>
+          <span class="qlogo"><img src="assets/logo-incorp.png" alt="InCorp Advisory Australia"><span class="wordmark" hidden>InCorp Advisory Australia</span></span>
           <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, InCorp Advisory Australia</span></span>
         </figure>
       </div>
       <div class="qset">
         <figure class="qcard" aria-hidden="true">
-          <span class="qlogo" data-logo="Wunderman Thompson — replace with the supplied logo SVG"><span class="wordmark">Wunderman Thompson</span></span>
+          <span class="qlogo"><img src="assets/logo-wunderman-thompson.png" alt="Wunderman Thompson"><span class="wordmark" hidden>Wunderman Thompson</span></span>
           <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, Wunderman Thompson</span></span>
         </figure>
         <figure class="qcard" aria-hidden="true">
-          <span class="qlogo" data-logo="PragmaTech — replace with the supplied logo SVG"><span class="wordmark">PragmaTech</span></span>
+          <span class="qlogo" style="--lh:30px"><img src="assets/logo-pragmatech.png" alt="PragmaTech"><span class="wordmark" hidden>PragmaTech</span></span>
           <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, PragmaTech</span></span>
         </figure>
         <figure class="qcard" aria-hidden="true">
-          <span class="qlogo" data-logo="InCorp Advisory Australia — replace with the supplied logo SVG"><span class="wordmark">InCorp Advisory Australia</span></span>
+          <span class="qlogo"><img src="assets/logo-incorp.png" alt="InCorp Advisory Australia"><span class="wordmark" hidden>InCorp Advisory Australia</span></span>
           <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
           <span class="attr"><b>Name TBC</b><span>Role TBC, InCorp Advisory Australia</span></span>
         </figure>
@@ -1512,6 +1515,20 @@
 <script>
   // Photo slots: write the brief on each placeholder; if a data-src is set, show the image instead.
   var cam = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>';
+  /* Client logos. Any mark we have not been given yet 404s, so swap in the
+     wordmark rather than leave a broken image. Mockup scaffolding only — in
+     Framer these are plain Image layers. */
+  document.querySelectorAll('.qlogo img').forEach(function(img){
+    function fallback(){
+      var wm = img.parentNode.querySelector('.wordmark');
+      if (wm) wm.hidden = false;
+      img.remove();
+    }
+    img.addEventListener('error', fallback);
+    // may already have failed before this script ran
+    if (img.complete && !img.naturalWidth) fallback();
+  });
+
   document.querySelectorAll('.ph[data-photo]').forEach(function(el){
     if (el.dataset.src) { el.classList.add('has-img'); el.style.backgroundImage = 'url(' + el.dataset.src + ')'; el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center'; return; }
     var b = document.createElement('div'); b.className = 'brief'; b.innerHTML = cam + '<span>Photo · ' + el.dataset.photo + '</span>'; el.appendChild(b);

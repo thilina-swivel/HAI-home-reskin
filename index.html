@@ -437,47 +437,76 @@
   .pstat p{font-size:16px;line-height:1.45;color:rgba(255,255,255,.76);margin-top:12px;max-width:24ch}
 
   /* ============================================================
-     CASE STUDIES — media card grid
+     CASE STUDIES — full-bleed slider
      FRAMER MAP
        Section "Case studies"
-        ├ Header (Stack horizontal, space-between, wrap)
-        │    ├ label + H2 + lede        → Appear, stepped delay
-        │    └ "View all case studies"  → Button, Appear
-        └ cases (Grid · 3 cols · gap 24 · 1 col under 800)
-             → in Framer this is a CMS Collection List on "Case studies"
-               fields: pillar, sector, title, summary, cover image, slug
-             each card: Link Frame · radius 20 · Fill --tint
-              ├ media (Frame · ratio 16/10 · radius 20 · clip · Image cover)
-              │    └ pills (Stack horizontal, absolute top-left)
-              └ body (Stack vertical · gap 12 · padding 26/24)
-             Card hover = Framer Hover variant (Y −6, image Scale 1.05, arrow X +4)
+        ├ Header (inside .wrap) — label + H2 + lede + "View all"
+        └ cslider (Frame · full-bleed · Clip content ON)
+             → in Framer this is the Slideshow component:
+               Effect Fade · Auto-play 6.5s · Loop · Dots · Swipe on,
+               items driven by a CMS Collection on "Case studies"
+             each slide: Frame, height set by min-height not a ratio
+              ├ Image layer (Fill Cover) — Appear Scale 1.07 → 1 over 9s,
+              │    i.e. a slow push on whichever slide is showing
+              ├ Scrim frame (gradient fill)
+              └ Body stack pinned bottom-left, inside the page gutter
+             The slides cross-fade in one grid cell rather than sliding along
+             a track, so there is no oversized composited layer — the same
+             thing that broke the testimonial ticker on iOS.
+             A named client's logo would sit above the headline, as in the
+             reference. Ours are anonymised in the content doc, so the pills
+             carry pillar and sector instead.
      ============================================================ */
-  .cases{display:grid;gap:24px}
-  @media(min-width:760px){.cases{grid-template-columns:repeat(2,1fr)}}
-  @media(min-width:1040px){.cases{grid-template-columns:repeat(3,1fr)}}
-  .case{background:var(--paper);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;
-    text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(30,12,102,.05);
-    transition:transform .3s cubic-bezier(.16,.84,.44,1),box-shadow .3s ease}
-  .case:hover{transform:translateY(-6px);box-shadow:0 26px 54px rgba(30,12,102,.14)}
-  .case:focus-visible{outline:3px solid var(--argent);outline-offset:3px}
-  .case-media{position:relative;aspect-ratio:16/10;border-radius:20px;overflow:hidden;background:var(--line)}
-  .case-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,.84,.44,1)}
-  .case:hover .case-media img{transform:scale(1.05)}
-  .pills{position:absolute;left:14px;top:14px;z-index:2;display:flex;flex-wrap:wrap;gap:8px}
-  .pill{background:#fff;color:var(--ink);font-size:13px;font-weight:500;line-height:1;
-    padding:9px 15px;border-radius:999px;box-shadow:0 4px 14px rgba(18,10,46,.14);white-space:nowrap}
-  .case-body{padding:26px 24px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
-  .case-body h3{font-family:var(--display);font-size:21px;font-weight:600;line-height:1.28;letter-spacing:-.02em}
-  /* Framer: Text layer → Truncate after 3 lines */
-  .case-body p{color:var(--ink-2);font-size:15px;line-height:1.5;
-    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
-  .case .more{margin-top:auto;padding-top:10px;display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--ink)}
-  .case .more svg{width:16px;height:16px;flex:none;transition:transform .25s ease}
-  .case:hover .more{color:var(--indigo)}
-  .case:hover .more svg{transform:translateX(4px)}
-  .cases-head{display:grid;gap:20px;margin-bottom:clamp(32px,4vw,48px)}
+  #cases{overflow:clip}
+  .cases-head{display:grid;gap:20px;margin-bottom:clamp(28px,3.4vw,44px)}
   @media(min-width:900px){.cases-head{grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:40px}}
   .cases-head .btn{justify-self:start}
+
+  .cslider{position:relative;background:#0B0620}
+  .cs-view{display:grid;isolation:isolate}
+  .cs-slide{grid-area:1/1;position:relative;display:flex;align-items:flex-end;
+    min-height:clamp(430px,44vw,600px);
+    opacity:0;visibility:hidden;transition:opacity .85s ease,visibility .85s}
+  .cs-slide[data-on="true"]{opacity:1;visibility:visible}
+  .cs-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+    transform:scale(1.07)}
+  /* the push restarts each time a slide becomes the active one */
+  .cs-slide[data-on="true"] img{animation:csPush 9s cubic-bezier(.22,.61,.36,1) forwards}
+  @keyframes csPush{from{transform:scale(1.07)}to{transform:scale(1)}}
+  .cs-slide::after{content:"";position:absolute;inset:0;pointer-events:none;background:
+    linear-gradient(180deg,rgba(9,5,26,.50) 0%,rgba(9,5,26,.20) 28%,rgba(9,5,26,.56) 66%,rgba(9,5,26,.90) 100%),
+    linear-gradient(96deg,rgba(9,5,26,.72) 0%,rgba(9,5,26,.40) 42%,rgba(9,5,26,.06) 78%)}
+  .cs-body{position:relative;z-index:2;width:100%;max-width:960px;
+    padding:clamp(30px,4vw,56px) var(--pad) clamp(66px,6vw,86px)}
+  /* Pillar + sector chips. Full definitions live here — they used to sit in
+     the card-grid block this section replaced. */
+  .pills{display:flex;flex-wrap:wrap;gap:8px}
+  .pill{font-size:13px;font-weight:500;line-height:1;padding:9px 15px;border-radius:999px;
+    white-space:nowrap;background:rgba(255,255,255,.13);color:#fff;
+    border:1px solid rgba(255,255,255,.28)}
+  .cs-body .pills{margin-bottom:clamp(14px,1.6vw,20px)}
+  .cs-slide h3{font-family:var(--display);color:#fff;font-weight:600;
+    font-size:clamp(25px,3.4vw,50px);line-height:1.07;letter-spacing:-.025em;
+    max-width:21ch;text-wrap:balance}
+  /* Secondary to the headline, and clamped, so a long summary cannot push the
+     CTA around. Drop this line and the <p> to match the reference exactly. */
+  .cs-slide p{margin-top:clamp(12px,1.3vw,18px);max-width:56ch;color:rgba(255,255,255,.76);
+    font-size:clamp(15px,1.15vw,17px);line-height:1.55;
+    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+  .cs-body .btn{margin-top:clamp(20px,2.4vw,30px)}
+
+  /* dots — filled, with a hollow ring on the active one */
+  .cs-dots{position:absolute;left:0;right:0;bottom:clamp(20px,2.4vw,30px);z-index:3;
+    display:flex;justify-content:center;align-items:center;gap:12px}
+  .cs-dot{width:9px;height:9px;padding:0;border:0;border-radius:50%;cursor:pointer;
+    background:rgba(255,255,255,.45);
+    transition:background .3s ease,box-shadow .3s ease,transform .3s ease}
+  .cs-dot:hover{background:rgba(255,255,255,.85)}
+  .cs-dot[aria-selected="true"]{background:transparent;box-shadow:inset 0 0 0 2px #fff;transform:scale(1.45)}
+  .cs-dot:focus-visible{outline:2px solid #fff;outline-offset:5px}
+  @media(prefers-reduced-motion:reduce){
+    .cs-slide[data-on="true"] img{animation:none;transform:none}
+  }
 
   /* ============================================================
      TESTIMONIALS — continuous horizontal ticker
@@ -1160,47 +1189,46 @@
         <h2 data-reveal style="--d:.06s">Proof, not promises</h2>
         <p class="lede" style="margin-top:16px" data-reveal>Explore what we've built, for businesses like yours.</p>
       </div>
-      <a class="btn btn-primary" href="#" data-reveal style="--d:.18s">View all case studies <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <a class="btn btn-primary" href="#" data-reveal style="--d:.18s">View all case studies <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg></a>
     </div>
+  </div>
 
-    <div class="cases">
-
-      <a class="case" href="#" data-reveal>
-        <div class="case-media" data-photo="Allied-health clinic reception — sample image, swap for client shot">
-          <img src="https://images.unsplash.com/photo-1759143545924-beb85b33c0f1?w=1200&q=70&auto=format&fit=crop" alt="Practice manager at a clinic reception desk using a tablet" loading="lazy">
+  <!-- Full-bleed slider. Cross-fades in place; dots, swipe and 6.5s auto-play
+       are driven by the [data-cslider] controller at the foot of the page. -->
+  <div class="cslider" data-cslider data-reveal>
+    <div class="cs-view">
+      <article class="cs-slide" data-on="true" role="tabpanel" aria-label="Paige, an AI voice agent for allied health">
+        <img src="https://images.unsplash.com/photo-1759143545924-beb85b33c0f1?w=2000&q=72&auto=format&fit=crop" alt="Practice manager at a clinic reception desk using a tablet" fetchpriority="high">
+        <div class="cs-body">
           <div class="pills"><span class="pill">Studio</span><span class="pill">Allied health</span></div>
-        </div>
-        <div class="case-body">
           <h3>Paige, an AI voice agent for allied health</h3>
           <p>Built and deployed inside a live clinic, not a lab. Call abandonment dropped from 8.7% to 2.6%, and 159 missed patients were recovered in the first two weeks alone, recovering an estimated six figures in annualised revenue.</p>
-          <span class="more">Read the case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg></span>
+          <a class="btn btn-primary" href="#">Read more <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg></a>
         </div>
-      </a>
-
-      <a class="case" href="#" data-reveal style="--d:.09s">
-        <div class="case-media" data-photo="Broadcast control room, live sport on monitors — sample image">
-          <img src="https://images.unsplash.com/photo-1768222935380-0a3a76fbb42e?w=1200&q=70&auto=format&fit=crop" alt="Production control room with multi-screen monitor wall" loading="lazy">
+      </article>
+      <article class="cs-slide" data-on="false" role="tabpanel" aria-label="Rebuilding live interchange tracking for broadcast">
+        <img src="https://images.unsplash.com/photo-1768222935380-0a3a76fbb42e?w=2000&q=72&auto=format&fit=crop" alt="Production control room with multi-screen monitor wall" loading="lazy">
+        <div class="cs-body">
           <div class="pills"><span class="pill">Studio</span><span class="pill">Broadcast</span></div>
-        </div>
-        <div class="case-body">
           <h3>Rebuilding live interchange tracking for broadcast</h3>
           <p>A 20-year sports and broadcasting business needed a faster, more reliable front-end for live interchange tracking under real broadcast conditions. We rebuilt it without touching the systems around it.</p>
-          <span class="more">Read the case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg></span>
+          <a class="btn btn-primary" href="#">Read more <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg></a>
         </div>
-      </a>
-
-      <a class="case" href="#" data-reveal style="--d:.18s">
-        <div class="case-media" data-photo="Safety consultant on site in hi-vis, tablet in hand — sample image">
-          <img src="https://images.unsplash.com/photo-1737874960921-d1205a4f55da?w=1200&q=70&auto=format&fit=crop" alt="Two site workers in hi-vis reviewing safety data on a tablet" loading="lazy">
+      </article>
+      <article class="cs-slide" data-on="false" role="tabpanel" aria-label="Safety intelligence platform for a national safety consultancy">
+        <img src="https://images.unsplash.com/photo-1737874960921-d1205a4f55da?w=2000&q=72&auto=format&fit=crop" alt="Two site workers in hi-vis reviewing safety data on a tablet" loading="lazy">
+        <div class="cs-body">
           <div class="pills"><span class="pill">Talent</span><span class="pill">Workplace safety</span></div>
-        </div>
-        <div class="case-body">
           <h3>Safety intelligence platform for a national safety consultancy</h3>
-          <p>A national workplace safety consultancy needed one live view of safety performance across every client and site, instead of scattered spreadsheets and reports. We built a client and consultant dashboard, integrated with their CRM, with an AI Safety Coach built in to help consultants find answers faster.</p>
-          <span class="more">Read the case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg></span>
+          <p>A national workplace safety consultancy needed one live view of safety performance across every client and site, instead of scattered spreadsheets and reports. We built a client and consultant dashboard, integrated with their CRM, with an AI Safety Coach built in.</p>
+          <a class="btn btn-primary" href="#">Read more <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg></a>
         </div>
-      </a>
-
+      </article>
+    </div>
+    <div class="cs-dots" role="tablist" aria-label="Case studies">
+      <button class="cs-dot" type="button" role="tab" aria-selected="true" aria-label="Case study 1: Paige, an AI voice agent for allied health"></button>
+      <button class="cs-dot" type="button" role="tab" aria-selected="false" aria-label="Case study 2: Rebuilding live interchange tracking for broadcast"></button>
+      <button class="cs-dot" type="button" role="tab" aria-selected="false" aria-label="Case study 3: Safety intelligence platform for a national safety consultancy"></button>
     </div>
   </div>
 </section>
@@ -1515,6 +1543,43 @@
 <script>
   // Photo slots: write the brief on each placeholder; if a data-src is set, show the image instead.
   var cam = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>';
+  /* Case-study slider. Framer: Slideshow component (Fade, auto-play, dots,
+     swipe) — this is only here because the mockup has no Framer runtime.
+     Cross-fade in place, so no oversized composited layer. */
+  document.querySelectorAll('[data-cslider]').forEach(function(root){
+    var slides = [].slice.call(root.querySelectorAll('.cs-slide'));
+    var dots   = [].slice.call(root.querySelectorAll('.cs-dot'));
+    if (slides.length < 2) return;
+    var at = 0, timer = null, DWELL = 6500;
+    var reduce = matchMedia('(prefers-reduced-motion:reduce)');
+
+    function show(n){
+      at = (n + slides.length) % slides.length;
+      slides.forEach(function(s, k){ s.setAttribute('data-on', k === at); });
+      dots.forEach(function(d, k){ d.setAttribute('aria-selected', k === at); });
+    }
+    function stop(){ if (timer){ clearInterval(timer); timer = null; } }
+    function play(){ stop(); if (!reduce.matches) timer = setInterval(function(){ show(at + 1); }, DWELL); }
+
+    dots.forEach(function(d, k){ d.addEventListener('click', function(){ show(k); play(); }); });
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', play);
+    root.addEventListener('focusin', stop);
+    root.addEventListener('focusout', play);
+
+    /* a full-width slider on a phone should answer to a thumb */
+    var x0 = null;
+    root.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; stop(); }, {passive:true});
+    root.addEventListener('touchend', function(e){
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 45) show(at + (dx < 0 ? 1 : -1));
+      x0 = null; play();
+    }, {passive:true});
+
+    show(0); play();
+  });
+
   /* Client logos. Any mark we have not been given yet 404s, so swap in the
      wordmark rather than leave a broken image. Mockup scaffolding only — in
      Framer these are plain Image layers. */

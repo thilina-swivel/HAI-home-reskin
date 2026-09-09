@@ -503,7 +503,10 @@
   .quote .who span{font-size:13px;color:var(--ink-3)}
 
   .qmarquee{position:relative;overflow:hidden;padding:6px 0 10px}
-  .qmarquee::before,.qmarquee::after{content:"";position:absolute;top:0;bottom:0;width:clamp(24px,7vw,140px);z-index:2;pointer-events:none}
+  /* Narrow edge fades. These were 140px wide when the cards were dark photos;
+     against white cards that ate the first card's text, so they now only
+     soften the cut at the section edge. */
+  .qmarquee::before,.qmarquee::after{content:"";position:absolute;top:0;bottom:0;width:clamp(14px,3vw,52px);z-index:2;pointer-events:none}
   .qmarquee::before{left:0;background:linear-gradient(90deg,#fff,rgba(255,255,255,0))}
   .qmarquee::after{right:0;background:linear-gradient(270deg,#fff,rgba(255,255,255,0))}
   /* No will-change here on purpose. Safari promotes a transform animation on
@@ -517,53 +520,43 @@
   @keyframes qticker{from{transform:translateX(0)}to{transform:translateX(-25%)}}
 
   /* ============================================================
-     TESTIMONIALS · variant B — photo card, quote over the image
+     TESTIMONIALS · variant B — logo / quote / person card on white
      Rides the same ticker as the section above; only the card differs.
      FRAMER MAP
-       qcard → Frame · ratio 4/5 (3/4 on Phone) · radius 12 · clip
-                ├ Image layer (Fill Cover) — Hover variant Scale 1 → 1.05
-                ├ Scrim frame — one gradient fill over the whole card
-                ├ Text scrim — Frame hugging the text stack, gradient fill only
-                │                (no Background blur — see the note below)
-                └ Text stack pinned to the bottom
-       Three overlay layers, not one: the card tint calms bright photos, the
-       card ramp anchors the bottom, and the text scrim is sized to the quote
-       itself — that last one is what keeps a long quote readable, because it
-       grows with the text instead of sitting at a fixed height.
+       qcard → Frame · vertical stack · Fill #FFF · 1px --line · radius 22
+                ├ qlogo  → Frame, fixed 30px tall, the client mark
+                ├ quote  → Text, Fill container so it takes up the slack
+                └ attr   → Text stack, name over role, sits at the bottom
+       Every card ends up the same height because the sets and the cards are
+       all flex children that stretch: the longest quote sets the height and
+       the attributions line up across the row. In Framer: Stack with the
+       children set to Fill.
+       Nothing here is composited, filtered or absolutely positioned, which is
+       deliberate — the photo version of this card ghosted on iOS Safari.
      ============================================================ */
-  .qmarquee .qcard{position:relative;flex:0 0 clamp(292px,24vw,340px);aspect-ratio:4/5;
-    border-radius:12px;overflow:hidden;background:#0B0620;margin:0}
-  .qcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
-    transition:transform .7s cubic-bezier(.16,.84,.44,1)}
-  .qcard:hover img{transform:scale(1.05)}
-  /* layer 1 + 2 — overall tint and bottom ramp */
-  .qcard::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:
-    linear-gradient(180deg,rgba(11,6,32,.40) 0%,rgba(11,6,32,.18) 30%,rgba(11,6,32,.56) 58%,rgba(11,6,32,.88) 86%,rgba(11,6,32,.96) 100%)}
-  /* layer 3 — the scrim is this element's own background, so it is always
-     exactly as tall as the quote. It used to be a ::before at z-index:-1 with
-     a backdrop blur; both are compositing hazards inside an animating layer on
-     iOS, and neither is needed — an element's background already paints behind
-     its own text. Keep this a plain background: no pseudo-element, no negative
-     z-index, no filter. */
-  .qcard-text{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:46px 20px 20px;
-    background:linear-gradient(180deg,rgba(11,6,32,0),rgba(11,6,32,.40) 26%,rgba(11,6,32,.70) 56%,rgba(11,6,32,.88));
-    text-shadow:0 1px 16px rgba(11,6,32,.7)}
-  .qcard blockquote{margin:0;color:#fff;font-family:var(--display);font-weight:500;
-    font-size:clamp(15.5px,1.2vw,18px);line-height:1.36;letter-spacing:-.01em;text-wrap:pretty}
-  .qcard .attr{display:block;margin-top:14px;font-size:14px;line-height:1.4}
-  .qcard .attr b{font-weight:600;color:#fff}
-  .qcard .attr span{color:rgba(255,255,255,.72)}
-  /* Narrow screens: a taller card, so the longest quote stops climbing into
-     the lit part of the photo. Goes up to 760px, not just phone widths,
-     because that whole band gets the narrowest card. */
+  .qmarquee .qcard{flex:0 0 clamp(300px,26vw,368px);margin:0;overflow:hidden;
+    display:flex;flex-direction:column;gap:clamp(18px,1.6vw,24px);
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);
+    padding:clamp(26px,2.4vw,34px);
+    transition:transform .35s cubic-bezier(.16,.84,.44,1),box-shadow .35s ease,border-color .35s ease}
+  .qmarquee .qcard:hover{transform:translateY(-5px);box-shadow:0 24px 48px rgba(30,12,102,.09);border-color:var(--line-2)}
+  /* Logo slot — a fixed height, so dropping in the real SVG never shifts the
+     card. Until then the client name stands in as a wordmark, set in the brand
+     display face rather than as a fabricated mark. */
+  .qlogo{height:30px;display:flex;align-items:center;flex:none}
+  .qlogo img,.qlogo svg{max-height:100%;width:auto;display:block}
+  .qlogo .wordmark{font-family:var(--display);font-weight:600;letter-spacing:-.02em;
+    font-size:clamp(16px,1.3vw,19px);line-height:1;color:var(--ink);white-space:nowrap}
+  .qcard blockquote{margin:0;flex:1;font-family:var(--display);font-weight:500;color:var(--ink);
+    font-size:clamp(16.5px,1.25vw,18.5px);line-height:1.45;letter-spacing:-.01em;text-wrap:pretty}
+  .qcard .attr{display:block;font-size:14px;line-height:1.45}
+  .qcard .attr b{display:block;font-weight:600;font-size:15px;color:var(--ink)}
+  .qcard .attr span{display:block;color:var(--ink-3)}
+  /* Narrow screens: a slightly wider card, and half the copies. One set is
+     ~1020px, so a single off-screen set already covers a phone; travel is
+     always 100% / copies, hence -50% here. */
   @media(max-width:760px){
-    .qmarquee .qcard{flex:0 0 min(78vw,300px);aspect-ratio:3/4}
-    .qcard-text{padding:42px 18px 18px}
-    /* Two copies instead of four. A phone only needs one set off-screen to
-       cover itself (one set is ~960px against a ~390px viewport), and halving
-       the copies halves the composited layer: 1920px instead of 3840px, which
-       is what iOS was failing to rasterise cleanly. Travel changes with the
-       copy count — it is always 100% / copies, here -50%. */
+    .qmarquee .qcard{flex:0 0 min(84vw,320px)}
     #testimonials .qset:nth-child(n+3){display:none}
     #testimonials .qtrack{animation-name:qtickerHalf}
   }
@@ -1259,10 +1252,11 @@
 </section>
 
 <!-- ============================================================
-     TESTIMONIALS  ·  photo cards — the live section
-     Continuous ticker, hover to pause. Portraits are sample images; the quotes
-     and companies are the real ones, so the attribution stays "name & role TBC"
-     rather than naming a person. The plain-card version is parked above.
+     TESTIMONIALS  ·  logo / quote / person cards — the live section
+     Continuous ticker, hover to pause. The quotes and companies are the real
+     ones. The client marks are wordmark placeholders in a fixed-height slot —
+     drop the supplied SVGs in — and the person stays "Name TBC / Role TBC"
+     because we do not have those names. The plain-card version is parked above.
      ============================================================ -->
 <section class="ways" id="testimonials" style="border-bottom:0">
   <div class="wrap">
@@ -1272,95 +1266,71 @@
   <div class="qmarquee" data-reveal>
     <div class="qtrack">
       <div class="qset">
-        <figure class="qcard" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1743865319740-32121cae5959?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; Wunderman Thompson</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard">
+          <span class="qlogo" data-logo="Wunderman Thompson — replace with the supplied logo SVG"><span class="wordmark">Wunderman Thompson</span></span>
+          <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, Wunderman Thompson</span></span>
         </figure>
-        <figure class="qcard" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1730458001105-2c363a8c9c6e?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; PragmaTech</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard">
+          <span class="qlogo" data-logo="PragmaTech — replace with the supplied logo SVG"><span class="wordmark">PragmaTech</span></span>
+          <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, PragmaTech</span></span>
         </figure>
-        <figure class="qcard" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1765648580808-76d75e4f3833?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; InCorp Advisory Australia</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard">
+          <span class="qlogo" data-logo="InCorp Advisory Australia — replace with the supplied logo SVG"><span class="wordmark">InCorp Advisory Australia</span></span>
+          <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, InCorp Advisory Australia</span></span>
         </figure>
       </div>
       <div class="qset">
-        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1743865319740-32121cae5959?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; Wunderman Thompson</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard" aria-hidden="true">
+          <span class="qlogo" data-logo="Wunderman Thompson — replace with the supplied logo SVG"><span class="wordmark">Wunderman Thompson</span></span>
+          <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, Wunderman Thompson</span></span>
         </figure>
-        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1730458001105-2c363a8c9c6e?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; PragmaTech</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard" aria-hidden="true">
+          <span class="qlogo" data-logo="PragmaTech — replace with the supplied logo SVG"><span class="wordmark">PragmaTech</span></span>
+          <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, PragmaTech</span></span>
         </figure>
-        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1765648580808-76d75e4f3833?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; InCorp Advisory Australia</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard" aria-hidden="true">
+          <span class="qlogo" data-logo="InCorp Advisory Australia — replace with the supplied logo SVG"><span class="wordmark">InCorp Advisory Australia</span></span>
+          <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, InCorp Advisory Australia</span></span>
         </figure>
       </div>
       <div class="qset">
-        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1743865319740-32121cae5959?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; Wunderman Thompson</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard" aria-hidden="true">
+          <span class="qlogo" data-logo="Wunderman Thompson — replace with the supplied logo SVG"><span class="wordmark">Wunderman Thompson</span></span>
+          <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, Wunderman Thompson</span></span>
         </figure>
-        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1730458001105-2c363a8c9c6e?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; PragmaTech</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard" aria-hidden="true">
+          <span class="qlogo" data-logo="PragmaTech — replace with the supplied logo SVG"><span class="wordmark">PragmaTech</span></span>
+          <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, PragmaTech</span></span>
         </figure>
-        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1765648580808-76d75e4f3833?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; InCorp Advisory Australia</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard" aria-hidden="true">
+          <span class="qlogo" data-logo="InCorp Advisory Australia — replace with the supplied logo SVG"><span class="wordmark">InCorp Advisory Australia</span></span>
+          <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, InCorp Advisory Australia</span></span>
         </figure>
       </div>
       <div class="qset">
-        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1743865319740-32121cae5959?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; Wunderman Thompson</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard" aria-hidden="true">
+          <span class="qlogo" data-logo="Wunderman Thompson — replace with the supplied logo SVG"><span class="wordmark">Wunderman Thompson</span></span>
+          <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, Wunderman Thompson</span></span>
         </figure>
-        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1730458001105-2c363a8c9c6e?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; PragmaTech</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard" aria-hidden="true">
+          <span class="qlogo" data-logo="PragmaTech — replace with the supplied logo SVG"><span class="wordmark">PragmaTech</span></span>
+          <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, PragmaTech</span></span>
         </figure>
-        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
-          <img src="https://images.unsplash.com/photo-1765648580808-76d75e4f3833?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
-          <div class="qcard-text">
-            <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
-            <span class="attr"><b>&mdash; InCorp Advisory Australia</b> <span>Name &amp; role TBC</span></span>
-          </div>
+        <figure class="qcard" aria-hidden="true">
+          <span class="qlogo" data-logo="InCorp Advisory Australia — replace with the supplied logo SVG"><span class="wordmark">InCorp Advisory Australia</span></span>
+          <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
+          <span class="attr"><b>Name TBC</b><span>Role TBC, InCorp Advisory Australia</span></span>
         </figure>
       </div>
     </div>

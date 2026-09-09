@@ -44,6 +44,12 @@
   p{margin:0}
   .lede{font-size:clamp(18px,1.4vw,21px);line-height:1.5;color:var(--ink-2);max-width:60ch}
   .wrap{max-width:var(--max);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+  /* Where .wrap's content edge falls, as a padding value. Full-bleed rows —
+     the video reel, the case-study slider — need this instead of --pad, or
+     their content starts at the viewport edge and drifts left of the section
+     heading on anything wider than --max. The percentage resolves against the
+     element's own width, so it stays right with a scrollbar present. */
+  :root{--gutter:max(var(--pad),calc((100% - var(--max))/2 + var(--pad)))}
   section{padding:clamp(72px,9vw,128px) 0}
   .label{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);display:inline-flex;align-items:center;gap:10px;margin-bottom:22px}
   .label::before{content:"";width:18px;height:1px;background:currentColor}
@@ -304,7 +310,7 @@
   .reel{margin-top:clamp(44px,6vw,80px);position:relative}
   .reel-track{display:flex;gap:clamp(14px,1.6vw,22px);overflow-x:auto;overflow-y:hidden;
     scroll-snap-type:x mandatory;scroll-behavior:smooth;cursor:grab;
-    padding:14px var(--pad) 26px;margin:-14px 0 0;
+    padding:14px var(--gutter) 26px;margin:-14px 0 0;
     scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior-x:contain}
   .reel-track::-webkit-scrollbar{display:none}
   .reel-track.dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto;user-select:none}
@@ -339,7 +345,7 @@
     opacity:0;transition:opacity .35s ease}
   .reel-card.is-focus .reel-expand{opacity:1}
   /* nav row */
-  .reel-foot{display:flex;align-items:center;gap:18px;padding:0 var(--pad);margin-top:4px}
+  .reel-foot{display:flex;align-items:center;gap:18px;padding:0 var(--gutter);margin-top:4px}
   .reel-arrows{display:flex;gap:8px}
   .reel-arrows .rbtn{background:var(--paper);border-color:var(--line-2);width:42px;height:42px}
   .reel-arrows .rbtn svg{fill:var(--ink)}
@@ -518,8 +524,14 @@
   .cs-slide::after{content:"";position:absolute;inset:0;pointer-events:none;background:
     linear-gradient(180deg,rgba(9,5,26,.50) 0%,rgba(9,5,26,.20) 28%,rgba(9,5,26,.56) 66%,rgba(9,5,26,.90) 100%),
     linear-gradient(96deg,rgba(9,5,26,.72) 0%,rgba(9,5,26,.40) 42%,rgba(9,5,26,.06) 78%)}
-  .cs-body{position:relative;z-index:2;width:100%;max-width:960px;
+  /* Same geometry as .wrap — max-width plus the page gutter, centred — so the
+     headline starts on the container edge, not the viewport edge. Padding
+     alone lined it up at 1240px and drifted left of the header above it on
+     anything wider. The headline keeps its own measure via max-width on h3. */
+  .cs-body{position:relative;z-index:2;width:100%;max-width:var(--max);margin-inline:auto;
     padding:clamp(30px,4vw,56px) var(--pad) clamp(66px,6vw,86px)}
+  /* (max-width + margin auto does the same job as --gutter here, because the
+     body is a normal block rather than a scrolling row.) */
   /* The headline is the only copy on the slide now, so it carries more size. */
   .cs-slide h3{font-family:var(--display);color:#fff;font-weight:600;
     font-size:clamp(27px,3.9vw,56px);line-height:1.05;letter-spacing:-.028em;

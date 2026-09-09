@@ -442,12 +442,19 @@
 
 
   /* ============================================================
-     PROOF — full-bleed media panel
+     PROOF — gradient + grid panel
      FRAMER MAP
        Section "Proof" (Frame · 100% · min-h 640 · Clip content ON · Fill #0B0620)
-        ├ proof-media  → Image (or Video) layer, absolute inset 0, Fill Cover
-        │                  Scroll Transform: Scale 1.06 → 1 (section enter → exit)
-        ├ proof-scrim  → Frame, absolute inset 0, stacked gradient fills
+        ├ proof-bg (Frame · absolute inset 0 · Clip content ON)
+        │    ├ pg-grid → Frame, a repeating 1px grid fill, radial mask so it
+        │    │            fades out before the edges. Scroll Transform Y ±18.
+        │    ├ pg-a    → Frame, indigo radial fill · Loop 30s alternate
+        │    └ pg-b    → Frame, tangelo radial fill · Loop 38s alternate
+        │   Two drifting fills carry all the movement; the grid stays put so
+        │   the 1px lines never shimmer. No photo, so nothing to art-direct
+        │   and nothing to download.
+        ├ proof-scrim  → Frame, one gradient fill keeping the left column dark
+        │                  enough for the copy whatever the glows are doing
         └ proof-inner  → Stack (vertical), each child an Appear animation
              proof-stats → Stack horizontal, 3 columns, hairline top border
              The counting numbers need a code component — Framer's marketplace
@@ -460,17 +467,31 @@
   .proof{position:relative;overflow:clip;background:#0B0620;isolation:isolate;
     min-height:min(88svh,720px);display:flex;align-items:center;
     padding:clamp(88px,11vw,150px) 0}
-  .proof-media{position:absolute;inset:0;z-index:0;will-change:transform}
-  .proof-media img{width:100%;height:100%;object-fit:cover;display:block;transform-origin:66% 46%;
-    filter:brightness(1.22) contrast(1.04);will-change:transform;
-    animation:proofZoom 26s ease-in-out infinite alternate}
-  /* Framer: Loop animation on the image layer — Scale 1.02 → 1.12, 26s, Ease In Out, Alternate.
-     It sits on the <img> while the scroll transform drives the parent frame, so the two never collide. */
-  @keyframes proofZoom{from{transform:scale(1.02)}to{transform:scale(1.12)}}
+  .proof-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  /* Grid: 1px lines, masked so it dissolves before it reaches an edge —
+     otherwise it reads as a table rather than as texture. Static by design;
+     a moving 1px grid moirés against the pixel grid at most sizes. */
+  .pg-grid{position:absolute;inset:0;
+    background-image:linear-gradient(rgba(174,173,240,.13) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(174,173,240,.13) 1px,transparent 1px);
+    background-size:clamp(46px,4.6vw,72px) clamp(46px,4.6vw,72px);
+    -webkit-mask-image:radial-gradient(112% 84% at 46% 44%,#000 22%,transparent 74%);
+            mask-image:radial-gradient(112% 84% at 46% 44%,#000 22%,transparent 74%)}
+  /* The two glows are the whole animation. They sit right of centre, away from
+     the copy, and inset -25% so their soft edges never enter the frame. */
+  .pg-a,.pg-b{position:absolute;inset:-25%}
+  .pg-a{background:radial-gradient(38% 42% at 70% 28%,rgba(87,0,255,.50),transparent 68%);
+    animation:pgA 30s ease-in-out infinite alternate}
+  .pg-b{background:radial-gradient(34% 38% at 84% 78%,rgba(254,74,1,.24),transparent 68%);
+    animation:pgB 38s ease-in-out infinite alternate}
+  @keyframes pgA{from{transform:translate3d(-2.5%,-2%,0) scale(1)}
+                 to{transform:translate3d(3.5%,2.5%,0) scale(1.16)}}
+  @keyframes pgB{from{transform:translate3d(2.5%,2%,0) scale(1.1)}
+                 to{transform:translate3d(-3.5%,-2.5%,0) scale(.94)}}
+  /* Keeps the left column dark enough for the copy whatever the glows do. */
   .proof-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
-    linear-gradient(96deg,rgba(9,5,26,.9) 0%,rgba(9,5,26,.7) 30%,rgba(9,5,26,.2) 60%,rgba(9,5,26,.34) 100%),
-    linear-gradient(180deg,rgba(9,5,26,.42) 0%,rgba(9,5,26,0) 24%,rgba(9,5,26,0) 46%,rgba(9,5,26,.58) 78%,rgba(9,5,26,.84) 100%),
-    radial-gradient(60% 60% at 12% 30%,rgba(87,0,255,.18),transparent 70%)}
+    linear-gradient(96deg,rgba(9,5,26,.80) 0%,rgba(9,5,26,.46) 34%,rgba(9,5,26,0) 68%),
+    linear-gradient(180deg,rgba(9,5,26,.34) 0%,rgba(9,5,26,0) 26%,rgba(9,5,26,0) 62%,rgba(9,5,26,.52) 100%)}
   .proof-inner{position:relative;z-index:2;width:100%}
   .proof h2{max-width:18ch}
   .proof .lede{margin-top:18px;max-width:52ch}
@@ -1183,16 +1204,18 @@
 </section>
 
 <!-- ============================================================
-     PROOF  ·  full-bleed media panel
+     PROOF  ·  gradient + grid panel
      Copy verbatim from "humaniseAI Homepage Content" → PROOF.
-     Background is a sample Unsplash frame — swap for real client footage.
-     To run video here instead, replace the <img> with the hero's
-     <video autoplay muted loop playsinline> pattern; nothing else changes.
+     No photography here: two brand-coloured radial fills drift over a masked
+     grid. To put real client footage back, drop the hero's
+     <video autoplay muted loop playsinline> in place of .proof-bg.
      ============================================================ -->
 <section class="dark proof" id="proof">
 
-  <div class="proof-media" data-parallax="proof" data-photo="Real client operations, wide shot — sample image">
-    <img src="https://images.unsplash.com/photo-1758520145140-c2dd8e78fc02?w=2000&q=72&auto=format&fit=crop" alt="" aria-hidden="true">
+  <div class="proof-bg" aria-hidden="true">
+    <span class="pg-grid" data-parallax="proof"></span>
+    <span class="pg-a"></span>
+    <span class="pg-b"></span>
   </div>
   <div class="proof-scrim"></div>
 
@@ -1943,7 +1966,9 @@
       requestAnimationFrame(frame);
     }
 
-    // Scroll Transform on the background (Framer: Scale 1.08 → 1 over the section)
+    // Scroll Transform on the grid (Framer: Y −18 → 18 over the section).
+    // Y only now — the old version also scaled, which on a 1px grid changes
+    // the line weight as you scroll.
     var sec = document.getElementById('proof'), media = document.querySelector('[data-parallax="proof"]');
     if (sec && media && !reduce.matches) {
       var q = false;
@@ -1951,7 +1976,7 @@
         q = false;
         var r = sec.getBoundingClientRect();
         var p = Math.min(1, Math.max(0, 1 - r.bottom / (innerHeight + r.height)));
-        media.style.transform = 'scale(' + (1.08 - p * 0.08).toFixed(4) + ') translate3d(0,' + ((p - .5) * 26).toFixed(1) + 'px,0)';
+        media.style.transform = 'translate3d(0,' + ((p - .5) * 36).toFixed(1) + 'px,0)';
       }
       addEventListener('scroll', function(){ if (!q) { q = true; requestAnimationFrame(pf); } }, { passive: true });
       addEventListener('resize', pf);

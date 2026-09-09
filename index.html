@@ -519,8 +519,8 @@
        qcard → Frame · ratio 4/5 (3/4 on Phone) · radius 12 · clip
                 ├ Image layer (Fill Cover) — Hover variant Scale 1 → 1.05
                 ├ Scrim frame — one gradient fill over the whole card
-                ├ Text scrim — Frame hugging the text stack, gradient fill +
-                │                Background blur 8, top edge feathered with a mask
+                ├ Text scrim — Frame hugging the text stack, gradient fill only
+                │                (no Background blur — see the note below)
                 └ Text stack pinned to the bottom
        Three overlay layers, not one: the card tint calms bright photos, the
        card ramp anchors the bottom, and the text scrim is sized to the quote
@@ -534,15 +534,17 @@
   .qcard:hover img{transform:scale(1.05)}
   /* layer 1 + 2 — overall tint and bottom ramp */
   .qcard::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:
-    linear-gradient(180deg,rgba(11,6,32,.36) 0%,rgba(11,6,32,.14) 32%,rgba(11,6,32,.50) 60%,rgba(11,6,32,.86) 86%,rgba(11,6,32,.95) 100%)}
+    linear-gradient(180deg,rgba(11,6,32,.40) 0%,rgba(11,6,32,.18) 30%,rgba(11,6,32,.56) 58%,rgba(11,6,32,.88) 86%,rgba(11,6,32,.96) 100%)}
   .qcard-text{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 20px 20px;
     text-shadow:0 1px 16px rgba(11,6,32,.7)}
-  /* layer 3 — tied to the height of the text block, feathered at the top */
-  .qcard-text::before{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:0;top:-40px;
-    background:linear-gradient(180deg,rgba(11,6,32,0),rgba(11,6,32,.56) 44%,rgba(11,6,32,.80));
-    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-    -webkit-mask-image:linear-gradient(180deg,transparent,#000 48%);
-            mask-image:linear-gradient(180deg,transparent,#000 48%)}
+  /* layer 3 — tied to the height of the text block.
+     Deliberately a plain gradient: no backdrop-filter and no mask. The track
+     is a 3840px will-change:transform layer animating forever, and iOS Safari
+     mis-samples a backdrop-filter inside a composited layer that wide — it
+     smears the card in vertical strips. Chrome does not reproduce it, so this
+     one only shows up on a real device. Keep this layer filter-free. */
+  .qcard-text::before{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:0;top:-46px;
+    background:linear-gradient(180deg,rgba(11,6,32,0),rgba(11,6,32,.40) 26%,rgba(11,6,32,.70) 56%,rgba(11,6,32,.88))}
   .qcard blockquote{margin:0;color:#fff;font-family:var(--display);font-weight:500;
     font-size:clamp(15.5px,1.2vw,18px);line-height:1.36;letter-spacing:-.01em;text-wrap:pretty}
   .qcard .attr{display:block;margin-top:14px;font-size:14px;line-height:1.4}

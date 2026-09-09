@@ -505,7 +505,10 @@
              logo would sit above the headline; ours are anonymised in the
              content doc, so that slot stays empty for now.
      ============================================================ */
-  #cases{overflow:clip}
+  /* The slider is the last thing in the section and runs full-bleed, so the
+     section's own bottom padding just leaves an empty band under it. The
+     slider meets the next section directly instead. */
+  #cases{overflow:clip;padding-bottom:0}
   .cases-head{display:grid;gap:20px;margin-bottom:clamp(28px,3.4vw,44px)}
   @media(min-width:900px){.cases-head{grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:40px}}
   .cases-head .btn{justify-self:start}

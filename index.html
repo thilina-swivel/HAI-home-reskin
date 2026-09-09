@@ -116,35 +116,41 @@
         │        Loop   : Scale 1 → 1.05 · 26s · Ease In Out · Alternate
         │   hero-media itself gets the Scroll Transform (Y 0→120, Scale 1→1.06)
         ├ hero-scrim (Frame · absolute inset 0 · stacked gradient fills)
-        ├ hero-inner (Stack · vertical · max-w 860 · z above scrim)
+        ├ hero-inner (Stack · vertical · centred · max-w 960 · z above scrim)
         │        headline + CTAs only; the trust block that used to sit here
         │        now has its own section, so it is not competing with the H1
         └ hero-cue  (Frame · absolute bottom centre · Loop animation)
      ============================================================ */
-  .hero{position:relative;min-height:min(100svh,940px);display:flex;align-items:flex-end;
-    padding-top:clamp(140px,20vh,200px);padding-bottom:clamp(56px,8vh,84px);
+  .hero{position:relative;min-height:min(100svh,940px);display:flex;align-items:center;
+    padding-top:clamp(140px,17vh,190px);padding-bottom:clamp(96px,13vh,132px);
     background:#0B0620;overflow:clip;isolation:isolate}
   .hero-media{position:absolute;inset:0;z-index:0;overflow:clip;will-change:transform}
-  .hero-media video{width:100%;height:100%;object-fit:cover;display:block;transform-origin:62% 42%;
+  .hero-media video{width:100%;height:100%;object-fit:cover;display:block;transform-origin:50% 44%;
     animation:heroIn 2.8s cubic-bezier(.16,.84,.44,1) both,heroDrift 26s 2.8s ease-in-out infinite alternate}
   @keyframes heroIn{from{transform:scale(1.12);opacity:0}to{transform:scale(1);opacity:1}}
   @keyframes heroDrift{from{transform:scale(1)}to{transform:scale(1.05)}}
-  /* Scrim: horizontal legibility ramp + top/bottom vignette + brand glow */
+  /* Scrim: top/bottom ramp + a soft plate under the centred copy + brand glow.
+     This used to ramp hard from the left, because the copy was left-aligned.
+     Centred copy needs the middle to carry the weight instead, so the second
+     layer is a broad darkening centred on the text that fades out at the edges
+     rather than a vignette, which would have done the opposite. */
   .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
-    linear-gradient(100deg,rgba(9,5,26,.94) 0%,rgba(9,5,26,.80) 32%,rgba(9,5,26,.34) 62%,rgba(9,5,26,.52) 100%),
-    linear-gradient(180deg,rgba(9,5,26,.66) 0%,rgba(9,5,26,0) 26%,rgba(9,5,26,0) 52%,rgba(9,5,26,.78) 100%),
-    radial-gradient(72% 58% at 80% 20%,rgba(87,0,255,.26),transparent 66%)}
-  .hero-inner{position:relative;z-index:2;max-width:min(100%,960px);will-change:transform,opacity}
+    linear-gradient(180deg,rgba(9,5,26,.60) 0%,rgba(9,5,26,.18) 24%,rgba(9,5,26,.44) 58%,rgba(9,5,26,.86) 100%),
+    radial-gradient(88% 68% at 50% 52%,rgba(9,5,26,.48) 0%,rgba(9,5,26,.22) 68%,rgba(9,5,26,0) 100%),
+    radial-gradient(72% 58% at 74% 16%,rgba(87,0,255,.22),transparent 66%)}
+  .hero-inner{position:relative;z-index:2;max-width:min(100%,960px);margin-inline:auto;
+    text-align:center;will-change:transform,opacity}
   .hero h1{color:#fff;font-size:clamp(38px,5.4vw,78px);line-height:1.02;letter-spacing:-.03em;max-width:none}
   .hero h1 .accent{color:var(--tangelo)}
-  .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(28px,4.5vh,44px)}
+  .hero .ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:clamp(28px,4.5vh,44px)}
   .btn-white{background:#fff;color:var(--ink)}
   .btn-white:hover{background:#fff;transform:translateY(-1px);box-shadow:0 14px 34px rgba(0,0,0,.28)}
   /* Phone: the two CTAs stack and match each other exactly, instead of each
      sizing to its own label. Framer: on the Phone breakpoint set the CTA stack
      to 1 column and both buttons to Fill width — no code needed. */
   @media(max-width:640px){
-    .hero .ctas{display:grid;grid-template-columns:1fr;gap:12px;max-width:430px;width:100%}
+    .hero .ctas{display:grid;grid-template-columns:1fr;gap:12px;max-width:430px;
+      width:100%;margin-inline:auto}
     .hero .ctas .btn{width:100%;justify-content:center;padding:16px 14px;
       font-size:clamp(14px,3.9vw,16px)}
   }

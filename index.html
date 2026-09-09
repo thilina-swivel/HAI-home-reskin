@@ -193,6 +193,31 @@
   [data-reveal].in{opacity:1;transform:none;clip-path:inset(0);filter:none}
 
   /* ============================================================
+     PARTNERS BAND — a slim strip directly under the hero
+     FRAMER MAP
+       Section "Technology partners" (Fill #FFF)
+        ├ kicker → Text, small bold, centred
+        └ row    → Stack horizontal · wrap · centred · gap 96
+             each item: Image layer (full logo, capped by height) + caption
+       Slim on purpose: it sits between the hero and the client wall, states
+       the partnerships and gets out of the way. Logos are full colour here,
+       unlike the client wall — there are only two, so they do not clash.
+     ============================================================ */
+  .pband{background:var(--paper);border-bottom:1px solid var(--line);
+    padding-top:clamp(32px,3.8vw,50px);padding-bottom:clamp(32px,3.8vw,50px)}
+  .pband .kicker{display:block;text-align:center;font-weight:700;font-size:15px;
+    letter-spacing:-.005em;color:var(--ink);margin-bottom:clamp(24px,2.8vw,34px)}
+  .pband-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;
+    gap:clamp(28px,4vw,44px) clamp(44px,7vw,104px)}
+  .pband-item{display:grid;justify-items:center;gap:13px;max-width:290px;text-align:center}
+  /* height-capped, so two logos drawn at different scales still sit level.
+     --lh trims the ones whose glyphs fill more of their own box. */
+  .pband-item img{height:var(--lh,32px);width:auto;display:block}
+  .pband-item small{font-size:13.5px;line-height:1.45;color:var(--ink-3)}
+  .pband .cert{margin-top:clamp(22px,2.4vw,30px);text-align:center;
+    font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--ink-3)}
+
+  /* ============================================================
      TRUSTED BY — static logo wall + technology partners
      FRAMER MAP
        Section "Trusted by"
@@ -227,20 +252,6 @@
   .logowall .slot{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
     text-transform:uppercase;color:var(--ink-3);opacity:.55}
 
-  /* technology partners — same copy as the old hero strip, given room */
-  .trust .label.mid{margin-top:clamp(34px,4vw,52px)}
-  .partners{display:grid;gap:14px}
-  @media(min-width:760px){.partners{grid-template-columns:1fr 1fr}}
-  .partner{display:flex;gap:16px;align-items:flex-start;background:var(--ground);
-    border:1px solid var(--line);border-radius:var(--r);padding:22px 24px}
-  .partner .mark{flex:none;width:42px;height:42px;border-radius:11px;background:var(--paper);
-    border:1px solid var(--line);display:grid;place-items:center}
-  .partner .mark svg{width:22px;height:22px;display:block}
-  .partner b{display:block;font-family:var(--display);font-weight:600;font-size:17px;
-    line-height:1.3;letter-spacing:-.01em}
-  .partner small{display:block;margin-top:5px;font-size:14.5px;line-height:1.5;color:var(--ink-2)}
-  .cert{margin-top:clamp(18px,2vw,26px);font-family:var(--mono);font-size:12px;
-    letter-spacing:.05em;color:var(--ink-3)}
 
   /* ============================================================
      PROBLEM — text block, then the reel
@@ -861,6 +872,29 @@
 </section>
 
 <!-- ============================================================
+     TECHNOLOGY PARTNERS  ·  slim band under the hero
+     Full-colour partner logos. The New Relic file is opaque white rather than
+     transparent, which is invisible on this white band — it would need a
+     transparent version if this section ever goes dark.
+     ============================================================ -->
+<section class="pband" id="partners">
+  <div class="wrap">
+    <span class="kicker" data-reveal>Trusted by teams like yours</span>
+    <div class="pband-row" data-reveal style="--d:.08s">
+      <div class="pband-item">
+        <img src="assets/logo-newrelic.png" alt="New Relic">
+        <small>Official observability and performance partner &mdash; real-time visibility into how every system we build is actually performing.</small>
+      </div>
+      <div class="pband-item">
+        <img src="assets/logo-odoo.png" alt="Odoo" style="--lh:27px">
+        <small>Accounting and ERP integration partner &mdash; connecting the financial and operational systems businesses already run on.</small>
+      </div>
+    </div>
+    <p class="cert" data-reveal style="--d:.14s">Certifications: [Placeholder &mdash; pending Legal/Operations verification]</p>
+  </div>
+</section>
+
+<!-- ============================================================
      TRUSTED BY  ·  static logo wall
      Moved out of the hero and given its own section so the client logos are
      not competing with the H1. Static on purpose, not a ticker.
@@ -884,21 +918,6 @@
       <div class="cell"><span class="slot">Client logo</span></div>
     </div>
 
-    <span class="label mid" data-reveal style="--d:.14s">Technology partners</span>
-    <div class="partners" data-reveal style="--d:.18s">
-      <div class="partner">
-        <span class="mark" data-logo="New Relic — replace with supplied mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.6l8.1 4.7v9.4L12 21.4 3.9 16.7V7.3z" stroke="#00AC69" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 12l8.1-4.7M12 12v9.4M12 12L3.9 7.3" stroke="#1CE783" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
-        <span><b>New Relic &mdash; Official observability and performance partner</b>
-        <small>Giving every system we build real-time visibility into how it's actually performing.</small></span>
-      </div>
-      <div class="partner">
-        <span class="mark" data-logo="Odoo — replace with supplied mark"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#714B67" stroke-width="2.1"><circle cx="6" cy="14.4" r="3.4"/><circle cx="15" cy="14.4" r="3.4"/></g><circle cx="21.2" cy="8.4" r="1.5" fill="#8F8F8F"/></svg></span>
-        <span><b>Odoo &mdash; Accounting and ERP integration partner</b>
-        <small>Connecting the financial and operational systems businesses already run on.</small></span>
-      </div>
-    </div>
-
-    <p class="cert" data-reveal style="--d:.24s">Certifications: [Placeholder &mdash; pending Legal/Operations verification]</p>
   </div>
 </section>
 

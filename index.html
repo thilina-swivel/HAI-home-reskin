@@ -506,6 +506,38 @@
   .pstat p{font-size:16px;line-height:1.45;color:rgba(255,255,255,.76);margin-top:12px;max-width:24ch}
 
   /* ============================================================
+     PROOF · variant B — minimal, light
+     A duplicate of the section above with everything decorative removed:
+     no photo, no gradient, no grid. Title and lede split across the top,
+     then the numbers in a hairline-divided row.
+     FRAMER MAP
+       Section "Proof (minimal)" (Fill #FFF)
+        ├ head.split → the existing two-column header component
+        └ pmin-stats → Stack horizontal, 3 columns, 1px dividers between
+             The numbers reuse the same [data-count] hook, so the count-up
+             component drives both variants.
+     Divider logic is the fiddly part: a top border on the row plus a
+     left border on every item except the first, which gives single hairlines
+     with no doubling and no trailing rule. Stacked, it flips to top borders.
+     ============================================================ */
+  .proof-min{background:var(--paper)}
+  .pmin-stats{display:grid;margin-top:clamp(30px,3.6vw,48px);
+    border-top:1px solid var(--line)}
+  @media(min-width:760px){.pmin-stats{grid-template-columns:repeat(3,1fr)}}
+  .pmin{padding:clamp(26px,3vw,40px) 0}
+  .pmin+.pmin{border-top:1px solid var(--line)}
+  @media(min-width:760px){
+    .pmin{padding:clamp(30px,3.2vw,46px) clamp(22px,2.6vw,40px)}
+    .pmin:first-child{padding-left:0}
+    .pmin+.pmin{border-top:0;border-left:1px solid var(--line)}
+  }
+  .pmin .n{display:block;font-family:var(--display);font-weight:600;line-height:.95;
+    font-size:clamp(42px,5.2vw,68px);letter-spacing:-.035em;
+    font-variant-numeric:tabular-nums;color:var(--ink)}
+  .pmin .n.orange{color:var(--tangelo)}
+  .pmin p{margin-top:12px;font-size:15.5px;line-height:1.5;color:var(--ink-3);max-width:26ch}
+
+  /* ============================================================
      CASE STUDIES — full-bleed slider
      FRAMER MAP
        Section "Case studies"
@@ -1234,6 +1266,39 @@
         <p>compliance time cut.</p>
       </div>
       <div class="pstat" data-reveal style="--d:.34s">
+        <span class="n orange">$0</span>
+        <p>to start with the Incubator.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROOF  ·  variant B — minimal, light
+     Same copy and the same [data-count] numbers as the section above, with
+     the artwork stripped out. Both are live so they can be compared: add the
+     hidden attribute to whichever loses.
+     ============================================================ -->
+<section class="proof-min" id="proof-minimal">
+  <div class="wrap">
+    <div class="head split" data-stagger="0.08">
+      <div>
+        <span class="label">Proof</span>
+        <h2>What this delivers, in numbers</h2>
+      </div>
+      <p class="lede">Real outcomes from AI systems built inside real operations, not lab demos.</p>
+    </div>
+
+    <div class="pmin-stats" data-stagger="0.1">
+      <div class="pmin">
+        <span class="n" data-count="70" data-suffix="+">70+</span>
+        <p>hrs saved per team, per month.</p>
+      </div>
+      <div class="pmin">
+        <span class="n" data-count="60" data-suffix="%">60%</span>
+        <p>compliance time cut.</p>
+      </div>
+      <div class="pmin">
         <span class="n orange">$0</span>
         <p>to start with the Incubator.</p>
       </div>

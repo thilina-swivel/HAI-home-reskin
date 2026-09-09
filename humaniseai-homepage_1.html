@@ -1,0 +1,892 @@
+<title>humaniseAI - Technology Development &amp; AI Consulting</title>
+<meta name="description" content="humaniseAI is an AI-native professional services firm working at the intersection of business, technology, and humanity.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --indigo:#5700FF; --indigo-deep:#4300C7; --tangelo:#FE4A01; --violet:#1E0C66;
+    --majorelle:#8A5BFF; --periwinkle:#AEADF0; --argent:#66AFFF;
+    --ink:#120A2E; --ink-2:#43406A; --ink-3:#74718F;
+    --ground:#F7F7FB; --paper:#FFFFFF; --line:#E7E6F0; --line-2:#D6D4E4;
+    --tint:#F1EFFB; --peach:#FFEDE4;
+    --display:"Funnel Display",Helvetica,Arial,sans-serif;
+    --body:"DM Sans","Helvetica Neue",Arial,sans-serif;
+    --mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --max:1240px; --pad:clamp(20px,5vw,64px);
+    --r:10px; --r-lg:16px; --r-btn:8px;
+    --sh-sm:0 1px 2px rgba(18,10,46,.05);
+    --sh-md:0 2px 4px rgba(18,10,46,.04),0 12px 28px rgba(18,10,46,.06);
+    --sh-lg:0 24px 64px rgba(18,10,46,.14);
+    color-scheme:light;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit}
+  img,video{max-width:100%;display:block}
+  h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;text-wrap:balance;margin:0}
+  h1{font-size:clamp(38px,5.6vw,74px);line-height:1.02}
+  h2{font-size:clamp(30px,3.8vw,50px);line-height:1.08}
+  h3{font-size:clamp(20px,1.7vw,24px);line-height:1.25;font-family:var(--body);font-weight:600;letter-spacing:-.01em}
+  p{margin:0}
+  .lede{font-size:clamp(17px,1.3vw,20px);line-height:1.55;color:var(--ink-2);max-width:62ch}
+  .wrap{max-width:var(--max);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+  section{padding:clamp(72px,8.5vw,120px) 0}
+  .label{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--indigo);display:inline-flex;align-items:center;gap:10px;margin-bottom:20px}
+  .label::before{content:"";width:22px;height:1px;background:currentColor}
+  .dark .label{color:var(--periwinkle)}
+  .accent{color:var(--tangelo)}
+  .head{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:clamp(40px,5vw,60px)}
+  @media(min-width:900px){.head.split{grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:end;gap:48px}}
+  .head .lede{margin-top:14px}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(14px)}
+  .reveal.in{opacity:1;transform:none;transition:opacity .55s cubic-bezier(.2,.6,.2,1),transform .55s cubic-bezier(.2,.6,.2,1)}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--body);font-weight:600;font-size:15.5px;line-height:1;padding:16px 22px;border-radius:var(--r-btn);text-decoration:none;border:1px solid transparent;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease;cursor:pointer;white-space:nowrap}
+  .btn svg{width:16px;height:16px;transition:transform .18s ease}
+  .btn:hover svg{transform:translateX(3px)}
+  .btn:focus-visible{outline:2px solid var(--indigo);outline-offset:3px}
+  .btn-primary{background:var(--indigo);color:#fff;box-shadow:var(--sh-sm)}
+  .btn-primary:hover{background:var(--indigo-deep)}
+  .btn-ghost{background:var(--paper);color:var(--ink);border-color:var(--line-2)}
+  .btn-ghost:hover{border-color:var(--ink);box-shadow:var(--sh-sm)}
+  .dark .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.32)}
+  .dark .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.06)}
+  .btn-orange{background:var(--tangelo);color:#fff}
+  .btn-orange:hover{background:#E33F00}
+  .textlink{font-weight:600;color:var(--indigo);text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-size:15.5px}
+  .textlink svg{width:16px;height:16px;transition:transform .18s}
+  .textlink:hover svg{transform:translateX(3px)}
+  .textlink:focus-visible{outline:2px solid var(--indigo);outline-offset:4px;border-radius:4px}
+
+  /* photo placeholders — swap by setting data-src on the element */
+  .ph{position:relative;overflow:hidden;background:var(--tint);isolation:isolate}
+  .ph::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:32px 32px;opacity:.5}
+  .ph.t1{background:linear-gradient(158deg,#EFEBFF 0%,#F6F2FF 48%,#FBF1EC 100%)}
+  .ph.t2{background:linear-gradient(158deg,#E9EEFF 0%,#F1EDFF 55%,#F4F1FF 100%)}
+  .ph.t3{background:linear-gradient(158deg,#FFF2EC 0%,#F6F1FE 55%,#EDF1FF 100%)}
+  .ph.t4{background:linear-gradient(152deg,#2A1580 0%,#1E0C66 55%,#160949 100%)}
+  .ph.t4::before{background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);opacity:1}
+  .ph.has-img::before{display:none}
+  .ph.has-img .brief{display:none}
+  .ph .brief{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--ink-2);background:rgba(255,255,255,.82);backdrop-filter:blur(6px);padding:7px 10px 7px 8px;border-radius:6px;max-width:calc(100% - 28px);z-index:2}
+  .ph.t4 .brief{background:rgba(255,255,255,.12);color:#fff}
+  .ph .brief svg{width:14px;height:14px;flex:none;opacity:.8}
+  .ph .figure{position:absolute;inset:auto 0 0 0;height:78%;z-index:1;display:block;pointer-events:none}
+
+  /* nav */
+  .nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .2s ease,box-shadow .2s ease}
+  .nav.stuck{border-bottom-color:var(--line);box-shadow:0 1px 0 rgba(18,10,46,.02),0 8px 24px rgba(18,10,46,.05)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+  .logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--body);font-weight:500;font-size:23px;letter-spacing:-.02em;color:var(--ink)}
+  .logo svg{width:34px;height:34px}
+  .logo b{font-weight:500;color:var(--tangelo)}
+  .menu{display:none;gap:32px;list-style:none;margin:0;padding:0}
+  .menu a{text-decoration:none;font-size:15px;font-weight:500;color:var(--ink-2);position:relative;padding:6px 0}
+  .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1.5px;background:var(--indigo);transition:right .22s ease}
+  .menu a:hover{color:var(--ink)}
+  .menu a:hover::after{right:0}
+  @media(min-width:1000px){.menu{display:flex}}
+  .nav .btn{padding:12px 18px;font-size:14.5px}
+  @media(max-width:640px){.nav-cta{display:none}}
+  .burger{display:inline-flex;width:42px;height:42px;border:1px solid var(--line-2);border-radius:var(--r-btn);align-items:center;justify-content:center;background:#fff;cursor:pointer;color:var(--ink)}
+  @media(min-width:1000px){.burger{display:none}}
+  .drawer{position:fixed;inset:72px 0 auto 0;background:#fff;border-bottom:1px solid var(--line);box-shadow:var(--sh-md);z-index:55;padding:8px var(--pad) 24px;display:none}
+  .drawer.open{display:block}
+  @media(min-width:1000px){.drawer,.drawer.open{display:none}}
+  .drawer ul{list-style:none;margin:0;padding:0}
+  .drawer a{display:block;padding:15px 0;text-decoration:none;font-size:17px;font-weight:500;border-bottom:1px solid var(--line)}
+  .drawer .btn{width:100%;justify-content:center;margin-top:18px}
+
+  /* hero */
+  .hero{padding-top:clamp(48px,6vw,84px);padding-bottom:clamp(56px,6vw,88px);position:relative}
+  .hero::before{content:"";position:absolute;inset:0 0 auto 0;height:520px;background:linear-gradient(180deg,#FFFFFF 0%,rgba(247,247,251,0) 100%);z-index:-2}
+  .hero::after{content:"";position:absolute;inset:0 0 auto 0;height:520px;background-image:linear-gradient(90deg,rgba(18,10,46,.045) 1px,transparent 1px);background-size:calc(100%/6) 100%;-webkit-mask-image:linear-gradient(180deg,#000,transparent);mask-image:linear-gradient(180deg,#000,transparent);z-index:-1}
+  .hero-top{display:grid;gap:28px}
+  @media(min-width:980px){.hero-top{grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:56px}}
+  .hero h1{max-width:16ch}
+  .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+  @media(min-width:980px){.hero .ctas{margin-top:0;padding-bottom:6px}}
+
+  /* hero slider */
+  .stage{margin-top:clamp(36px,4.5vw,56px);position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--violet);box-shadow:var(--sh-lg);aspect-ratio:16/7.4;min-height:400px;touch-action:pan-y}
+  @media(max-width:760px){.stage{aspect-ratio:auto;min-height:0;height:min(74vh,560px)}}
+  .stage:focus-visible{outline:2px solid var(--indigo);outline-offset:4px}
+  .slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .8s cubic-bezier(.4,0,.2,1),visibility 0s .8s}
+  .slide.is-active{opacity:1;visibility:visible;transition:opacity .8s cubic-bezier(.4,0,.2,1),visibility 0s 0s}
+  .slide .media{position:absolute;inset:0;transform:scale(1.005);transition:transform 0s}
+  .slide.is-active .media{transform:scale(1.07);transition:transform 9s linear}
+  .slide .media .brief{bottom:auto;top:14px;left:14px}
+  .slide video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,10,46,.42) 0%,rgba(18,10,46,.05) 32%,rgba(18,10,46,.62) 74%,rgba(18,10,46,.86) 100%);z-index:1}
+  .cap{position:absolute;z-index:2;left:clamp(20px,3.2vw,44px);right:clamp(20px,3.2vw,44px);bottom:clamp(86px,9vw,104px);color:#fff;max-width:640px;transform:translateY(14px);opacity:0;transition:opacity .6s ease .18s,transform .6s cubic-bezier(.2,.6,.2,1) .18s}
+  .slide.is-active .cap{opacity:1;transform:none}
+  .cap .tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.26);backdrop-filter:blur(6px);padding:6px 11px;border-radius:999px;display:inline-block;margin-bottom:16px}
+  .cap .t{font-family:var(--display);font-weight:600;letter-spacing:-.025em;font-size:clamp(24px,2.7vw,38px);line-height:1.12;color:#fff;max-width:22ch;text-wrap:balance}
+  .cap p{margin-top:12px;font-size:clamp(15px,1.15vw,17px);color:rgba(255,255,255,.82);max-width:52ch}
+  .cap .metric{display:flex;align-items:baseline;gap:12px;margin-top:20px}
+  .cap .metric b{font-family:var(--display);font-weight:600;font-size:clamp(34px,3.6vw,50px);line-height:1;letter-spacing:-.035em;color:#fff}
+  .cap .metric span{font-size:14px;color:rgba(255,255,255,.72);max-width:22ch;line-height:1.35}
+  .stage-bar{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;align-items:flex-end;gap:clamp(14px,2vw,28px);padding:0 clamp(16px,3.2vw,32px) clamp(18px,2.4vw,26px)}
+  .tabs{display:flex;gap:clamp(8px,1.4vw,16px);flex:1;min-width:0;list-style:none;margin:0;padding:0}
+  .tab{flex:1;min-width:0;appearance:none;background:none;border:0;border-top:2px solid rgba(255,255,255,.24);padding:12px 0 0;margin:0;cursor:pointer;text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);position:relative;transition:color .2s ease;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tab::after{content:"";position:absolute;left:0;top:-2px;height:2px;width:0;background:#fff}
+  .tab:hover{color:#fff}
+  .tab[aria-selected="true"]{color:#fff}
+  .tab[aria-selected="true"]::after{animation:tabfill var(--dwell,7s) linear forwards}
+  .stage.paused .tab[aria-selected="true"]::after{animation-play-state:paused}
+  .stage.static .tab[aria-selected="true"]::after{animation:none;width:100%}
+  @keyframes tabfill{from{width:0}to{width:100%}}
+  .tab:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:3px}
+  .arrows{display:flex;gap:8px;flex:none}
+  .sbtn{width:42px;height:42px;border-radius:var(--r-btn);border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);backdrop-filter:blur(8px);color:#fff;display:grid;place-items:center;cursor:pointer;transition:background .18s ease,border-color .18s ease}
+  .sbtn:hover{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.5)}
+  .sbtn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  .sbtn svg{width:16px;height:16px}
+  @media(max-width:560px){.tab{font-size:0;padding-top:8px}.tab::before{content:"";display:block}.arrows{gap:6px}.sbtn{width:38px;height:38px}}
+
+  /* trust */
+  .trust{background:var(--paper);padding-top:56px;padding-bottom:56px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .trust-grid{display:grid;gap:40px}
+  @media(min-width:900px){.trust-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:start}}
+  .logos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(min-width:600px){.logos{grid-template-columns:repeat(3,1fr)}}
+  .logos div{height:62px;border:1px solid var(--line);border-radius:var(--r);display:grid;place-items:center;font-family:var(--display);font-weight:500;font-size:14.5px;letter-spacing:-.01em;color:var(--ink-2);background:var(--ground);padding:0 10px;text-align:center;transition:color .2s ease,border-color .2s ease}
+  .logos div:hover{color:var(--ink);border-color:var(--line-2)}
+  .logos div.slot{color:var(--ink-3);font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;background:transparent;border-style:dashed}
+  .partners{display:grid;gap:12px}
+  @media(min-width:600px){.partners{grid-template-columns:1fr 1fr}}
+  .partner{background:var(--ground);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;display:grid;gap:8px}
+  .partner .name{font-family:var(--display);font-weight:600;font-size:21px}
+  .partner .role{font-size:13.5px;font-weight:600;color:var(--indigo)}
+  .partner p{font-size:14.5px;color:var(--ink-2)}
+  .cert{margin-top:14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--ink-3)}
+
+  /* problem */
+  .problem-grid{display:grid;gap:40px;align-items:center}
+  @media(min-width:900px){.problem-grid{grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:72px}}
+  .problem .ph{aspect-ratio:4/5;border-radius:var(--r-lg)}
+  .problem .stack{position:relative}
+  .problem .stack .ph.small{position:absolute;right:-6%;bottom:-6%;width:44%;aspect-ratio:1;border-radius:var(--r);box-shadow:var(--sh-md);border:8px solid var(--ground)}
+  @media(max-width:899px){.problem .stack .ph.small{right:0;bottom:-20px;width:40%}}
+  .problem h2{margin-bottom:20px}
+
+  /* three ways */
+  .ways{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .pillars{display:grid;gap:18px}
+  @media(min-width:800px){.pillars{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .pillar:hover{border-color:var(--line-2);box-shadow:var(--sh-md);transform:translateY(-2px)}
+  .pillar .ph{aspect-ratio:16/10}
+  .pillar .body{padding:26px 26px 28px;display:grid;gap:12px;flex:1;align-content:start}
+  .pillar .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--indigo)}
+  .pillar h3{font-family:var(--display);font-size:26px;font-weight:600;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-2);font-size:15.5px}
+  .pillar .textlink{margin-top:auto;padding-top:10px}
+
+  /* proof */
+  .dark{background:var(--violet);color:#fff}
+  .dark h2{color:#fff}
+  .dark .lede{color:rgba(255,255,255,.74)}
+  .proof-grid{display:grid;gap:40px}
+  @media(min-width:900px){.proof-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:72px;align-items:center}}
+  .stats{display:grid;gap:0;border-top:1px solid rgba(255,255,255,.16)}
+  .stat{display:grid;grid-template-columns:minmax(150px,max-content) 1fr;gap:28px;align-items:baseline;padding:24px 0;border-bottom:1px solid rgba(255,255,255,.16)}
+  .stat .n{font-family:var(--display);font-weight:600;font-size:clamp(44px,5vw,68px);line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums;color:#fff}
+  .stat .n.orange{color:var(--tangelo)}
+  .stat p{font-size:16.5px;color:rgba(255,255,255,.78)}
+  .proof .ph{aspect-ratio:5/4;border-radius:var(--r-lg)}
+  .steps{margin-top:clamp(56px,7vw,84px);display:grid;gap:18px;border-top:1px solid rgba(255,255,255,.16);padding-top:clamp(40px,5vw,54px)}
+  @media(min-width:800px){.steps{grid-template-columns:repeat(3,1fr);gap:32px}}
+  .step{display:grid;gap:10px;align-content:start}
+  .step .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;color:var(--periwinkle)}
+  .step h3{color:#fff;font-family:var(--display);font-size:24px;font-weight:600}
+  .step p{color:rgba(255,255,255,.7);font-size:15.5px;max-width:36ch}
+
+  /* case studies */
+  .cases{display:grid;gap:18px}
+  @media(min-width:800px){.cases{grid-template-columns:repeat(3,1fr)}}
+  .case{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .case:hover{border-color:var(--line-2);box-shadow:var(--sh-md);transform:translateY(-2px)}
+  .case .ph{aspect-ratio:16/10}
+  .case .pill{position:absolute;left:14px;top:14px;z-index:2;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;background:var(--violet);color:#fff;padding:6px 10px;border-radius:999px}
+  .case .body{padding:24px 24px 26px;display:grid;gap:12px;flex:1;align-content:start}
+  .case h3{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+  .case p{color:var(--ink-2);font-size:15px}
+  .case .res{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding-top:8px;margin-top:auto;border-top:1px solid var(--line)}
+  .case .res b{display:block;font-family:var(--display);font-size:24px;letter-spacing:-.03em;color:var(--indigo);font-weight:600;line-height:1}
+  .case .res span{font-size:12px;color:var(--ink-3);display:block;margin-top:5px;line-height:1.3}
+  .cases-foot{margin-top:36px}
+
+  /* testimonials */
+  .quotes{display:grid;gap:18px}
+  @media(min-width:800px){.quotes{grid-template-columns:repeat(3,1fr)}}
+  .quote{background:var(--ground);border:1px solid var(--line);border-radius:var(--r-lg);padding:30px 28px 28px;display:flex;flex-direction:column;gap:22px}
+  .quote .mark{font-family:var(--display);font-size:52px;line-height:.6;color:var(--tangelo);height:20px}
+  .quote blockquote{margin:0;font-family:var(--display);font-weight:500;font-size:21px;line-height:1.32;letter-spacing:-.015em;flex:1;text-wrap:pretty}
+  .quote .who{display:flex;align-items:center;gap:14px;border-top:1px solid var(--line);padding-top:20px}
+  .quote .who .ph{width:48px;height:48px;border-radius:50%;flex:none}
+  .quote .who .ph .brief{display:none}
+  .quote .who b{display:block;font-size:14.5px}
+  .quote .who span{font-size:12.5px;color:var(--ink-3)}
+
+  /* incubator */
+  .incubator{position:relative;overflow:hidden}
+  .incubator::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 90% at 100% 100%,rgba(87,0,255,.55),transparent 62%);pointer-events:none}
+  .incubator .wrap{position:relative;z-index:1}
+  .inc-grid{display:grid;gap:40px;align-items:center}
+  @media(min-width:900px){.inc-grid{grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:72px}}
+  .seats{display:inline-flex;align-items:center;gap:10px;background:var(--tangelo);color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;border-radius:999px;margin-bottom:20px}
+  .seats i{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(255,255,255,.35)}50%{box-shadow:0 0 0 7px rgba(255,255,255,.08)}}
+  .incubator .ph{aspect-ratio:5/4;border-radius:var(--r-lg)}
+  .incubator .lede{margin:16px 0 30px}
+
+  /* tools */
+  .tools{display:grid;gap:18px}
+  @media(min-width:800px){.tools{grid-template-columns:1fr 1fr}}
+  .tool{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:32px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;text-decoration:none;color:inherit;transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+  .tool:hover{border-color:var(--line-2);box-shadow:var(--sh-md);transform:translateY(-2px)}
+  .tool .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--indigo);margin-bottom:12px}
+  .tool h3{font-family:var(--display);font-size:26px;font-weight:600;margin-bottom:8px}
+  .tool p{color:var(--ink-2);font-size:15.5px}
+  .tool .time{display:inline-block;margin-top:18px;font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+  .tool .ico{width:60px;height:60px;border-radius:var(--r);background:var(--tint);display:grid;place-items:center;color:var(--indigo);flex:none}
+  .tool .ico svg{width:28px;height:28px}
+
+  /* faq */
+  .faq-grid{display:grid;gap:36px}
+  @media(min-width:900px){.faq-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:72px;align-items:start}}
+  .faq details{border-top:1px solid var(--line-2);padding:0}
+  .faq details:last-child{border-bottom:1px solid var(--line-2)}
+  .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:22px 0;font-weight:600;font-size:17.5px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-family:var(--display);font-size:26px;line-height:1;color:var(--indigo);transition:transform .2s;flex:none}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq details p{padding:0 0 22px;color:var(--ink-2);max-width:62ch}
+  .faq summary:focus-visible{outline:2px solid var(--indigo);outline-offset:4px;border-radius:4px}
+
+  /* contact */
+  .contact{background:var(--paper);border-top:1px solid var(--line)}
+  .contact-grid{display:grid;gap:40px}
+  @media(min-width:900px){.contact-grid{grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:72px;align-items:stretch}}
+  .contact .ph{border-radius:var(--r-lg);min-height:420px;aspect-ratio:4/5}
+  .form{display:grid;gap:16px;margin-top:30px}
+  .form .row{display:grid;gap:16px}
+  @media(min-width:600px){.form .row{grid-template-columns:1fr 1fr}}
+  .field{display:grid;gap:8px}
+  .field label{font-size:13px;font-weight:600;color:var(--ink-2)}
+  .field input,.field textarea{font:inherit;font-size:16px;padding:14px 16px;border:1px solid var(--line-2);border-radius:var(--r-btn);background:var(--ground);color:var(--ink);width:100%}
+  .field textarea{min-height:118px;resize:vertical}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(87,0,255,.12);background:#fff}
+  .form .btn{justify-self:start;margin-top:6px}
+  .form .fine{font-size:13px;color:var(--ink-3)}
+
+  /* footer */
+  footer{background:var(--violet);color:#fff;position:relative}
+  footer::before{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--tangelo) 0%,#F17A7A 25%,var(--periwinkle) 50%,var(--indigo) 80%,var(--violet) 100%)}
+  .foot{display:grid;gap:40px;padding:clamp(56px,6vw,80px) 0 40px}
+  @media(min-width:900px){.foot{grid-template-columns:minmax(0,5fr) repeat(3,minmax(0,2.33fr));gap:48px}}
+  .foot h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--periwinkle);margin:0 0 18px;font-weight:500}
+  .foot ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+  .foot a{text-decoration:none;color:rgba(255,255,255,.78);font-size:14.5px}
+  .foot a:hover{color:#fff}
+  .foot address{font-style:normal;font-size:14.5px;color:rgba(255,255,255,.78);line-height:1.6}
+  .foot address b{display:block;color:#fff;font-weight:600}
+  .foot .blurb{color:rgba(255,255,255,.68);font-size:14.5px;max-width:38ch;margin-top:18px}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.14);padding:22px 0 32px;display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;font-size:12.5px;color:rgba(255,255,255,.55)}
+  .foot-bottom a{color:inherit;text-decoration:none;font-size:12.5px}
+  .socials{display:flex;gap:10px;margin-top:22px}
+  .socials a{width:40px;height:40px;border-radius:var(--r-btn);border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;transition:background .18s ease,border-color .18s ease}
+  .socials a:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4)}
+  .socials svg{width:17px;height:17px;fill:#fff}
+
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none}
+    .slide .media,.slide.is-active .media{transform:none}
+    .cap{opacity:1;transform:none}
+  }
+</style>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="humaniseAI home"><svg class="mark" viewBox="-50 -50 100 100" aria-hidden="true"></svg><span>humanise<b>AI</b></span></a>
+    <ul class="menu">
+      <li><a href="#ways">Studio</a></li><li><a href="#ways">Talent</a></li><li><a href="#ways">Advisory</a></li>
+      <li><a href="#cases">Case studies</a></li><li><a href="#incubator">Incubator</a></li><li><a href="#tools">Resources</a></li>
+    </ul>
+    <a class="btn btn-primary nav-cta" href="#contact">Book a discovery call</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M0 1h18M0 6h18M0 11h18"/></svg>
+    </button>
+  </div>
+</header>
+<nav class="drawer" id="drawer" aria-label="Mobile">
+  <ul>
+    <li><a href="#ways">Studio</a></li><li><a href="#ways">Talent</a></li><li><a href="#ways">Advisory</a></li>
+    <li><a href="#cases">Case studies</a></li><li><a href="#incubator">Incubator</a></li><li><a href="#tools">Resources</a></li>
+  </ul>
+  <a class="btn btn-primary" href="#contact">Book a discovery call</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-top">
+      <div>
+        <span class="label">AI-native professional services &middot; Australia &amp; UK</span>
+        <h1>Your Trusted Partner for <span class="accent" style="white-space:nowrap">AI-Native</span> Business Solutions.</h1>
+      </div>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#contact">Book a free discovery call <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a class="btn btn-ghost" href="#incubator">Apply for the AI Council Incubator</a>
+      </div>
+    </div>
+
+    <!--
+      HERO STAGE — auto-advancing slider.
+      · To use a background VIDEO on a slide, add data-video="/path/file.mp4" to that slide's .media element.
+        It is injected as a muted, looping, inline video and plays only while its slide is active.
+      · To use a still IMAGE, add data-src="/path/file.jpg" to the .media element.
+        With neither, the branded placeholder and its photo brief are shown.
+    -->
+    <div class="stage" id="stage" role="region" aria-roledescription="carousel" aria-label="What we have built" tabindex="0">
+      <div class="slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 4">
+        <div class="media ph t1" data-photo="Clinic reception, patient at the desk — Paige answering in the background" data-video=""></div>
+        <div class="scrim"></div>
+        <div class="cap">
+          <span class="tag">Allied health</span>
+          <div class="t">Paige answers every call, so the front desk doesn't have to.</div>
+          <p>An AI voice agent built and deployed inside a live clinic, not a lab. Call abandonment fell from 8.7% to 2.6%.</p>
+          <div class="metric"><b>159</b><span>missed patients recovered in the first two weeks</span></div>
+        </div>
+      </div>
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="2 of 4" aria-hidden="true">
+        <div class="media ph t2" data-photo="Broadcast control room, live sport on the monitors" data-video=""></div>
+        <div class="scrim"></div>
+        <div class="cap">
+          <span class="tag">Sport &amp; broadcast</span>
+          <div class="t">Live interchange tracking, rebuilt for real broadcast conditions.</div>
+          <p>A 20-year sports and broadcasting business needed a faster, more reliable front-end. We rebuilt it in place.</p>
+          <div class="metric"><b>0</b><span>surrounding systems touched</span></div>
+        </div>
+      </div>
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="3 of 4" aria-hidden="true">
+        <div class="media ph t3" data-photo="Safety consultant on site in hi-vis, tablet in hand" data-video=""></div>
+        <div class="scrim"></div>
+        <div class="cap">
+          <span class="tag">Workplace safety</span>
+          <div class="t">One live view of safety performance, across every client and site.</div>
+          <p>Scattered spreadsheets replaced by a client and consultant dashboard, CRM-integrated, with an AI Safety Coach built in.</p>
+          <div class="metric"><b>1</b><span>dashboard in place of dozens of reports</span></div>
+        </div>
+      </div>
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="4 of 4" aria-hidden="true">
+        <div class="media ph t4" data-photo="Founder and our lead engineer reviewing the first working build, week six" data-video=""></div>
+        <div class="scrim"></div>
+        <div class="cap">
+          <span class="tag">AI Council Incubator</span>
+          <div class="t">We'll build it before you buy it.</div>
+          <p>Two seats each quarter. One real AI system, built inside your operations and proven in six weeks.</p>
+          <div class="metric"><b>$0</b><span>to start &mdash; this quarter is open</span></div>
+        </div>
+      </div>
+
+      <div class="stage-bar">
+        <div class="tabs" role="tablist" aria-label="Choose a slide">
+          <button class="tab" role="tab" aria-selected="true" aria-controls="slide-1">01 &mdash; Allied health</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="slide-2">02 &mdash; Broadcast</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="slide-3">03 &mdash; Safety</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="slide-4">04 &mdash; Incubator</button>
+        </div>
+        <div class="arrows">
+          <button class="sbtn" id="prev" aria-label="Previous slide"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 8H3M7 4L3 8l4 4"/></svg></button>
+          <button class="sbtn" id="next" aria-label="Next slide"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+        </div>
+      </div>
+      <p class="sr-only" aria-live="polite" id="stage-live"></p>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<section class="trust">
+  <div class="wrap trust-grid">
+    <div>
+      <span class="label">Trust bar</span>
+      <h2 style="font-size:clamp(26px,2.6vw,34px)">Trusted by teams like yours</h2>
+      <div class="logos" style="margin-top:26px" aria-label="Client logos">
+        <div>Wunderman Thompson</div><div>PragmaTech</div><div>InCorp Advisory</div>
+        <div class="slot">Client logo</div><div class="slot">Client logo</div><div class="slot">Client logo</div>
+      </div>
+    </div>
+    <div>
+      <div class="partners">
+        <div class="partner">
+          <span class="name">New Relic</span>
+          <span class="role">Official observability and performance partner</span>
+          <p>Giving every system we build real-time visibility into how it's actually performing.</p>
+        </div>
+        <div class="partner">
+          <span class="name">Odoo</span>
+          <span class="role">Accounting and ERP integration partner</span>
+          <p>Connecting the financial and operational systems businesses already run on.</p>
+        </div>
+      </div>
+      <p class="cert">Certifications &middot; placeholder, pending Legal/Operations verification</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="wrap problem-grid">
+    <div class="stack">
+      <div class="ph t2" data-photo="Operations manager at her desk, mid-conversation, natural light">
+        <svg class="figure" viewBox="0 0 400 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#1E0C66" opacity=".12"><ellipse cx="200" cy="150" rx="62" ry="74"/><path d="M60 500V360c0-80 62-140 140-140s140 60 140 140v140z"/></g></svg>
+      </div>
+      <div class="ph t3 small" data-photo="Hands on a keyboard, close crop"></div>
+    </div>
+    <div>
+      <span class="label">Problem</span>
+      <h2>Making AI less complicated. More human.</h2>
+      <p class="lede">AI doesn't fail because the technology isn't ready. It fails when it's dropped into a business without the judgement, care, and expertise to make it work. We close that gap through productised AI systems, embedded engineering talent, and hands-on advisory, so adopting AI feels less intimidating and more human.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THREE WAYS -->
+<section class="ways" id="ways">
+  <div class="wrap">
+    <div class="head split">
+      <div><span class="label">Solution</span><h2>Three ways we work</h2></div>
+      <p class="lede">Pick the shape of help that fits: a product that snaps in, senior people who embed, or advisors who take you from a two-week sprint to full governance.</p>
+    </div>
+    <div class="pillars">
+      <article class="pillar">
+        <div class="ph t1" data-photo="Clinic receptionist on a headset, Paige running on screen"><svg class="figure" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#1E0C66" opacity=".12"><ellipse cx="200" cy="90" rx="46" ry="54"/><path d="M90 300V230c0-62 50-110 110-110s110 48 110 110v70z"/></g></svg></div>
+        <div class="body">
+          <span class="tag">Studio</span>
+          <h3>Productised AI infrastructure</h3>
+          <p>Built to snap into what you already run.</p>
+          <a class="textlink" href="#cases">Explore our products <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </article>
+      <article class="pillar">
+        <div class="ph t2" data-photo="Embedded engineer pairing with a client developer"><svg class="figure" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#1E0C66" opacity=".12"><ellipse cx="150" cy="100" rx="42" ry="50"/><path d="M50 300V230c0-58 45-100 100-100s100 42 100 100v70z"/><ellipse cx="290" cy="110" rx="40" ry="48"/><path d="M200 300V240c0-55 40-95 90-95s90 40 90 95v60z"/></g></svg></div>
+        <div class="body">
+          <span class="tag">Talent</span>
+          <h3>Senior AI and engineering capacity</h3>
+          <p>Without the hiring cycle.</p>
+          <a class="textlink" href="#cases">View our services <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </article>
+      <article class="pillar">
+        <div class="ph t3" data-photo="Advisory workshop, whiteboard, leadership team"><svg class="figure" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#1E0C66" opacity=".12"><ellipse cx="110" cy="120" rx="38" ry="46"/><path d="M30 300V240c0-50 36-88 80-88s80 38 80 88v60z"/><ellipse cx="230" cy="95" rx="44" ry="52"/><path d="M130 300V225c0-58 45-100 100-100s100 42 100 100v75z"/><ellipse cx="340" cy="125" rx="36" ry="44"/><path d="M270 300V245c0-45 32-80 70-80s70 35 70 80v55z"/></g></svg></div>
+        <div class="body">
+          <span class="tag">Advisory</span>
+          <h3>AI adoption in operations</h3>
+          <p>From a two-week discovery sprint to full governance.</p>
+          <a class="textlink" href="#cases">View our services <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF + HOW IT WORKS -->
+<section class="dark proof">
+  <div class="wrap">
+    <div class="proof-grid">
+      <div>
+        <span class="label">Proof</span>
+        <h2>What this delivers, in numbers</h2>
+        <p class="lede" style="margin:16px 0 34px">Real outcomes from AI systems built inside real operations, not lab demos.</p>
+        <div class="stats">
+          <div class="stat"><span class="n" data-count="70" data-suffix="+">70+</span><p>hours saved per team, per month.</p></div>
+          <div class="stat"><span class="n" data-count="60" data-suffix="%">60%</span><p>compliance time cut.</p></div>
+          <div class="stat"><span class="n orange">$0</span><p>to start with the Incubator.</p></div>
+        </div>
+      </div>
+      <div class="ph t4" data-photo="Warehouse or finance floor — real client operations, wide shot">
+        <svg class="figure" viewBox="0 0 500 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#fff" opacity=".14"><ellipse cx="170" cy="130" rx="50" ry="60"/><path d="M60 400V310c0-65 50-115 110-115s110 50 110 115v90z"/><ellipse cx="350" cy="110" rx="48" ry="58"/><path d="M240 400V290c0-65 50-115 110-115s110 50 110 115v110z"/></g></svg>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="k">01 &mdash; Discover</span><h3>Find the friction</h3><p>A two-week sprint inside your operations to find the workflow where AI earns its keep.</p></div>
+      <div class="step"><span class="k">02 &mdash; Build &amp; test</span><h3>Prove it on real work</h3><p>We build against your systems and your data, and measure the result before anyone commits.</p></div>
+      <div class="step"><span class="k">03 &mdash; Deploy</span><h3>Run it, with visibility</h3><p>Live in your operations with observability, audit trails and a team that stays close.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="cases">
+  <div class="wrap">
+    <div class="head split">
+      <div><span class="label">Case studies</span><h2>Proof, not promises</h2></div>
+      <p class="lede">Explore what we've built, for businesses like yours.</p>
+    </div>
+    <div class="cases">
+      <a class="case" href="#">
+        <div class="ph t1" data-photo="Allied-health clinic reception, patient at the desk"><span class="pill">Studio</span><svg class="figure" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#1E0C66" opacity=".12"><ellipse cx="230" cy="100" rx="46" ry="54"/><path d="M120 300V240c0-62 50-110 110-110s110 48 110 110v60z"/></g></svg></div>
+        <div class="body">
+          <h3>Paige, an AI voice agent for allied health</h3>
+          <p>Built and deployed inside a live clinic, not a lab. Call abandonment dropped from 8.7% to 2.6%, and 159 missed patients were recovered in the first two weeks alone, recovering an estimated six figures in annualised revenue.</p>
+          <div class="res"><div><b>8.7&rarr;2.6%</b><span>call abandonment</span></div><div><b>159</b><span>patients recovered</span></div></div>
+          <span class="textlink">Read the case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </div>
+      </a>
+      <a class="case" href="#">
+        <div class="ph t2" data-photo="Broadcast control room, live sport on monitors"><span class="pill">Studio</span><svg class="figure" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#1E0C66" opacity=".12"><ellipse cx="160" cy="110" rx="44" ry="52"/><path d="M60 300V240c0-58 45-100 100-100s100 42 100 100v60z"/></g></svg></div>
+        <div class="body">
+          <h3>Rebuilding live interchange tracking for broadcast</h3>
+          <p>A 20-year sports and broadcasting business needed a faster, more reliable front-end for live interchange tracking under real broadcast conditions. We rebuilt it without touching the systems around it.</p>
+          <div class="res"><div><b>Live</b><span>under broadcast conditions</span></div><div><b>0</b><span>surrounding systems touched</span></div></div>
+          <span class="textlink">Read the case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </div>
+      </a>
+      <a class="case" href="#">
+        <div class="ph t3" data-photo="Safety consultant on site in hi-vis, tablet in hand"><span class="pill">Talent</span><svg class="figure" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#1E0C66" opacity=".12"><ellipse cx="200" cy="95" rx="46" ry="54"/><path d="M90 300V235c0-62 50-110 110-110s110 48 110 110v65z"/></g></svg></div>
+        <div class="body">
+          <h3>Safety intelligence platform for a national safety consultancy</h3>
+          <p>A national workplace safety consultancy needed one live view of safety performance across every client and site, instead of scattered spreadsheets and reports. We built a client and consultant dashboard, integrated with their CRM, with an AI Safety Coach built in.</p>
+          <div class="res"><div><b>1</b><span>live view, every site</span></div><div><b>CRM</b><span>integrated</span></div></div>
+          <span class="textlink">Read the case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </div>
+      </a>
+    </div>
+    <div class="cases-foot"><a class="btn btn-ghost" href="#">See all case studies <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="ways" style="border-bottom:0">
+  <div class="wrap">
+    <div class="head"><div><span class="label">Testimonials</span><h2>What clients say</h2></div></div>
+    <div class="quotes">
+      <figure class="quote" style="margin:0">
+        <div class="mark">&ldquo;</div>
+        <blockquote>Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.</blockquote>
+        <figcaption class="who"><div class="ph t2"></div><div><b>Wunderman Thompson</b><span>Client headshot &middot; name &amp; role TBC</span></div></figcaption>
+      </figure>
+      <figure class="quote" style="margin:0">
+        <div class="mark">&ldquo;</div>
+        <blockquote>The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.</blockquote>
+        <figcaption class="who"><div class="ph t1"></div><div><b>PragmaTech</b><span>Client headshot &middot; name &amp; role TBC</span></div></figcaption>
+      </figure>
+      <figure class="quote" style="margin:0">
+        <div class="mark">&ldquo;</div>
+        <blockquote>The level and quality of candidates provided is of the highest standard.</blockquote>
+        <figcaption class="who"><div class="ph t3"></div><div><b>InCorp Advisory Australia</b><span>Client headshot &middot; name &amp; role TBC</span></div></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- INCUBATOR -->
+<section class="dark incubator" id="incubator">
+  <div class="wrap inc-grid">
+    <div>
+      <span class="label">AI Council Incubator</span>
+      <div><span class="seats"><i></i>Two seats &middot; this quarter is open</span></div>
+      <h2>We'll build it before you buy it.</h2>
+      <p class="lede">Every quarter, we open two seats in the AI Council Incubator. We build one real AI system inside your operations, at no cost, and prove it works in six weeks. A working system and tailored expertise to fit your business operations seamlessly.</p>
+      <a class="btn btn-orange" href="#contact">Apply now <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+    </div>
+    <div class="ph t4" data-photo="Founder and our lead engineer reviewing the first working build, week six">
+      <svg class="figure" viewBox="0 0 500 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#fff" opacity=".14"><ellipse cx="190" cy="120" rx="52" ry="62"/><path d="M70 400V300c0-68 54-120 120-120s120 52 120 120v100z"/><ellipse cx="340" cy="140" rx="46" ry="56"/><path d="M240 400V320c0-60 45-105 100-105s100 45 100 105v80z"/></g></svg>
+    </div>
+  </div>
+</section>
+
+<!-- FREE TOOLS -->
+<section id="tools">
+  <div class="wrap">
+    <div class="head split">
+      <div><span class="label">Resources</span><h2>Free tools</h2></div>
+      <p class="lede">Start with a number, not a pitch.</p>
+    </div>
+    <div class="tools">
+      <a class="tool" href="#">
+        <div><div class="t">Calculator</div><h3>ROI Calculator</h3><p>See what admin overhead is costing you.</p><span class="time">Two minutes</span></div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 12h3M13 12h3M8 16h3M13 16h3"/></svg></div>
+      </a>
+      <a class="tool" href="#">
+        <div><div class="t">Checklist</div><h3>AI Readiness Checklist</h3><p>Find out where AI creates the most value.</p><span class="time">Five minutes</span></div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 7l2 2 4-4M5 13l2 2 4-4M5 19l2 2 4-4M14 6h6M14 12h6M14 18h6"/></svg></div>
+      </a>
+    </div>
+    <div style="margin-top:30px"><a class="textlink" href="#">Explore resources <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" style="padding-top:0">
+  <div class="wrap faq-grid">
+    <div><span class="label">FAQ</span><h2>Questions, answered plainly</h2><p class="lede" style="margin-top:16px">The things AU and UK operations leaders ask us first.</p></div>
+    <div>
+      <details open><summary>What does humaniseAI do?</summary><p>We build AI into your highest-friction workflows and prove the result, typically within six weeks.</p></details>
+      <details><summary>Is humaniseAI the same company as Swivel?</summary><p>Yes. humaniseAI is the new name for Swivel's technology, finance, and AI capability, brought together under one brand. Your contract, your team, and your point of contact don't change.</p></details>
+      <details><summary>What is the AI Council Incubator?</summary><p>Our flagship offer. One working AI system, built into your operations, at no cost. Two organisations a quarter.</p></details>
+      <details><summary>Do you replace our existing systems?</summary><p>No. Every system integrates with what you already run. Zero disruption is a core design requirement.</p></details>
+      <details><summary>Is your AI auditable?</summary><p>Yes. Every recommendation is traceable to source, every action logged.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <span class="label">Contact</span>
+      <h2>Let's find your highest-value use case.</h2>
+      <p class="lede" style="margin-top:16px">A 45-minute scoping call. We'll tell you honestly whether we can help. No follow-up pitch if we can't.</p>
+      <form class="form" onsubmit="event.preventDefault()">
+        <div class="row">
+          <div class="field"><label for="f-name">Full name</label><input id="f-name" type="text" name="name" autocomplete="name" placeholder="Alex Morgan"></div>
+          <div class="field"><label for="f-org">Organisation</label><input id="f-org" type="text" name="org" autocomplete="organization" placeholder="Company Pty Ltd"></div>
+        </div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" type="email" name="email" autocomplete="email" placeholder="alex@company.com.au"></div>
+        <div class="field"><label for="f-msg">What's your biggest workflow challenge right now?</label><textarea id="f-msg" name="challenge" placeholder="e.g. Our front desk misses calls every morning and we can't tell how many."></textarea></div>
+        <button class="btn btn-primary" type="submit">Book the call <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+        <p class="fine">We reply within one business day, Australian and UK hours.</p>
+      </form>
+    </div>
+    <div class="ph t1" data-photo="One of our consultants on a scoping call — candid, warm, not a stock handshake">
+      <svg class="figure" viewBox="0 0 400 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#1E0C66" opacity=".12"><ellipse cx="200" cy="160" rx="62" ry="74"/><path d="M60 500V370c0-80 62-140 140-140s140 60 140 140v130z"/></g></svg>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="logo dark" href="#top" style="color:#fff"><svg class="mark" viewBox="-50 -50 100 100" aria-hidden="true" data-color="#fff"></svg><span>humanise<b style="color:#fff">AI</b></span></a>
+        <p class="blurb">An AI-native professional services firm working at the intersection of business, technology, and humanity.</p>
+        <div class="socials">
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM3 9h4v12H3zM10 9h3.8v1.7c.6-1 1.9-2 3.9-2 4.1 0 4.3 2.7 4.3 6.1V21h-4v-5.5c0-1.4 0-3-1.9-3s-2.1 1.4-2.1 2.9V21h-4z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23 7.2s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.3-1C16.5 3.7 12 3.7 12 3.7s-4.5 0-7.8.2c-.5.1-1.5.1-2.3 1C1.2 5.6 1 7.2 1 7.2S.8 9.1.8 11v1.8c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.6 1 1.9.2 7.5.2 7.5.2s4.5 0 7.8-.2c.5-.1 1.5-.1 2.3-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8V11c0-1.9-.2-3.8-.2-3.8zM9.7 15V8.7l6 3.2z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.2 2h3.4l-7.4 8.5L23 22h-6.8l-5.3-7-6.1 7H1.4l7.9-9L1 2h7l4.8 6.4zM17 20h1.9L7.1 3.9H5.1z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Offices</h4>
+        <address><b>Australia</b>[Office address]<br>[City, State, Postcode]</address>
+        <address style="margin-top:16px"><b>United Kingdom</b>[Office address]<br>[City, Postcode]</address>
+      </div>
+      <div>
+        <h4>Work with us</h4>
+        <ul><li><a href="#ways">Studio</a></li><li><a href="#ways">Talent</a></li><li><a href="#ways">Advisory</a></li><li><a href="#incubator">AI Council Incubator</a></li><li><a href="#cases">Case studies</a></li></ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul><li><a href="#tools">Resources</a></li><li><a href="#">About</a></li><li><a href="#">Careers</a></li><li><a href="#contact">Contact</a></li><li><a href="#">HTML sitemap</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 humaniseAI. Formerly Swivel's technology, finance and AI capability.</span>
+      <span><a href="#">Privacy policy</a> &nbsp;&middot;&nbsp; <a href="#">Terms</a> &nbsp;&middot;&nbsp; <a href="#">Sitemap</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Brand sunburst mark: 36 rays in a hexagonal envelope, hollow centre ---------- */
+  document.querySelectorAll('svg.mark').forEach(function(svg){
+    var col = svg.dataset.color || '#5700FF', n = 36, out = '';
+    for (var i = 0; i < n; i++) {
+      var a = (i / n) * Math.PI * 2, deg = a * 180 / Math.PI;
+      var m = ((deg % 60) + 60) % 60, hex = 44 / Math.cos((m - 30) * Math.PI / 180);
+      var r0 = 16 + (i % 2) * 6, r1 = hex - 3;
+      out += '<line x1="0" y1="-' + r0 + '" x2="0" y2="-' + r1 + '" transform="rotate(' + deg + ')" stroke="' + col + '" stroke-width="3.2" stroke-linecap="round"/>';
+    }
+    svg.innerHTML = out;
+  });
+
+  /* ---------- Photo slots: data-src shows the image, otherwise the brief is printed ---------- */
+  var cam = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>';
+  document.querySelectorAll('.ph[data-photo]').forEach(function(el){
+    if (el.dataset.src) {
+      el.classList.add('has-img');
+      el.style.backgroundImage = 'url(' + el.dataset.src + ')';
+      el.style.backgroundSize = 'cover';
+      el.style.backgroundPosition = 'center';
+      return;
+    }
+    if (el.dataset.video) return; // the slider injects a video here instead
+    var b = document.createElement('div');
+    b.className = 'brief';
+    b.innerHTML = cam + '<span>Photo &middot; ' + el.dataset.photo + '</span>';
+    el.appendChild(b);
+  });
+
+  /* ---------- Sticky nav shadow ---------- */
+  var nav = document.getElementById('nav');
+  var onScroll = function(){ nav.classList.toggle('stuck', window.scrollY > 8); };
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* ---------- Mobile drawer ---------- */
+  var burger = document.getElementById('burger'), drawer = document.getElementById('drawer');
+  if (burger && drawer) {
+    var setDrawer = function(open){
+      drawer.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+    burger.addEventListener('click', function(){ setDrawer(!drawer.classList.contains('open')); });
+    drawer.addEventListener('click', function(e){ if (e.target.tagName === 'A') setDrawer(false); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setDrawer(false); });
+    window.addEventListener('resize', function(){ if (window.innerWidth >= 1000) setDrawer(false); });
+  }
+
+  /* ---------- Hero slider ---------- */
+  var stage = document.getElementById('stage');
+  if (stage) {
+    var slides = Array.prototype.slice.call(stage.querySelectorAll('.slide'));
+    var tabs   = Array.prototype.slice.call(stage.querySelectorAll('.tab'));
+    var live   = document.getElementById('stage-live');
+    var index  = 0;
+
+    slides.forEach(function(s, i){ s.id = 'slide-' + (i + 1); });
+
+    // Background video per slide, driven by data-video on the .media element.
+    slides.forEach(function(s){
+      var media = s.querySelector('.media');
+      if (!media || !media.dataset.video) return;
+      var v = document.createElement('video');
+      v.src = media.dataset.video;
+      v.muted = true; v.loop = true; v.playsInline = true;
+      v.setAttribute('muted',''); v.setAttribute('playsinline','');
+      v.preload = 'metadata';
+      if (media.dataset.poster) v.poster = media.dataset.poster;
+      media.classList.add('has-img');
+      media.appendChild(v);
+      s._video = v;
+    });
+
+    var syncVideo = function(){
+      slides.forEach(function(s, i){
+        if (!s._video) return;
+        if (i === index) { var p = s._video.play(); if (p && p.catch) p.catch(function(){}); }
+        else { s._video.pause(); s._video.currentTime = 0; }
+      });
+    };
+
+    var go = function(i, restart){
+      index = (i + slides.length) % slides.length;
+      slides.forEach(function(s, n){
+        var on = n === index;
+        s.classList.toggle('is-active', on);
+        if (on) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden', 'true');
+      });
+      tabs.forEach(function(t, n){
+        if (restart && n === index) {           // force the progress bar to replay
+          t.setAttribute('aria-selected', 'false');
+          void t.offsetWidth;
+        }
+        t.setAttribute('aria-selected', n === index ? 'true' : 'false');
+      });
+      if (live) live.textContent = 'Slide ' + (index + 1) + ' of ' + slides.length + ': ' + (tabs[index] ? tabs[index].textContent : '');
+      syncVideo();
+    };
+
+    var next = function(){ go(index + 1, true); };
+    var prev = function(){ go(index - 1, true); };
+
+    document.getElementById('next').addEventListener('click', next);
+    document.getElementById('prev').addEventListener('click', prev);
+    tabs.forEach(function(t, i){ t.addEventListener('click', function(){ go(i, true); }); });
+
+    // The CSS progress bar is the clock: when it finishes, advance. Pausing the
+    // animation therefore pauses the slider, and the two can never drift apart.
+    tabs.forEach(function(t){
+      t.addEventListener('animationend', function(e){
+        if (e.animationName === 'tabfill' && t.getAttribute('aria-selected') === 'true') next();
+      });
+    });
+
+    var pause = function(){ stage.classList.add('paused'); };
+    var play  = function(){ stage.classList.remove('paused'); };
+    stage.addEventListener('pointerenter', pause);
+    stage.addEventListener('pointerleave', play);
+    stage.addEventListener('focusin', pause);
+    stage.addEventListener('focusout', function(e){ if (!stage.contains(e.relatedTarget)) play(); });
+    document.addEventListener('visibilitychange', function(){ document.hidden ? pause() : play(); });
+
+    stage.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); prev(); }
+    });
+
+    // Swipe
+    var x0 = null;
+    stage.addEventListener('pointerdown', function(e){ x0 = e.clientX; });
+    stage.addEventListener('pointerup', function(e){
+      if (x0 === null) return;
+      var dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) > 48) { dx < 0 ? next() : prev(); }
+    });
+
+    if (reduced) stage.classList.add('static');   // no auto-advance, controls still work
+    go(0, false);
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  if (!reduced && 'IntersectionObserver' in window) {
+    var groups = ['.head', '.trust-grid > *', '.problem-grid > *', '.pillar', '.proof-grid > *', '.step', '.case', '.cases-foot', '.quote', '.inc-grid > *', '.tool', '.faq-grid > *', '.contact-grid > *'];
+    var items = [];
+    groups.forEach(function(sel){
+      document.querySelectorAll(sel).forEach(function(el){
+        if (el.closest('.hero') || items.indexOf(el) > -1) return;
+        el.classList.add('reveal');
+        items.push(el);
+      });
+    });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (!en.isIntersecting) return;
+        var sibs = Array.prototype.slice.call(en.target.parentNode.children);
+        en.target.style.transitionDelay = Math.min(sibs.indexOf(en.target), 4) * 80 + 'ms';
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      });
+    }, {rootMargin: '0px 0px -8% 0px', threshold: 0.12});
+    items.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---------- Stat count-up ---------- */
+  if (!reduced && 'IntersectionObserver' in window) {
+    var nio = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (!en.isIntersecting) return;
+        var el = en.target, to = parseFloat(el.dataset.count), suf = el.dataset.suffix || '', t0 = null;
+        var tick = function(ts){
+          if (!t0) t0 = ts;
+          var p = Math.min((ts - t0) / 1100, 1), e = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(to * e) + suf;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        nio.unobserve(el);
+      });
+    }, {threshold: 0.6});
+    document.querySelectorAll('.stat .n[data-count]').forEach(function(el){ nio.observe(el); });
+  }
+})();
+</script>

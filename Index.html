@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>humaniseAI Homepage</title>
+<meta name="description" content="humaniseAI is an AI-native professional services firm working at the intersection of business, technology, and humanity.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --indigo:#5700FF; --indigo-deep:#4300C7; --tangelo:#FE4A01; --violet:#1E0C66;
+    --majorelle:#8A5BFF; --periwinkle:#AEADF0; --argent:#66AFFF;
+    --ink:#120A2E; --ink-2:#3E3763; --ink-3:#6F6A8E;
+    --ground:#F7F6FD; --paper:#FFFFFF; --line:#E4E1F4; --line-2:#D3CFEC;
+    --tint:#EFEDFB; --peach:#FFE9DD;
+    --display:"Funnel Display",Helvetica,Arial,sans-serif;
+    --body:"DM Sans","Helvetica Neue",Arial,sans-serif;
+    --mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --max:1240px; --pad:clamp(20px,5vw,64px);
+    --r:14px; --r-lg:22px;
+    color-scheme:light;
+  }
+  *{box-sizing:border-box}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+  html{scroll-behavior:smooth}
+  section[id],[id]{scroll-margin-top:96px}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.02em;text-wrap:balance;margin:0}
+  h1{font-size:clamp(40px,6.2vw,84px);line-height:.98}
+  h2{font-size:clamp(32px,4.2vw,56px);line-height:1.04}
+  h3{font-size:clamp(20px,1.7vw,24px);line-height:1.25;font-family:var(--body);font-weight:600;letter-spacing:-.01em}
+  p{margin:0}
+  .lede{font-size:clamp(18px,1.4vw,21px);line-height:1.5;color:var(--ink-2);max-width:60ch}
+  .wrap{max-width:var(--max);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+  section{padding:clamp(72px,9vw,128px) 0}
+  .label{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);display:inline-flex;align-items:center;gap:10px;margin-bottom:22px}
+  .label::before{content:"";width:18px;height:1px;background:currentColor}
+  .dark .label{color:var(--periwinkle)}
+  .accent{color:var(--tangelo)}
+  .head{display:grid;grid-template-columns:1fr;gap:20px;margin-bottom:clamp(40px,5vw,64px)}
+  @media(min-width:900px){.head.split{grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:end;gap:48px}}
+  .head .lede{margin-top:16px}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--body);font-weight:600;font-size:16px;line-height:1;padding:17px 24px;border-radius:999px;text-decoration:none;border:1.5px solid transparent;transition:transform .18s ease,background .18s ease,border-color .18s ease;cursor:pointer;white-space:nowrap}
+  .btn svg{width:16px;height:16px;transition:transform .18s ease}
+  .btn:hover svg{transform:translateX(3px)}
+  .btn:focus-visible{outline:3px solid var(--argent);outline-offset:3px}
+  .btn-primary{background:var(--indigo);color:#fff}
+  .btn-primary:hover{background:var(--indigo-deep);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+  .btn-ghost:hover{border-color:var(--indigo);color:var(--indigo)}
+  .dark .btn-ghost{color:#fff;border-color:rgba(255,255,255,.35)}
+  .dark .btn-ghost:hover{border-color:#fff;color:#fff}
+  .btn-orange{background:var(--tangelo);color:#fff}
+  .btn-orange:hover{background:#E33F00;transform:translateY(-1px)}
+  .textlink{font-weight:600;color:var(--indigo);text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-size:16px}
+  .textlink svg{width:16px;height:16px;transition:transform .18s}
+  .textlink:hover svg{transform:translateX(3px)}
+  .textlink:focus-visible{outline:3px solid var(--argent);outline-offset:3px;border-radius:4px}
+
+  /* photo placeholders — swap by setting data-src on the element */
+  .ph{position:relative;overflow:hidden;background:var(--tint);isolation:isolate}
+  .ph::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.35) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.35) 1px,transparent 1px);background-size:28px 28px;mix-blend-mode:overlay;opacity:.7}
+  .ph.t1{background:radial-gradient(120% 90% at 15% 20%,#DCD2FF 0%,transparent 55%),radial-gradient(90% 90% at 90% 90%,#FFD8C4 0%,transparent 55%),linear-gradient(160deg,#F4F0FF,#FBF3EE)}
+  .ph.t2{background:radial-gradient(100% 80% at 80% 10%,#B9C9FF 0%,transparent 55%),radial-gradient(90% 90% at 10% 100%,#CDBBFF 0%,transparent 55%),linear-gradient(160deg,#EEF1FF,#F1E9FF)}
+  .ph.t3{background:radial-gradient(90% 90% at 85% 80%,#FFD1BE 0%,transparent 55%),radial-gradient(90% 90% at 20% 10%,#D6E6FF 0%,transparent 55%),linear-gradient(160deg,#FFF4EE,#EFF0FF)}
+  .ph.t4{background:radial-gradient(90% 90% at 80% 20%,#5B3BE0 0%,transparent 60%),radial-gradient(90% 90% at 10% 90%,#FE4A01 0%,transparent 55%),linear-gradient(160deg,#1E0C66,#2A129A)}
+  .ph.has-img::before{display:none}
+  .ph.has-img .brief{display:none}
+  .ph.has-img .figure{display:none}
+  .ph .brief{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-2);background:rgba(255,255,255,.78);backdrop-filter:blur(6px);padding:7px 10px 7px 8px;border-radius:8px;max-width:calc(100% - 28px);z-index:2}
+  .ph.t4 .brief{background:rgba(255,255,255,.14);color:#fff}
+  .ph .brief svg{width:14px;height:14px;flex:none;opacity:.8}
+  .ph .figure{position:absolute;inset:auto 0 0 0;height:78%;z-index:1;display:block;pointer-events:none}
+
+  /* nav */
+  /* Framer: fixed Nav with a Scroll variant — "is-solid" after 32px of scroll */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;background:transparent;border-bottom:1px solid transparent;transition:background .35s ease,border-color .35s ease,backdrop-filter .35s ease}
+  .nav.is-solid{background:rgba(247,246,253,.86);backdrop-filter:blur(12px);border-bottom-color:var(--line)}
+  .nav:not(.is-solid) .menu a{color:rgba(255,255,255,.8)}
+  .nav:not(.is-solid) .menu a:hover{color:#fff}
+  .nav:not(.is-solid) .burger{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3)}
+  .nav:not(.is-solid) .burger path{stroke:#fff}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px;gap:24px}
+  /* Brand lockup — the supplied SVGs. Both sit in the same box and cross-fade,
+     so the nav can carry the white mark over the hero and the coloured one on
+     the light bar. Framer: two Image layers in a frame, opacity per variant. */
+  .logo{position:relative;display:block;width:clamp(122px,11vw,146px);aspect-ratio:258/62;text-decoration:none;flex:none}
+  .logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .35s ease}
+  .logo .on-light{opacity:0}                      /* coloured — for light backgrounds */
+  .nav.is-solid .logo .on-light{opacity:1}
+  .nav.is-solid .logo .on-dark{opacity:0}
+  .menu{display:none;gap:30px;list-style:none;margin:0;padding:0}
+  .menu a{text-decoration:none;font-size:15px;font-weight:500;color:var(--ink-2)}
+  .menu a:hover{color:var(--indigo)}
+  @media(min-width:1000px){.menu{display:flex}}
+  .nav .btn{padding:13px 20px;font-size:15px}
+  /* below the menu breakpoint there is no centre item, so the button would
+     float in the middle — pin it next to the burger instead */
+  @media(max-width:999px){
+    .nav .wrap{gap:12px}
+    .nav .btn{margin-left:auto;padding:11px 16px;font-size:14px}
+  }
+  @media(max-width:640px){.nav .btn{display:none}}
+  .burger{display:inline-flex;width:40px;height:40px;border:1px solid var(--line-2);border-radius:10px;align-items:center;justify-content:center;background:#fff}
+  @media(min-width:1000px){.burger{display:none}}
+
+  /* ============================================================
+     HERO — full-bleed video stage
+     FRAMER MAP
+       Hero (Frame · 100% × min 100vh · Clip content ON · Fill #0B0620)
+        ├ hero-media (Frame · absolute inset 0)
+        │   └ Video layer · Fill Cover · Muted + Loop + Autoplay + Inline
+        │        Appear : Scale 1.12 → 1 · 2.8s · Ease Out
+        │        Loop   : Scale 1 → 1.05 · 26s · Ease In Out · Alternate
+        │   hero-media itself gets the Scroll Transform (Y 0→120, Scale 1→1.06)
+        ├ hero-scrim (Frame · absolute inset 0 · stacked gradient fills)
+        ├ hero-inner (Stack · vertical · max-w 860 · z above scrim)
+        │        every child = its own Appear animation, delay stepped by --d
+        └ hero-cue  (Frame · absolute bottom centre · Loop animation)
+     ============================================================ */
+  .hero{position:relative;min-height:min(100svh,940px);display:flex;align-items:flex-end;
+    padding-top:clamp(140px,20vh,200px);padding-bottom:clamp(56px,8vh,84px);
+    background:#0B0620;overflow:clip;isolation:isolate}
+  .hero-media{position:absolute;inset:0;z-index:0;overflow:clip;will-change:transform}
+  .hero-media video{width:100%;height:100%;object-fit:cover;display:block;transform-origin:62% 42%;
+    animation:heroIn 2.8s cubic-bezier(.16,.84,.44,1) both,heroDrift 26s 2.8s ease-in-out infinite alternate}
+  @keyframes heroIn{from{transform:scale(1.12);opacity:0}to{transform:scale(1);opacity:1}}
+  @keyframes heroDrift{from{transform:scale(1)}to{transform:scale(1.05)}}
+  /* Scrim: horizontal legibility ramp + top/bottom vignette + brand glow */
+  .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+    linear-gradient(100deg,rgba(9,5,26,.94) 0%,rgba(9,5,26,.80) 32%,rgba(9,5,26,.34) 62%,rgba(9,5,26,.52) 100%),
+    linear-gradient(180deg,rgba(9,5,26,.66) 0%,rgba(9,5,26,0) 26%,rgba(9,5,26,0) 52%,rgba(9,5,26,.78) 100%),
+    radial-gradient(72% 58% at 80% 20%,rgba(87,0,255,.26),transparent 66%)}
+  .hero-inner{position:relative;z-index:2;max-width:min(100%,960px);will-change:transform,opacity}
+  .hero h1{color:#fff;font-size:clamp(38px,5.4vw,78px);line-height:1.02;letter-spacing:-.03em;max-width:none}
+  .hero h1 .accent{color:var(--tangelo)}
+  .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(28px,4.5vh,44px)}
+  .btn-white{background:#fff;color:var(--ink)}
+  .btn-white:hover{background:#fff;transform:translateY(-1px);box-shadow:0 14px 34px rgba(0,0,0,.28)}
+
+  /* hero trust strip */
+  .hero-trust{margin-top:clamp(34px,6vh,58px);display:grid;gap:16px;max-width:600px}
+  .hero-trust .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+  .tr-row{display:flex;gap:14px;align-items:flex-start}
+  .tr-logo{flex:none;width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.3)}
+  .tr-logo svg{width:20px;height:20px;display:block}
+  .tr-row b{display:block;font-size:15px;font-weight:600;color:#fff;letter-spacing:-.01em}
+  .tr-row small{display:block;font-size:14px;line-height:1.45;color:rgba(255,255,255,.62)}
+  .hero-cert{font-size:13px;font-style:italic;color:rgba(255,255,255,.44);margin-top:2px}
+
+  /* scroll cue */
+  .hero-cue{position:absolute;right:clamp(20px,5vw,64px);bottom:clamp(30px,5vh,52px);z-index:2;display:none;
+    text-decoration:none;color:rgba(255,255,255,.6);
+    font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+  @media(min-width:1000px){.hero-cue{display:block}}
+  .cue-in{display:grid;justify-items:center;gap:10px}
+  .hero-cue i{display:block;width:1px;height:40px;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.8));animation:cueBob 2.4s cubic-bezier(.45,0,.55,1) infinite}
+  @keyframes cueBob{0%,100%{transform:translateY(-6px) scaleY(.7);opacity:.4}50%{transform:translateY(4px) scaleY(1);opacity:1}}
+
+  /* ---- motion utilities (Framer = Appear animations) ---- */
+  /* [data-appear] → Appear: Opacity 0→1, Y 26→0, Blur 8→0, 0.9s Ease Out, delay --d */
+  [data-appear]{animation:appearUp .9s cubic-bezier(.16,.84,.44,1) both;animation-delay:var(--d,0s)}
+  @keyframes appearUp{from{opacity:0;transform:translateY(26px);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+  /* .rise → a clipped Frame with the text inside, Appear: Y 110%→0 */
+  .rise{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+  .rise>span{display:block;animation:riseUp 1.05s cubic-bezier(.16,.84,.44,1) both;animation-delay:var(--d,0s)}
+  @keyframes riseUp{from{transform:translateY(110%)}to{transform:translateY(0)}}
+  /* ---- scroll reveals · Framer: "Animate on → Scroll into view" ----
+       [data-reveal]           Opacity 0→1, Y 28→0            (the default)
+       [data-reveal="left"]    Opacity 0→1, X −32→0
+       [data-reveal="right"]   Opacity 0→1, X 32→0
+       [data-reveal="scale"]   Opacity 0→1, Scale .96→1
+       [data-reveal="mask"]    clip wipe bottom→top, for photos and media panels
+       [data-stagger="0.08"]   the script steps each child's --d by that much;
+                               in Framer you set the same increasing delay per layer
+       Only "mask" is safe to combine with [data-scroll-y] — every other variant
+       animates transform, which the scroll transform also writes to.            */
+  [data-reveal]{opacity:0;transform:translateY(28px);
+    transition:opacity .8s cubic-bezier(.16,.84,.44,1),transform .8s cubic-bezier(.16,.84,.44,1),
+      clip-path .95s cubic-bezier(.16,.84,.44,1),filter .8s ease;
+    transition-delay:var(--d,0s)}
+  [data-reveal="left"]{transform:translate3d(-32px,0,0)}
+  [data-reveal="right"]{transform:translate3d(32px,0,0)}
+  [data-reveal="scale"]{transform:scale(.96)}
+  [data-reveal="mask"]{opacity:1;transform:none;clip-path:inset(0 0 100% 0)}
+  [data-reveal].in{opacity:1;transform:none;clip-path:inset(0);filter:none}
+
+  /* ============================================================
+     LOGO BAND — infinite ticker under the hero
+     FRAMER MAP  →  Ticker component (Direction Left · Speed 40 · Gap 56 · Hover pause)
+     The edge fades are two absolute Frames with a gradient fill to the section colour.
+     ============================================================ */
+  .logo-band{padding:clamp(26px,3.6vw,38px) 0;background:var(--paper);border-bottom:1px solid var(--line)}
+  .band-grid{display:grid;gap:22px;align-items:center}
+  @media(min-width:900px){.band-grid{grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:clamp(32px,4vw,56px)}}
+  .band-lead{font-family:var(--display);font-weight:500;font-size:clamp(18px,2vw,23px);letter-spacing:-.02em;line-height:1.2;max-width:24ch}
+  .marquee{position:relative;overflow:hidden}
+  .marquee::before,.marquee::after{content:"";position:absolute;top:0;bottom:0;width:clamp(28px,6%,72px);z-index:2;pointer-events:none}
+  .marquee::before{left:0;background:linear-gradient(90deg,var(--paper),rgba(255,255,255,0))}
+  .marquee::after{right:0;background:linear-gradient(270deg,var(--paper),rgba(255,255,255,0))}
+  .marquee-track{--g:clamp(36px,5vw,64px);display:flex;width:max-content;animation:marquee 36s linear infinite}
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  .mg{display:flex;align-items:center;gap:var(--g);padding-right:var(--g)}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .cl{display:inline-flex;align-items:center;gap:9px;white-space:nowrap;font-family:var(--display);font-weight:500;font-size:17px;letter-spacing:-.01em;color:var(--ink-3);opacity:.72;transition:opacity .25s,color .25s}
+  .cl:hover{opacity:1;color:var(--ink)}
+  .cl .dot{width:22px;height:22px;border-radius:6px;background:var(--tint);display:grid;place-items:center;flex:none}
+  .cl .dot svg{width:12px;height:12px;display:block}
+  .cl.slot{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.45}
+
+  /* trust */
+  .trust{padding-top:56px;padding-bottom:56px;border-bottom:1px solid var(--line)}
+  .trust-grid{display:grid;gap:36px}
+  @media(min-width:900px){.trust-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:start}}
+  .logos{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(min-width:600px){.logos{grid-template-columns:repeat(3,1fr)}}
+  .logos div{height:64px;border:1px dashed var(--line-2);border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-weight:500;font-size:15px;letter-spacing:-.01em;color:var(--ink-2);background:#fff;padding:0 10px;text-align:center}
+  .logos div.slot{color:var(--ink-3);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:transparent}
+  .partners{display:grid;gap:14px}
+  @media(min-width:600px){.partners{grid-template-columns:1fr 1fr}}
+  .partner{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;display:grid;gap:8px}
+  .partner .name{font-family:var(--display);font-weight:600;font-size:22px}
+  .partner .role{font-size:14px;font-weight:600;color:var(--indigo)}
+  .partner p{font-size:15px;color:var(--ink-2);font-style:italic}
+  .cert{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--ink-3)}
+
+  /* ============================================================
+     PROBLEM — text block, then the reel
+     FRAMER MAP: Stack (vertical) → [2-col Stack of copy] + [Scroll frame]
+     ============================================================ */
+  .problem-grid{display:grid;gap:32px}
+  @media(min-width:900px){.problem-grid{grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:clamp(48px,7vw,96px);align-items:start}}
+  .problem h2{font-size:clamp(34px,4.6vw,58px);line-height:1.06;max-width:14ch}
+  .problem h2 .accent{display:block}
+  .problem .copy{display:grid;gap:24px;padding-top:clamp(0px,1vw,10px)}
+  .problem .copy p{font-size:clamp(17px,1.35vw,20px);line-height:1.6;color:var(--ink-2);max-width:50ch}
+
+  /* ============================================================
+     REEL — interactive video slider
+     FRAMER MAP
+       reel            → Frame, full-bleed, clip content
+       reel-track      → Scroll frame (Direction Horizontal, Snap to card)
+                          Framer marketplace "hover-slice-carousel" is the
+                          closest ready-made component (linked in the content doc)
+       reel-card       → Link/Frame · ratio 4/5 · radius 18 · clip
+                          Hover variant: Scale .94→1, Opacity .62→1, meta Y 6→0
+                          The centre-focus scaling + drag momentum + lightbox
+                          need a small code component (see the script below)
+       Video layer     → Muted · Loop · Inline · preload none · poster set
+       reel-lightbox   → Overlay, Appear: Opacity 0→1 + Scale .96→1
+     ============================================================ */
+  .reel{margin-top:clamp(44px,6vw,80px);position:relative}
+  .reel-track{display:flex;gap:clamp(14px,1.6vw,22px);overflow-x:auto;overflow-y:hidden;
+    scroll-snap-type:x mandatory;scroll-behavior:smooth;cursor:grab;
+    padding:14px var(--pad) 26px;margin:-14px 0 0;
+    scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior-x:contain}
+  .reel-track::-webkit-scrollbar{display:none}
+  .reel-track.dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto;user-select:none}
+  .reel-card{position:relative;flex:0 0 clamp(224px,25vw,308px);aspect-ratio:4/5;border-radius:18px;overflow:hidden;
+    scroll-snap-align:center;background:#0B0620;border:0;padding:0;text-align:left;
+    transform:scale(.93);filter:saturate(.6) brightness(.84);
+    transition:transform .55s cubic-bezier(.16,.84,.44,1),filter .45s ease,box-shadow .45s ease;
+    will-change:transform}
+  .reel-card.is-focus{transform:scale(1);filter:none;box-shadow:0 30px 64px rgba(11,6,32,.3)}
+  .reel-card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .reel-scrim{position:absolute;inset:0;pointer-events:none;background:
+    linear-gradient(180deg,rgba(11,6,32,.34) 0%,rgba(11,6,32,0) 30%,rgba(11,6,32,.2) 52%,rgba(11,6,32,.86) 100%)}
+  .reel-meta{position:absolute;left:18px;right:18px;bottom:16px;z-index:2;color:#fff}
+  .reel-meta .tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--periwinkle);display:block;margin-bottom:8px}
+  .reel-meta h3{font-family:var(--display);font-weight:600;font-size:18px;line-height:1.22;letter-spacing:-.01em;color:#fff;
+    transform:translateY(8px);transition:transform .5s cubic-bezier(.16,.84,.44,1)}
+  .reel-meta p{font-size:13.5px;line-height:1.42;color:rgba(255,255,255,.72);margin-top:7px;
+    opacity:0;transform:translateY(10px);transition:opacity .4s ease .05s,transform .5s cubic-bezier(.16,.84,.44,1) .05s}
+  .reel-card.is-focus .reel-meta h3{transform:none}
+  .reel-card.is-focus .reel-meta p{opacity:1;transform:none}
+  /* round glass controls */
+  .reel-ctrls{display:flex;gap:8px;margin-top:14px;opacity:0;transform:translateY(8px);
+    transition:opacity .35s ease .1s,transform .45s cubic-bezier(.16,.84,.44,1) .1s}
+  .reel-card.is-focus .reel-ctrls{opacity:1;transform:none}
+  .rbtn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:rgba(11,6,32,.55);
+    backdrop-filter:blur(8px);display:grid;place-items:center;cursor:pointer;padding:0;
+    transition:background .2s ease,transform .2s ease}
+  .rbtn:hover{background:rgba(11,6,32,.9);transform:translateY(-1px)}
+  .rbtn:focus-visible{outline:2px solid var(--argent);outline-offset:2px}
+  .rbtn svg{width:14px;height:14px;fill:#fff;display:block}
+  .reel-expand{position:absolute;right:14px;top:14px;z-index:3;width:36px;height:36px;
+    opacity:0;transition:opacity .35s ease}
+  .reel-card.is-focus .reel-expand{opacity:1}
+  /* nav row */
+  .reel-foot{display:flex;align-items:center;gap:18px;padding:0 var(--pad);margin-top:4px}
+  .reel-arrows{display:flex;gap:8px}
+  .reel-arrows .rbtn{background:var(--paper);border-color:var(--line-2);width:42px;height:42px}
+  .reel-arrows .rbtn svg{fill:var(--ink)}
+  .reel-arrows .rbtn:hover{background:var(--indigo);border-color:var(--indigo)}
+  .reel-arrows .rbtn:hover svg{fill:#fff}
+  .reel-bar{position:relative;flex:1;height:2px;background:var(--line-2);border-radius:2px;overflow:hidden;max-width:340px}
+  .reel-bar i{position:absolute;left:0;top:0;bottom:0;width:28%;background:var(--indigo);border-radius:2px;transition:transform .15s linear}
+  .reel-hint{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-left:auto}
+  @media(max-width:700px){.reel-hint{display:none}}
+  /* lightbox */
+  .reel-lightbox{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:clamp(16px,4vw,56px);
+    background:rgba(11,6,32,.88);backdrop-filter:blur(12px);opacity:0;pointer-events:none;transition:opacity .35s ease}
+  .reel-lightbox.open{opacity:1;pointer-events:auto}
+  .reel-lightbox video{width:min(100%,1120px);max-height:80vh;border-radius:16px;background:#000;display:block;
+    transform:scale(.97);transition:transform .4s cubic-bezier(.16,.84,.44,1)}
+  .reel-lightbox.open video{transform:none}
+  .reel-lightbox .close{position:absolute;right:clamp(14px,3vw,32px);top:clamp(14px,3vw,32px);width:44px;height:44px}
+  .reel-lightbox .lb-cap{position:absolute;left:clamp(16px,4vw,56px);bottom:clamp(16px,3vw,28px);color:rgba(255,255,255,.72);
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+
+  /* three ways */
+  .ways{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .pillars{display:grid;gap:20px}
+  @media(min-width:800px){.pillars{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s ease,box-shadow .2s ease}
+  .pillar:hover{transform:translateY(-4px);box-shadow:0 24px 50px rgba(30,12,102,.12)}
+  .pillar .ph{aspect-ratio:4/3;transition:transform .5s cubic-bezier(.16,.84,.44,1)}
+  .pillar:hover .ph{transform:scale(1.04)}
+  .pillar .body{padding:26px 26px 28px;display:flex;flex-direction:column;gap:14px;flex:1}
+  .pillar .tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo)}
+  .pillar h3{font-family:var(--display);font-size:28px;font-weight:600;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-2);font-size:16px}
+  .pillar .textlink{margin-top:auto;padding-top:8px}
+
+  /* ============================================================
+     EXPANDING CARDS — variant of "Three ways we work" (for review)
+     FRAMER MAP
+       hcards  → Stack horizontal · gap 20 · children Grow
+       hcard   → Frame with a Hover variant:
+                   grow 1 → 1.9 (siblings 1 → .82)
+                   media panel width 0 → 230
+                   icon colour ink → tangelo, image Scale 1.08 → 1
+                 Framer animates stack-child widths between variants natively,
+                 so this needs variants only — no code component.
+     ============================================================ */
+  .hcards{--panel:clamp(148px,17vw,230px);display:flex;gap:20px;align-items:stretch}
+  .hcard{flex:1 1 0;min-width:0;display:flex;background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--r-lg);overflow:hidden;text-decoration:none;color:inherit;
+    transition:flex-grow .6s cubic-bezier(.16,.84,.44,1),box-shadow .45s ease,border-color .45s ease}
+  .hcard:focus-visible{outline:3px solid var(--argent);outline-offset:3px}
+  .hcard-body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:space-between;
+    gap:26px;padding:30px 28px;min-height:clamp(300px,29vw,420px)}
+  .hcard-ico{width:clamp(48px,4.2vw,58px);height:clamp(48px,4.2vw,58px);flex:none;color:var(--ink);transition:color .45s ease}
+  .hcard-ico svg{width:100%;height:100%;display:block}
+  .hcard .tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);display:block;margin-bottom:12px}
+  .hcard h3{font-family:var(--display);font-size:clamp(21px,1.9vw,27px);font-weight:600;line-height:1.18;letter-spacing:-.02em;margin-bottom:10px}
+  .hcard p{color:var(--ink-2);font-size:16px;line-height:1.5;max-width:32ch}
+  /* the panel wipes open from the card's right edge */
+  .hcard-media{position:relative;flex:0 0 0;width:0;overflow:hidden;
+    transition:flex-basis .6s cubic-bezier(.16,.84,.44,1),width .6s cubic-bezier(.16,.84,.44,1)}
+  .hcard-media img{position:absolute;top:0;right:0;height:100%;width:var(--panel);
+    object-fit:cover;display:block;transform:scale(1.08);
+    transition:transform .7s cubic-bezier(.16,.84,.44,1)}
+
+  /* OPEN — the card that starts open (.is-open, first card by default).
+     Framer: give card 1 the "Open" variant as its default state. */
+  .hcard.is-open{flex-grow:1.9;box-shadow:0 26px 54px rgba(30,12,102,.13);border-color:var(--line-2)}
+  .hcard.is-open .hcard-media{flex-basis:var(--panel);width:var(--panel)}
+  .hcard.is-open .hcard-ico{color:var(--tangelo)}
+  .hcard.is-open .hcard-media img{transform:scale(1)}
+
+  /* pointing at the row closes everything — including the default-open card... */
+  .hcards:hover .hcard{flex-grow:.82;box-shadow:none;border-color:var(--line)}
+  .hcards:hover .hcard .hcard-media{flex-basis:0;width:0}
+  .hcards:hover .hcard .hcard-ico{color:var(--ink)}
+  .hcards:hover .hcard .hcard-media img{transform:scale(1.08)}
+
+  /* ...and the card actually under the cursor opens. Order matters here: these
+     rules share specificity with the two blocks above and must come last. */
+  .hcards .hcard:hover{flex-grow:1.9;box-shadow:0 26px 54px rgba(30,12,102,.13);border-color:var(--line-2)}
+  .hcards .hcard:hover .hcard-media{flex-basis:var(--panel);width:var(--panel)}
+  .hcards .hcard:hover .hcard-ico{color:var(--tangelo)}
+  .hcards .hcard:hover .hcard-media img{transform:scale(1)}
+  /* stacked: no hover to rely on, so the panel just stays open */
+  @media(max-width:900px){
+    .hcards{flex-direction:column}
+    .hcard,.hcard.is-open,.hcards:hover .hcard,.hcards .hcard:hover{flex:none;box-shadow:none;border-color:var(--line)}
+    .hcard-body{min-height:0;gap:20px;padding:26px 24px}
+    .hcard-media,.hcard.is-open .hcard-media,.hcards:hover .hcard .hcard-media,.hcards .hcard:hover .hcard-media{flex:0 0 132px;width:132px}
+    .hcard-media img,.hcards:hover .hcard .hcard-media img{width:132px;transform:none}
+    .hcard-ico,.hcards:hover .hcard .hcard-ico{color:var(--ink)}
+    .hcard.is-open .hcard-ico{color:var(--tangelo)}
+  }
+
+
+  /* ============================================================
+     PROOF — full-bleed media panel
+     FRAMER MAP
+       Section "Proof" (Frame · 100% · min-h 640 · Clip content ON · Fill #0B0620)
+        ├ proof-media  → Image (or Video) layer, absolute inset 0, Fill Cover
+        │                  Scroll Transform: Scale 1.06 → 1 (section enter → exit)
+        ├ proof-scrim  → Frame, absolute inset 0, stacked gradient fills
+        └ proof-inner  → Stack (vertical), each child an Appear animation
+             proof-stats → Stack horizontal, 3 columns, hairline top border
+             The counting numbers need a code component — Framer's marketplace
+             "stats-section" (linked in the content doc) does exactly this.
+     ============================================================ */
+  .dark{background:var(--violet);color:#fff}
+  .dark h2{color:#fff}
+  .dark .lede{color:rgba(255,255,255,.75)}
+
+  .proof{position:relative;overflow:clip;background:#0B0620;isolation:isolate;
+    min-height:min(88svh,720px);display:flex;align-items:center;
+    padding:clamp(88px,11vw,150px) 0}
+  .proof-media{position:absolute;inset:0;z-index:0;will-change:transform}
+  .proof-media img{width:100%;height:100%;object-fit:cover;display:block;transform-origin:66% 46%;
+    filter:brightness(1.22) contrast(1.04);will-change:transform;
+    animation:proofZoom 26s ease-in-out infinite alternate}
+  /* Framer: Loop animation on the image layer — Scale 1.02 → 1.12, 26s, Ease In Out, Alternate.
+     It sits on the <img> while the scroll transform drives the parent frame, so the two never collide. */
+  @keyframes proofZoom{from{transform:scale(1.02)}to{transform:scale(1.12)}}
+  .proof-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+    linear-gradient(96deg,rgba(9,5,26,.9) 0%,rgba(9,5,26,.7) 30%,rgba(9,5,26,.2) 60%,rgba(9,5,26,.34) 100%),
+    linear-gradient(180deg,rgba(9,5,26,.42) 0%,rgba(9,5,26,0) 24%,rgba(9,5,26,0) 46%,rgba(9,5,26,.58) 78%,rgba(9,5,26,.84) 100%),
+    radial-gradient(60% 60% at 12% 30%,rgba(87,0,255,.18),transparent 70%)}
+  .proof-inner{position:relative;z-index:2;width:100%}
+  .proof h2{max-width:18ch}
+  .proof .lede{margin-top:18px;max-width:52ch}
+  /* stat row */
+  .proof-stats{display:grid;gap:30px;margin-top:clamp(44px,6vw,72px);
+    border-top:1px solid rgba(255,255,255,.2);padding-top:clamp(30px,4vw,44px)}
+  @media(min-width:820px){.proof-stats{grid-template-columns:repeat(3,1fr);gap:clamp(28px,4vw,56px)}}
+  .pstat .n{display:block;font-family:var(--display);font-weight:600;line-height:.92;
+    font-size:clamp(46px,6vw,88px);letter-spacing:-.04em;font-variant-numeric:tabular-nums;
+    background:linear-gradient(92deg,#fff,var(--periwinkle));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .pstat .n.orange{background:linear-gradient(92deg,#FFB08C,var(--tangelo));-webkit-background-clip:text;background-clip:text}
+  .pstat p{font-size:16px;line-height:1.45;color:rgba(255,255,255,.76);margin-top:12px;max-width:24ch}
+
+  /* ============================================================
+     CASE STUDIES — media card grid
+     FRAMER MAP
+       Section "Case studies"
+        ├ Header (Stack horizontal, space-between, wrap)
+        │    ├ label + H2 + lede        → Appear, stepped delay
+        │    └ "View all case studies"  → Button, Appear
+        └ cases (Grid · 3 cols · gap 24 · 1 col under 800)
+             → in Framer this is a CMS Collection List on "Case studies"
+               fields: pillar, sector, title, summary, cover image, slug
+             each card: Link Frame · radius 20 · Fill --tint
+              ├ media (Frame · ratio 16/10 · radius 20 · clip · Image cover)
+              │    └ pills (Stack horizontal, absolute top-left)
+              └ body (Stack vertical · gap 12 · padding 26/24)
+             Card hover = Framer Hover variant (Y −6, image Scale 1.05, arrow X +4)
+     ============================================================ */
+  .cases{display:grid;gap:24px}
+  @media(min-width:760px){.cases{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:1040px){.cases{grid-template-columns:repeat(3,1fr)}}
+  .case{background:var(--paper);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;
+    text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(30,12,102,.05);
+    transition:transform .3s cubic-bezier(.16,.84,.44,1),box-shadow .3s ease}
+  .case:hover{transform:translateY(-6px);box-shadow:0 26px 54px rgba(30,12,102,.14)}
+  .case:focus-visible{outline:3px solid var(--argent);outline-offset:3px}
+  .case-media{position:relative;aspect-ratio:16/10;border-radius:20px;overflow:hidden;background:var(--line)}
+  .case-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,.84,.44,1)}
+  .case:hover .case-media img{transform:scale(1.05)}
+  .pills{position:absolute;left:14px;top:14px;z-index:2;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{background:#fff;color:var(--ink);font-size:13px;font-weight:500;line-height:1;
+    padding:9px 15px;border-radius:999px;box-shadow:0 4px 14px rgba(18,10,46,.14);white-space:nowrap}
+  .case-body{padding:26px 24px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .case-body h3{font-family:var(--display);font-size:21px;font-weight:600;line-height:1.28;letter-spacing:-.02em}
+  /* Framer: Text layer → Truncate after 3 lines */
+  .case-body p{color:var(--ink-2);font-size:15px;line-height:1.5;
+    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+  .case .more{margin-top:auto;padding-top:10px;display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--ink)}
+  .case .more svg{width:16px;height:16px;flex:none;transition:transform .25s ease}
+  .case:hover .more{color:var(--indigo)}
+  .case:hover .more svg{transform:translateX(4px)}
+  .cases-head{display:grid;gap:20px;margin-bottom:clamp(32px,4vw,48px)}
+  @media(min-width:900px){.cases-head{grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:40px}}
+  .cases-head .btn{justify-self:start}
+
+  /* ============================================================
+     TESTIMONIALS — continuous horizontal ticker
+     FRAMER MAP
+       qmarquee (Frame · full-bleed · Clip content ON)
+        └ Ticker component · Direction Left · Speed ~30 · Gap 20 · Hover pause
+             The set is repeated 4x and the track travels exactly -25%, i.e.
+             100% / number of sets — that is what makes the loop seamless.
+             Two rules to keep: the travel must always equal 100%/sets, and
+             (sets - 1) x one set must be wider than the viewport, or the tail
+             of the track runs out and you get a blank strip. One set is ~1080px,
+             so 4 sets covers displays up to ~3240px.
+             The two edge fades are absolute frames with gradient fills.
+     ============================================================ */
+  /* the card itself */
+  .quote{background:var(--ground);border:1px solid var(--line);border-radius:var(--r-lg);padding:30px 28px 28px;display:flex;flex-direction:column;gap:22px}
+  .quote .mark{font-family:var(--display);font-size:56px;line-height:.6;color:var(--tangelo);height:22px}
+  .quote blockquote{margin:0;font-family:var(--display);font-weight:500;font-size:22px;line-height:1.3;letter-spacing:-.01em;flex:1;text-wrap:pretty}
+  .quote .who{display:flex;align-items:center;gap:14px}
+  .quote .who .ph{width:52px;height:52px;border-radius:50%;flex:none}
+  .quote .who .ph .brief{display:none}
+  .quote .who b{display:block;font-size:15px}
+  .quote .who span{font-size:13px;color:var(--ink-3)}
+
+  .qmarquee{position:relative;overflow:hidden;padding:6px 0 10px}
+  .qmarquee::before,.qmarquee::after{content:"";position:absolute;top:0;bottom:0;width:clamp(24px,7vw,140px);z-index:2;pointer-events:none}
+  .qmarquee::before{left:0;background:linear-gradient(90deg,#fff,rgba(255,255,255,0))}
+  .qmarquee::after{right:0;background:linear-gradient(270deg,#fff,rgba(255,255,255,0))}
+  .qtrack{--g:20px;display:flex;width:max-content;will-change:transform;
+    animation:qticker 46s linear infinite}
+  .qmarquee:hover .qtrack{animation-play-state:paused}
+  .qset{display:flex;gap:var(--g);padding-right:var(--g)}
+  @keyframes qticker{from{transform:translateX(0)}to{transform:translateX(-25%)}}
+
+  /* ============================================================
+     TESTIMONIALS · variant B — photo card, quote over the image
+     Rides the same ticker as the section above; only the card differs.
+     FRAMER MAP
+       qcard → Frame · ratio 7/8 · radius 12 · clip
+                ├ Image layer (Fill Cover) — Hover variant Scale 1 → 1.05
+                ├ Scrim frame (linear gradient fill, transparent → ink)
+                └ Text stack pinned to the bottom
+     ============================================================ */
+  .qmarquee .qcard{position:relative;flex:0 0 clamp(252px,24vw,340px);aspect-ratio:7/8;
+    border-radius:12px;overflow:hidden;background:#0B0620;margin:0}
+  .qcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .7s cubic-bezier(.16,.84,.44,1)}
+  .qcard:hover img{transform:scale(1.05)}
+  .qcard::after{content:"";position:absolute;inset:0;pointer-events:none;background:
+    linear-gradient(180deg,rgba(11,6,32,0) 38%,rgba(11,6,32,.22) 56%,rgba(11,6,32,.74) 80%,rgba(11,6,32,.93) 100%)}
+  .qcard-text{position:absolute;left:20px;right:20px;bottom:20px;z-index:2;
+    text-shadow:0 1px 14px rgba(11,6,32,.6)}
+  .qcard blockquote{margin:0;color:#fff;font-family:var(--display);font-weight:500;
+    font-size:clamp(15.5px,1.2vw,18px);line-height:1.36;letter-spacing:-.01em;text-wrap:pretty}
+  .qcard .attr{display:block;margin-top:14px;font-size:14px;line-height:1.4}
+  .qcard .attr b{font-weight:600;color:#fff}
+  .qcard .attr span{color:rgba(255,255,255,.6)}
+
+  .qmarquee .quote{flex:0 0 clamp(290px,29vw,400px)}
+  /* the row is already moving, so each card only needs a soft lift on hover */
+  .qmarquee .quote{transition:transform .35s cubic-bezier(.16,.84,.44,1),box-shadow .35s ease,border-color .35s ease}
+  .qmarquee .quote:hover{transform:translateY(-5px);box-shadow:0 22px 46px rgba(30,12,102,.1);border-color:var(--line-2)}
+
+  /* ============================================================
+     INCUBATOR — title left, copy right, cursor spotlight behind
+     FRAMER MAP
+       incubator (Frame · Clip content ON · Fill --violet)
+        ├ inc-mesh  → Frame with a repeating grid fill, low opacity
+        ├ inc-spot  → Frame with two radial gradient fills whose centre is
+        │             driven by the pointer. Framer needs a small code override
+        │             for that (it writes --mx / --my); the easing below is a
+        │             lerp, so the light trails the cursor rather than snapping.
+        └ inc-grid  → 2-col Stack: label + H2 | lede + seats + button
+     ============================================================ */
+  .incubator{position:relative;overflow:hidden}
+  .incubator::after{content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(60% 80% at 100% 100%,rgba(87,0,255,.7),transparent 60%),radial-gradient(40% 50% at 0% 0%,rgba(254,74,1,.35),transparent 60%);pointer-events:none}
+  /* faint mesh, so the moving light has something to catch */
+  .inc-mesh{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.55;
+    background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);
+    background-size:64px 64px}
+  /* the spotlight itself */
+  .inc-spot{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;
+    transition:opacity .6s ease;background:
+      radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.14),transparent 62%),
+      radial-gradient(620px circle at var(--mx,50%) var(--my,50%),rgba(138,91,255,.34),transparent 66%)}
+  .incubator.is-pointing .inc-spot{opacity:1}
+  @media(hover:none){.inc-spot{display:none}}
+
+  .incubator .wrap{position:relative;z-index:1}
+  .inc-grid{display:grid;gap:30px}
+  @media(min-width:900px){.inc-grid{grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:clamp(48px,7vw,96px);align-items:start}}
+  .incubator h2{font-size:clamp(34px,4.6vw,58px);line-height:1.06;max-width:15ch}
+  .incubator .lede{margin:0;font-size:clamp(17px,1.35vw,20px);line-height:1.6}
+  /* seats — a plain status line between the copy and the CTA */
+  .seats{display:inline-flex;align-items:center;gap:10px;margin:clamp(24px,3vw,32px) 0 28px;
+    font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+  .seats i{width:6px;height:6px;border-radius:50%;background:var(--tangelo);flex:none;animation:seatPulse 2.4s ease-in-out infinite}
+  @keyframes seatPulse{0%,100%{box-shadow:0 0 0 3px rgba(254,74,1,.3)}50%{box-shadow:0 0 0 8px rgba(254,74,1,.04)}}
+
+  /* ============================================================
+     FREE TOOLS — tabbed panels
+     FRAMER MAP
+       tools-head  → centred Stack (label / H2 / lede)
+       tabbar      → Frame, Fill --tint, radius 999
+                      └ tab-ind : the white pill. A code component moves it to
+                        the active tab (x + width); in Framer you can also build
+                        it as one variant per tab with a Smart Animate transition.
+       tool-panels → all panels stacked in one grid cell, so the container keeps
+                      the taller height and panels cross-fade with no jump.
+                      Each panel = Frame with an Appear/variant transition:
+                      Opacity 0→1, Y 10→0.
+     ============================================================ */
+  .tools-head{text-align:center;max-width:56ch;margin:0 auto clamp(32px,4vw,48px)}
+  .tools-head .lede{margin:16px auto 0}
+
+  /* tab bar */
+  .tabbar{position:relative;display:flex;gap:4px;background:var(--tint);border-radius:999px;padding:6px;
+    width:max-content;max-width:100%;margin:0 auto;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+  .tabbar::-webkit-scrollbar{display:none}
+  .tab-ind{position:absolute;top:6px;bottom:6px;left:0;width:0;border-radius:999px;background:var(--paper);
+    box-shadow:0 4px 14px rgba(30,12,102,.1);
+    transition:transform .45s cubic-bezier(.16,.84,.44,1),width .45s cubic-bezier(.16,.84,.44,1);
+    pointer-events:none}
+  .tab{position:relative;z-index:1;flex:none;display:inline-flex;align-items:center;gap:10px;
+    border:0;background:none;cursor:pointer;font:inherit;font-size:16px;font-weight:500;color:var(--ink-3);
+    padding:15px 24px;border-radius:999px;white-space:nowrap;transition:color .3s ease}
+  .tab:hover{color:var(--ink-2)}
+  .tab[aria-selected="true"]{color:var(--ink);font-weight:600}
+  .tab svg{width:18px;height:18px;flex:none}
+  .tab:focus-visible{outline:3px solid var(--argent);outline-offset:2px}
+  @media(max-width:560px){.tab{padding:13px 15px;font-size:14.5px;gap:8px}.tab svg{width:16px;height:16px}}
+
+  /* panels */
+  .tool-panels{display:grid;margin-top:clamp(20px,2.6vw,32px)}
+  .tp{grid-area:1/1;display:grid;background:var(--paper);border:1px solid var(--line);border-radius:24px;overflow:hidden;
+    opacity:0;visibility:hidden;pointer-events:none;transform:translateY(10px);
+    transition:opacity .5s ease,transform .55s cubic-bezier(.16,.84,.44,1),visibility .55s}
+  .tp[data-on="true"]{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+  @media(min-width:900px){.tp{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}}
+  .tp-media{position:relative;min-height:clamp(220px,26vw,380px);overflow:hidden;background:var(--tint)}
+  .tp-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+    transform:scale(1.04);transition:transform 1.1s cubic-bezier(.16,.84,.44,1)}
+  .tp[data-on="true"] .tp-media img{transform:scale(1)}
+  .tp-body{padding:clamp(26px,3.2vw,44px);display:flex;flex-direction:column;justify-content:center;gap:14px}
+  .tp-tag{align-self:start;background:var(--peach);color:var(--ink);font-family:var(--mono);font-size:11px;
+    letter-spacing:.14em;text-transform:uppercase;padding:8px 13px;border-radius:8px}
+  .tp-body h3{font-family:var(--display);font-size:clamp(23px,2.3vw,32px);font-weight:600;line-height:1.16;letter-spacing:-.02em}
+  .tp-body p{color:var(--ink-2);font-size:16.5px;line-height:1.55}
+  .tp-body .textlink{margin-top:6px;align-self:start}
+  .tools-foot{margin-top:clamp(26px,3vw,36px);text-align:center}
+
+  /* faq */
+  .faq-grid{display:grid;gap:36px}
+  @media(min-width:900px){.faq-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:72px;align-items:start}}
+  .faq details{border-top:1px solid var(--line-2);padding:0}
+  .faq details:last-child{border-bottom:1px solid var(--line-2)}
+  .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:22px 0;font-weight:600;font-size:18px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-family:var(--display);font-size:28px;line-height:1;color:var(--indigo);transition:transform .2s}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq details p{padding:0 0 22px;color:var(--ink-2);max-width:62ch}
+  .faq summary:focus-visible{outline:3px solid var(--argent);outline-offset:4px;border-radius:6px}
+
+  /* ============================================================
+     CONTACT — imagery background, copy left, form right
+     FRAMER MAP
+       contact (Frame · Clip content ON · Fill #0B0620)
+        ├ contact-media  → Image layer, Fill Cover
+        │     Loop:   Scale 1.03 → 1.14 · 30s · Ease In Out · Alternate
+        │     Scroll: Y −20 → 20 on the wrapping frame
+        ├ contact-scrim  → gradient frames for legibility
+        ├ contact-glow   → brand radial glow, Loop animation drifting it
+        └ contact-grid   → 2-col Stack: copy | glass form card
+     ============================================================ */
+  .contact{position:relative;overflow:clip;isolation:isolate;background:#0B0620;border-top:0}
+  .contact-media{position:absolute;inset:0;z-index:0;will-change:transform}
+  .contact-media img{width:100%;height:100%;object-fit:cover;display:block;transform-origin:58% 50%;
+    filter:brightness(1.3) saturate(1) contrast(1.02);will-change:transform;
+    animation:ctZoom 30s ease-in-out infinite alternate}
+  @keyframes ctZoom{from{transform:scale(1.03)}to{transform:scale(1.14)}}
+  .contact-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+    linear-gradient(94deg,rgba(9,5,26,.86) 0%,rgba(9,5,26,.58) 32%,rgba(9,5,26,.18) 60%,rgba(9,5,26,.36) 100%),
+    linear-gradient(180deg,rgba(9,5,26,.4) 0%,rgba(9,5,26,.04) 26%,rgba(9,5,26,.1) 64%,rgba(9,5,26,.6) 100%)}
+  /* slow-drifting brand glow, so the panel never looks like a still */
+  .contact-glow{position:absolute;inset:-25%;z-index:1;pointer-events:none;
+    background:radial-gradient(36% 40% at 28% 38%,rgba(87,0,255,.32),transparent 70%),
+      radial-gradient(28% 32% at 74% 68%,rgba(254,74,1,.22),transparent 70%);
+    animation:ctDrift 24s ease-in-out infinite alternate}
+  @keyframes ctDrift{from{transform:translate3d(-3%,-2%,0) scale(1)}to{transform:translate3d(4%,3%,0) scale(1.14)}}
+
+  .contact-grid{position:relative;z-index:2;display:grid;gap:44px}
+  @media(min-width:960px){.contact-grid{grid-template-columns:minmax(0,5.4fr) minmax(0,6.6fr);gap:clamp(40px,5vw,80px);align-items:center}}
+  .contact .label{color:var(--periwinkle)}
+  .contact h2{color:#fff}
+  .contact .lede{color:rgba(255,255,255,.74);margin-top:18px}
+
+  /* form */
+  .form{display:grid;gap:16px}
+  .form .row{display:grid;gap:16px}
+  @media(min-width:600px){.form .row{grid-template-columns:1fr 1fr}}
+  .field{display:grid;gap:8px}
+  .field label{font-size:13.5px;font-weight:600;color:var(--ink-2)}
+  .field input,.field textarea{font:inherit;font-size:16px;padding:14px 16px;border:1.5px solid var(--line-2);border-radius:12px;background:var(--ground);color:var(--ink);width:100%}
+  .field textarea{min-height:120px;resize:vertical}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 4px rgba(87,0,255,.12);background:#fff}
+  .form .btn{justify-self:start;margin-top:6px}
+  .form .fine{font-size:13px;color:var(--ink-3)}
+
+  /* glass form card */
+  .contact-card{background:rgba(16,9,42,.52);backdrop-filter:blur(20px) saturate(1.25);
+    border:1px solid rgba(255,255,255,.16);border-radius:22px;
+    padding:clamp(22px,2.8vw,38px);box-shadow:0 32px 74px rgba(6,3,18,.5)}
+  .contact .form{margin-top:0}
+  .contact .field label{color:rgba(255,255,255,.78)}
+  .contact .field input,.contact .field textarea{background:rgba(255,255,255,.07);
+    border-color:rgba(255,255,255,.18);color:#fff}
+  .contact .field input::placeholder,.contact .field textarea::placeholder{color:rgba(255,255,255,.38)}
+  .contact .field input:focus,.contact .field textarea:focus{background:rgba(255,255,255,.13);
+    border-color:var(--periwinkle);box-shadow:0 0 0 4px rgba(174,173,240,.2)}
+  .contact .form .fine{color:rgba(255,255,255,.52)}
+
+  /* ============================================================
+     FOOTER
+     FRAMER MAP
+       footer → Frame, Fill #0B0620
+        └ foot (Grid · 4 cols · 4.2 / 2 / 2 / 4.4 · 1 col under 900)
+             col 1 : logo → blurb → socials (pushed to the bottom) → ©
+             col 2 : link stack     col 3 : link stack
+             col 4 : newsletter (white pill with an inset dark button) → offices
+     ============================================================ */
+  footer{background:#0B0620;color:#fff;position:relative}
+  .foot{display:grid;gap:44px;padding:clamp(68px,8vw,108px) 0 clamp(30px,3.5vw,44px)}
+  @media(min-width:900px){.foot{grid-template-columns:minmax(0,4.2fr) minmax(0,2fr) minmax(0,2fr) minmax(0,4.4fr);column-gap:clamp(30px,4vw,64px);row-gap:clamp(30px,4vw,56px)}}
+  /* stacked: the two link lists share a row, and the copyright drops to the end */
+  @media(max-width:899px){
+    .foot{grid-template-columns:1fr 1fr;column-gap:24px;row-gap:40px}
+    .foot-brand,.nl,.foot-legal{grid-column:1/-1}
+    .foot h4{margin-bottom:22px}
+    .foot ul{gap:16px}
+  }
+  .foot-brand{display:flex;flex-direction:column}
+  .foot h4{font-family:var(--body);font-size:17px;font-weight:500;letter-spacing:-.01em;color:#fff;margin:0 0 30px}
+  .foot ul{list-style:none;margin:0;padding:0;display:grid;gap:20px}
+  .foot a{text-decoration:none;color:rgba(255,255,255,.55);font-size:16px;transition:color .2s ease}
+  .foot a:hover{color:#fff}
+  .foot .blurb{color:rgba(255,255,255,.7);font-size:16.5px;line-height:1.6;max-width:36ch;margin-top:24px}
+  .foot address{font-style:normal;font-size:14.5px;color:rgba(255,255,255,.55);line-height:1.62}
+  /* socials sit at the foot of the first column, plain glyphs — no boxes */
+  .socials{display:flex;gap:20px;margin-top:auto;padding-top:clamp(36px,5vw,68px)}
+  .socials a{display:block;opacity:.9;transition:opacity .2s ease,transform .2s ease}
+  .socials a:hover{opacity:1;transform:translateY(-2px)}
+  .socials svg{width:24px;height:24px;fill:#fff;display:block}
+  .foot-legal{margin:0;font-size:14.5px;color:rgba(255,255,255,.38);line-height:1.5}
+  .foot-legal a{font-size:inherit;color:inherit}
+
+  /* newsletter */
+  .nl-title{margin:clamp(30px,4vw,44px) 0 12px;font-size:14.5px;color:rgba(255,255,255,.55)}
+  .nl-form{display:flex;align-items:center;gap:6px;background:#fff;border-radius:999px;padding:6px;margin-top:0;max-width:440px;
+    transition:box-shadow .25s ease}
+  .nl-form:focus-within{box-shadow:0 0 0 4px rgba(87,0,255,.3)}
+  .nl-form input{flex:1 1 auto;min-width:0;border:0;background:transparent;font:inherit;font-size:16px;color:var(--ink);padding:12px 8px 12px 18px}
+  .nl-form input::placeholder{color:var(--ink-3)}
+  .nl-form input:focus{outline:none}
+  .nl-form button{flex:none;display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;
+    background:var(--ink);color:#fff;border-radius:999px;padding:13px 20px;font:inherit;font-weight:600;font-size:15px;
+    transition:background .2s ease,transform .2s ease}
+  .nl-form button:hover{background:var(--indigo);transform:translateY(-1px)}
+  .nl-form button svg{width:15px;height:15px;transition:transform .2s ease}
+  .nl-form button:hover svg{transform:translateX(3px)}
+  .foot-offices h4{margin-bottom:22px}
+  .addr-grid{display:grid;gap:20px}
+  @media(min-width:1100px){.addr-grid{grid-template-columns:1fr 1fr;gap:24px}}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="humaniseAI home">
+      <img class="on-dark" src="assets/logo-white.svg" alt="" width="258" height="62">
+      <img class="on-light" src="assets/logo-coloured.svg" alt="" width="258" height="62">
+    </a>
+    <ul class="menu">
+      <li><a href="#ways">Studio</a></li><li><a href="#ways">Talent</a></li><li><a href="#ways">Advisory</a></li>
+      <li><a href="#cases">Case studies</a></li><li><a href="#incubator">Incubator</a></li><li><a href="#tools">Resources</a></li>
+    </ul>
+    <a class="btn btn-primary" href="#contact">Book a discovery call</a>
+    <button class="burger" aria-label="Open menu"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="#120A2E" stroke-width="1.8"><path d="M0 1h18M0 6h18M0 11h18"/></svg></button>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO  ·  full-bleed video stage
+     Framer: Frame "Hero", 100%×min-100vh, Clip content ON, Fill #0B0620
+     ============================================================ -->
+<section class="hero" id="top">
+
+  <!-- Background video. Framer: Video layer → Fill · Cover · Muted · Loop · Autoplay -->
+  <div class="hero-media" data-parallax="media">
+    <video src="assets/hero-loop.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+  </div>
+  <div class="hero-scrim"></div>
+
+  <div class="wrap" style="width:100%">
+    <div class="hero-inner" data-parallax="content">
+
+      <!-- Headline. Framer: 3 clipped Frames, each with an Appear Y 110%→0 + stepped delay -->
+      <h1>
+        <span class="rise" style="--d:.05s"><span>Your Trusted Partner for</span></span>
+        <span class="rise" style="--d:.15s"><span><span class="accent">AI-Native</span> Business</span></span>
+        <span class="rise" style="--d:.25s"><span>Solutions.</span></span>
+      </h1>
+
+      <div class="ctas" data-appear style="--d:.5s">
+        <a class="btn btn-primary" href="#contact">Book a Discovery Call <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a class="btn btn-white" href="#incubator">Apply for the AI Council Incubator</a>
+      </div>
+
+      <div class="hero-trust">
+        <span class="kicker" data-appear style="--d:.66s">Trusted by teams like yours</span>
+
+        <!-- Partner rows. Logo chips are swap-in slots — drop the supplied SVG/PNG in Framer. -->
+        <div class="tr-row" data-appear style="--d:.76s">
+          <span class="tr-logo" data-logo="New Relic — replace with supplied mark">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.6l8.1 4.7v9.4L12 21.4 3.9 16.7V7.3z" stroke="#00AC69" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 12l8.1-4.7M12 12v9.4M12 12L3.9 7.3" stroke="#1CE783" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          </span>
+          <span><b>New Relic — Official observability and performance partner</b>
+          <small>Giving every system we build real-time visibility into how it's actually performing.</small></span>
+        </div>
+
+        <div class="tr-row" data-appear style="--d:.86s">
+          <span class="tr-logo" data-logo="Odoo — replace with supplied mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#714B67" stroke-width="2.1"><circle cx="6" cy="14.4" r="3.4"/><circle cx="15" cy="14.4" r="3.4"/></g><circle cx="21.2" cy="8.4" r="1.5" fill="#8F8F8F"/></svg>
+          </span>
+          <span><b>Odoo — Accounting and ERP integration partner</b>
+          <small>Connecting the financial and operational systems businesses already run on.</small></span>
+        </div>
+
+        <p class="hero-cert" data-appear style="--d:.96s">Certifications: [Placeholder — pending Legal/Operations verification]</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll cue. Framer: Loop animation on the rule (Y −6→4, 2.4s, alternate) -->
+  <a class="hero-cue" href="#trust" aria-label="Scroll down"><span class="cue-in" data-appear style="--d:1.15s"><span>Scroll</span><i></i></span></a>
+</section>
+
+<!-- ============================================================
+     LOGO BAND  ·  infinite ticker  (Framer: Ticker component)
+     Note: New Relic / Odoo partner detail now lives in the hero, so this band
+     carries client logos only — no duplicate partner cards.
+     ============================================================ -->
+<section class="logo-band" id="trust">
+  <div class="wrap band-grid">
+    <p class="band-lead" data-reveal>Trusted by teams across <strong style="font-weight:600">Australia &amp; the UK</strong>.</p>
+    <div class="marquee" data-reveal style="--d:.1s" aria-label="Client logos">
+      <div class="marquee-track">
+        <div class="mg">
+          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><path d="M1 6h10M6 1v10"/></svg></span>Wunderman Thompson</span>
+          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><circle cx="6" cy="6" r="4.2"/></svg></span>PragmaTech</span>
+          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><rect x="1.6" y="1.6" width="8.8" height="8.8" rx="2"/></svg></span>InCorp Advisory</span>
+          <span class="cl slot">Client logo</span>
+          <span class="cl slot">Client logo</span>
+          <span class="cl slot">Client logo</span>
+        </div>
+        <div class="mg" aria-hidden="true">
+          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><path d="M1 6h10M6 1v10"/></svg></span>Wunderman Thompson</span>
+          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><circle cx="6" cy="6" r="4.2"/></svg></span>PragmaTech</span>
+          <span class="cl"><span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke="#5700FF" stroke-width="1.6"><rect x="1.6" y="1.6" width="8.8" height="8.8" rx="2"/></svg></span>InCorp Advisory</span>
+          <span class="cl slot">Client logo</span>
+          <span class="cl slot">Client logo</span>
+          <span class="cl slot">Client logo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="wrap problem-grid">
+    <div>
+      <span class="label" data-reveal>The problem</span>
+      <h2 data-reveal style="--d:.06s">Making AI less complicated. <span class="accent">More human.</span></h2>
+    </div>
+    <div class="copy">
+      <p data-reveal style="--d:.12s">AI doesn't fail because the technology isn't ready. It fails when it's dropped into a business without the judgement, care, and expertise to make it work.</p>
+      <p data-reveal style="--d:.2s">We close that gap through productised AI systems, embedded engineering talent, and hands-on advisory &mdash; so adopting AI feels less intimidating and more human.</p>
+    </div>
+  </div>
+
+  <!-- ---------- REEL: interactive video slider ----------
+       Footage: Mixkit free-licence stock (direct MP4). Placeholder captions —
+       swap for real client footage + copy. -->
+  <div class="reel" data-reveal style="--d:.1s">
+    <div class="reel-track" id="reel" role="group" aria-label="How we work, in motion">
+
+      <article class="reel-card" data-hd="https://assets.mixkit.co/videos/42664/42664-1080.mp4" data-cap="Studio &middot; Inside a live clinic">
+        <video src="https://assets.mixkit.co/videos/42664/42664-720.mp4" poster="https://assets.mixkit.co/videos/42664/42664-thumb-360-0.jpg" muted loop playsinline preload="none" aria-label="Inside a live clinic"></video>
+        <div class="reel-scrim"></div>
+        <button class="rbtn reel-expand" type="button" aria-label="Expand video"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5"/></svg></button>
+        <div class="reel-meta">
+          <span class="tag">Studio</span>
+          <h3>Inside a live clinic</h3>
+          <p>Paige answering real calls in a working reception, not a demo.</p>
+          <div class="reel-ctrls">
+            <button class="rbtn r-play" type="button" aria-label="Play or pause"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></button>
+            <button class="rbtn r-mute" type="button" aria-label="Unmute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4z"/><path d="M16 8.5l5 5m0-5l-5 5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reel-card" data-hd="https://assets.mixkit.co/videos/308/308-1080.mp4" data-cap="Studio &middot; One live view of every site">
+        <video src="https://assets.mixkit.co/videos/308/308-720.mp4" poster="https://assets.mixkit.co/videos/308/308-thumb-360-0.jpg" muted loop playsinline preload="none" aria-label="One live view of every site"></video>
+        <div class="reel-scrim"></div>
+        <button class="rbtn reel-expand" type="button" aria-label="Expand video"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5"/></svg></button>
+        <div class="reel-meta">
+          <span class="tag">Studio</span>
+          <h3>One live view of every site</h3>
+          <p>Safety performance out of scattered spreadsheets and into one dashboard.</p>
+          <div class="reel-ctrls">
+            <button class="rbtn r-play" type="button" aria-label="Play or pause"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></button>
+            <button class="rbtn r-mute" type="button" aria-label="Unmute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4z"/><path d="M16 8.5l5 5m0-5l-5 5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reel-card" data-hd="https://assets.mixkit.co/videos/1781/1781-1080.mp4" data-cap="Talent &middot; Embedded, not outsourced">
+        <video src="https://assets.mixkit.co/videos/1781/1781-720.mp4" poster="https://assets.mixkit.co/videos/1781/1781-thumb-360-0.jpg" muted loop playsinline preload="none" aria-label="Embedded, not outsourced"></video>
+        <div class="reel-scrim"></div>
+        <button class="rbtn reel-expand" type="button" aria-label="Expand video"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5"/></svg></button>
+        <div class="reel-meta">
+          <span class="tag">Talent</span>
+          <h3>Embedded, not outsourced</h3>
+          <p>Senior engineers working inside your team, without the hiring cycle.</p>
+          <div class="reel-ctrls">
+            <button class="rbtn r-play" type="button" aria-label="Play or pause"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></button>
+            <button class="rbtn r-mute" type="button" aria-label="Unmute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4z"/><path d="M16 8.5l5 5m0-5l-5 5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reel-card" data-hd="https://assets.mixkit.co/videos/4547/4547-1080.mp4" data-cap="Advisory &middot; From sprint to governance">
+        <video src="https://assets.mixkit.co/videos/4547/4547-720.mp4" poster="https://assets.mixkit.co/videos/4547/4547-thumb-360-0.jpg" muted loop playsinline preload="none" aria-label="From sprint to governance"></video>
+        <div class="reel-scrim"></div>
+        <button class="rbtn reel-expand" type="button" aria-label="Expand video"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5"/></svg></button>
+        <div class="reel-meta">
+          <span class="tag">Advisory</span>
+          <h3>From sprint to governance</h3>
+          <p>A two-week discovery sprint that ends in a decision, not a deck.</p>
+          <div class="reel-ctrls">
+            <button class="rbtn r-play" type="button" aria-label="Play or pause"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></button>
+            <button class="rbtn r-mute" type="button" aria-label="Unmute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4z"/><path d="M16 8.5l5 5m0-5l-5 5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reel-card" data-hd="https://assets.mixkit.co/videos/221/221-1080.mp4" data-cap="How we work &middot; Judgement, care, expertise">
+        <video src="https://assets.mixkit.co/videos/221/221-720.mp4" poster="https://assets.mixkit.co/videos/221/221-thumb-360-0.jpg" muted loop playsinline preload="none" aria-label="Judgement, care, expertise"></video>
+        <div class="reel-scrim"></div>
+        <button class="rbtn reel-expand" type="button" aria-label="Expand video"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5"/></svg></button>
+        <div class="reel-meta">
+          <span class="tag">How we work</span>
+          <h3>Judgement, care, expertise</h3>
+          <p>The human layer that decides whether AI actually lands.</p>
+          <div class="reel-ctrls">
+            <button class="rbtn r-play" type="button" aria-label="Play or pause"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></button>
+            <button class="rbtn r-mute" type="button" aria-label="Unmute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4z"/><path d="M16 8.5l5 5m0-5l-5 5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+      </article>
+
+      <article class="reel-card" data-hd="https://assets.mixkit.co/videos/914/914-1080.mp4" data-cap="How we work &middot; Zero disruption by design">
+        <video src="https://assets.mixkit.co/videos/914/914-720.mp4" poster="https://assets.mixkit.co/videos/914/914-thumb-360-0.jpg" muted loop playsinline preload="none" aria-label="Zero disruption by design"></video>
+        <div class="reel-scrim"></div>
+        <button class="rbtn reel-expand" type="button" aria-label="Expand video"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5"/></svg></button>
+        <div class="reel-meta">
+          <span class="tag">How we work</span>
+          <h3>Zero disruption by design</h3>
+          <p>Every system integrates with what you already run.</p>
+          <div class="reel-ctrls">
+            <button class="rbtn r-play" type="button" aria-label="Play or pause"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></button>
+            <button class="rbtn r-mute" type="button" aria-label="Unmute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4z"/><path d="M16 8.5l5 5m0-5l-5 5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="reel-foot">
+      <div class="reel-arrows">
+        <button class="rbtn r-prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7z"/></svg></button>
+        <button class="rbtn r-next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7z"/></svg></button>
+      </div>
+      <div class="reel-bar"><i></i></div>
+      <span class="reel-hint">Hover a card &middot; drag to explore</span>
+    </div>
+  </div>
+
+  <!-- Lightbox. Framer: Overlay with an Appear animation. -->
+  <div class="reel-lightbox" id="reel-lightbox" role="dialog" aria-modal="true" aria-label="Video">
+    <video controls playsinline preload="none"></video>
+    <span class="lb-cap"></span>
+    <button class="rbtn close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+</section>
+
+<!-- THREE WAYS · variant A — pillar cards. PARKED: remove the `hidden`
+     attribute below to bring it back and hide #ways instead. -->
+<section class="ways" id="ways-pillars" hidden>
+  <div class="wrap">
+    <div class="head split" data-stagger="0.08">
+      <div><span class="label">Solution</span><h2>Three ways we work</h2></div>
+      <p class="lede">Pick the shape of help that fits: a product that snaps in, senior people who embed, or advisors who take you from a two-week sprint to full governance.</p>
+    </div>
+    <div class="pillars" data-stagger="0.1">
+      <article class="pillar">
+        <div class="ph t1" data-photo="Clinic receptionist on a headset, Paige running on screen — sample image" data-src="https://images.unsplash.com/photo-1766066014237-00645c74e9c6?w=1000&q=70&auto=format&fit=crop"><svg class="figure" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#1E0C66" opacity=".12"><ellipse cx="200" cy="90" rx="46" ry="54"/><path d="M90 300V230c0-62 50-110 110-110s110 48 110 110v70z"/></g></svg></div>
+        <div class="body">
+          <span class="tag">Studio</span>
+          <h3>Productised AI infrastructure</h3>
+          <p>Built to snap into what you already run.</p>
+          <a class="textlink" href="#cases">Explore our products <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </article>
+      <article class="pillar">
+        <div class="ph t2" data-photo="Embedded engineer pairing with a client developer — sample image" data-src="https://images.unsplash.com/photo-1758691737467-fe12934ddc58?w=1000&q=70&auto=format&fit=crop"><svg class="figure" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#1E0C66" opacity=".12"><ellipse cx="150" cy="100" rx="42" ry="50"/><path d="M50 300V230c0-58 45-100 100-100s100 42 100 100v70z"/><ellipse cx="290" cy="110" rx="40" ry="48"/><path d="M200 300V240c0-55 40-95 90-95s90 40 90 95v60z"/></g></svg></div>
+        <div class="body">
+          <span class="tag">Talent</span>
+          <h3>Senior AI and engineering capacity</h3>
+          <p>Without the hiring cycle.</p>
+          <a class="textlink" href="#cases">View our services <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </article>
+      <article class="pillar">
+        <div class="ph t3" data-photo="Advisory workshop, leadership team around the table — sample image" data-src="https://images.unsplash.com/photo-1630487656049-6db93a53a7e9?w=1000&q=70&auto=format&fit=crop"><svg class="figure" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#1E0C66" opacity=".12"><ellipse cx="110" cy="120" rx="38" ry="46"/><path d="M30 300V240c0-50 36-88 80-88s80 38 80 88v60z"/><ellipse cx="230" cy="95" rx="44" ry="52"/><path d="M130 300V225c0-58 45-100 100-100s100 42 100 100v75z"/><ellipse cx="340" cy="125" rx="36" ry="44"/><path d="M270 300V245c0-45 32-80 70-80s70 35 70 80v55z"/></g></svg></div>
+        <div class="body">
+          <span class="tag">Advisory</span>
+          <h3>AI adoption in operations</h3>
+          <p>From a two-week discovery sprint to full governance.</p>
+          <a class="textlink" href="#cases">View our services <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     THREE WAYS  ·  expanding cards — the live Solution section
+     Hovering a card grows it and wipes an image panel open on its right;
+     the Studio card starts open. The pillar-card version is parked above.
+     ============================================================ -->
+<section class="ways" id="ways">
+  <div class="wrap">
+    <div class="head split" data-stagger="0.08">
+      <div><span class="label">Solution</span><h2>Three ways we work</h2></div>
+      <p class="lede">Pick the shape of help that fits: a product that snaps in, senior people who embed, or advisors who take you from a two-week sprint to full governance.</p>
+    </div>
+    <div class="hcards" data-stagger="0.1">
+      <a class="hcard is-open" href="#cases">
+        <div class="hcard-body">
+          <span class="hcard-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 3l9 4.8-9 4.8-9-4.8L12 3z"/><path d="M3 12.4l9 4.8 9-4.8"/><path d="M3 16.9l9 4.8 9-4.8"/></svg></span>
+          <div>
+            <span class="tag">Studio</span>
+            <h3>Productised AI infrastructure</h3>
+            <p>Built to snap into what you already run.</p>
+          </div>
+        </div>
+        <div class="hcard-media" data-photo="Clinic receptionist on a headset, Paige running on screen — sample image">
+          <img src="https://images.unsplash.com/photo-1766066014237-00645c74e9c6?w=700&q=70&auto=format&fit=crop" alt="" loading="lazy">
+        </div>
+      </a>
+      <a class="hcard" href="#cases">
+        <div class="hcard-body">
+          <span class="hcard-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.4"/><path d="M2.6 20.4c0-3.5 2.9-6.4 6.4-6.4s6.4 2.9 6.4 6.4"/><path d="M16.4 5.2a3.4 3.4 0 0 1 0 6.4"/><path d="M18.2 14.6c1.9.9 3.2 2.9 3.2 5.2"/></svg></span>
+          <div>
+            <span class="tag">Talent</span>
+            <h3>Senior AI and engineering capacity</h3>
+            <p>Without the hiring cycle.</p>
+          </div>
+        </div>
+        <div class="hcard-media" data-photo="Embedded engineer pairing with a client developer — sample image">
+          <img src="https://images.unsplash.com/photo-1758691737467-fe12934ddc58?w=700&q=70&auto=format&fit=crop" alt="" loading="lazy">
+        </div>
+      </a>
+      <a class="hcard" href="#cases">
+        <div class="hcard-body">
+          <span class="hcard-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M15.6 8.4l-2.2 5-5 2.2 2.2-5 5-2.2z"/></svg></span>
+          <div>
+            <span class="tag">Advisory</span>
+            <h3>AI adoption in operations</h3>
+            <p>From a two-week discovery sprint to full governance.</p>
+          </div>
+        </div>
+        <div class="hcard-media" data-photo="Advisory workshop, leadership team around the table — sample image">
+          <img src="https://images.unsplash.com/photo-1630487656049-6db93a53a7e9?w=700&q=70&auto=format&fit=crop" alt="" loading="lazy">
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROOF  ·  full-bleed media panel
+     Copy verbatim from "humaniseAI Homepage Content" → PROOF.
+     Background is a sample Unsplash frame — swap for real client footage.
+     To run video here instead, replace the <img> with the hero's
+     <video autoplay muted loop playsinline> pattern; nothing else changes.
+     ============================================================ -->
+<section class="dark proof" id="proof">
+
+  <div class="proof-media" data-parallax="proof" data-photo="Real client operations, wide shot — sample image">
+    <img src="https://images.unsplash.com/photo-1758520145140-c2dd8e78fc02?w=2000&q=72&auto=format&fit=crop" alt="" aria-hidden="true">
+  </div>
+  <div class="proof-scrim"></div>
+
+  <div class="wrap proof-inner">
+    <span class="label" data-reveal>Proof</span>
+    <h2 data-reveal style="--d:.06s">What this delivers, in numbers</h2>
+    <p class="lede" data-reveal style="--d:.12s">Real outcomes from AI systems built inside real operations, not lab demos.</p>
+
+    <div class="proof-stats">
+      <div class="pstat" data-reveal style="--d:.18s">
+        <span class="n" data-count="70" data-suffix="+">70+</span>
+        <p>hrs saved per team, per month.</p>
+      </div>
+      <div class="pstat" data-reveal style="--d:.26s">
+        <span class="n" data-count="60" data-suffix="%">60%</span>
+        <p>compliance time cut.</p>
+      </div>
+      <div class="pstat" data-reveal style="--d:.34s">
+        <span class="n orange">$0</span>
+        <p>to start with the Incubator.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CASE STUDIES  ·  media card grid (Framer: CMS Collection List)
+     Copy verbatim from "humaniseAI Homepage Content" → CASE STUDIES.
+     Cover photos are sample Unsplash frames — swap for real client shots.
+     ============================================================ -->
+<section id="cases">
+  <div class="wrap">
+    <div class="cases-head">
+      <div>
+        <span class="label" data-reveal>Case studies</span>
+        <h2 data-reveal style="--d:.06s">Proof, not promises</h2>
+        <p class="lede" style="margin-top:16px" data-reveal>Explore what we've built, for businesses like yours.</p>
+      </div>
+      <a class="btn btn-primary" href="#" data-reveal style="--d:.18s">View all case studies <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+    </div>
+
+    <div class="cases">
+
+      <a class="case" href="#" data-reveal>
+        <div class="case-media" data-photo="Allied-health clinic reception — sample image, swap for client shot">
+          <img src="https://images.unsplash.com/photo-1759143545924-beb85b33c0f1?w=1200&q=70&auto=format&fit=crop" alt="Practice manager at a clinic reception desk using a tablet" loading="lazy">
+          <div class="pills"><span class="pill">Studio</span><span class="pill">Allied health</span></div>
+        </div>
+        <div class="case-body">
+          <h3>Paige, an AI voice agent for allied health</h3>
+          <p>Built and deployed inside a live clinic, not a lab. Call abandonment dropped from 8.7% to 2.6%, and 159 missed patients were recovered in the first two weeks alone, recovering an estimated six figures in annualised revenue.</p>
+          <span class="more">Read the case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg></span>
+        </div>
+      </a>
+
+      <a class="case" href="#" data-reveal style="--d:.09s">
+        <div class="case-media" data-photo="Broadcast control room, live sport on monitors — sample image">
+          <img src="https://images.unsplash.com/photo-1768222935380-0a3a76fbb42e?w=1200&q=70&auto=format&fit=crop" alt="Production control room with multi-screen monitor wall" loading="lazy">
+          <div class="pills"><span class="pill">Studio</span><span class="pill">Broadcast</span></div>
+        </div>
+        <div class="case-body">
+          <h3>Rebuilding live interchange tracking for broadcast</h3>
+          <p>A 20-year sports and broadcasting business needed a faster, more reliable front-end for live interchange tracking under real broadcast conditions. We rebuilt it without touching the systems around it.</p>
+          <span class="more">Read the case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg></span>
+        </div>
+      </a>
+
+      <a class="case" href="#" data-reveal style="--d:.18s">
+        <div class="case-media" data-photo="Safety consultant on site in hi-vis, tablet in hand — sample image">
+          <img src="https://images.unsplash.com/photo-1737874960921-d1205a4f55da?w=1200&q=70&auto=format&fit=crop" alt="Two site workers in hi-vis reviewing safety data on a tablet" loading="lazy">
+          <div class="pills"><span class="pill">Talent</span><span class="pill">Workplace safety</span></div>
+        </div>
+        <div class="case-body">
+          <h3>Safety intelligence platform for a national safety consultancy</h3>
+          <p>A national workplace safety consultancy needed one live view of safety performance across every client and site, instead of scattered spreadsheets and reports. We built a client and consultant dashboard, integrated with their CRM, with an AI Safety Coach built in to help consultants find answers faster.</p>
+          <span class="more">Read the case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg></span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS · variant A — plain quote cards. PARKED: remove the `hidden`
+     attribute below to bring it back and hide #testimonials instead. -->
+<section class="ways" id="quotes-plain" style="border-bottom:0" hidden>
+  <div class="wrap">
+    <div class="head" data-reveal><div><span class="label">Testimonials</span><h2>What clients say</h2></div></div>
+  </div>
+
+  <!-- Continuous ticker: the set below is duplicated and the track runs to −50%,
+       so the loop is seamless. Hovering pauses it so a quote can be read. -->
+  <div class="qmarquee" data-reveal>
+    <div class="qtrack">
+      <div class="qset">
+      <figure class="quote" style="margin:0">
+        <div class="mark">“</div>
+        <blockquote>Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.</blockquote>
+        <figcaption class="who"><div class="ph t2"></div><div><b>Wunderman Thompson</b><span>Client headshot · name &amp; role TBC</span></div></figcaption>
+      </figure>
+      <figure class="quote" style="margin:0">
+        <div class="mark">“</div>
+        <blockquote>The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.</blockquote>
+        <figcaption class="who"><div class="ph t1"></div><div><b>PragmaTech</b><span>Client headshot · name &amp; role TBC</span></div></figcaption>
+      </figure>
+      <figure class="quote" style="margin:0">
+        <div class="mark">“</div>
+        <blockquote>The level and quality of candidates provided is of the highest standard.</blockquote>
+        <figcaption class="who"><div class="ph t3"></div><div><b>InCorp Advisory Australia</b><span>Client headshot · name &amp; role TBC</span></div></figcaption>
+      </figure>
+      </div>
+      <div class="qset">
+      <figure class="quote" aria-hidden="true" style="margin:0">
+        <div class="mark">“</div>
+        <blockquote>Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.</blockquote>
+        <figcaption class="who"><div class="ph t2"></div><div><b>Wunderman Thompson</b><span>Client headshot · name &amp; role TBC</span></div></figcaption>
+      </figure>
+      <figure class="quote" aria-hidden="true" style="margin:0">
+        <div class="mark">“</div>
+        <blockquote>The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.</blockquote>
+        <figcaption class="who"><div class="ph t1"></div><div><b>PragmaTech</b><span>Client headshot · name &amp; role TBC</span></div></figcaption>
+      </figure>
+      <figure class="quote" aria-hidden="true" style="margin:0">
+        <div class="mark">“</div>
+        <blockquote>The level and quality of candidates provided is of the highest standard.</blockquote>
+        <figcaption class="who"><div class="ph t3"></div><div><b>InCorp Advisory Australia</b><span>Client headshot · name &amp; role TBC</span></div></figcaption>
+      </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS  ·  photo cards — the live section
+     Continuous ticker, hover to pause. Portraits are sample images; the quotes
+     and companies are the real ones, so the attribution stays "name & role TBC"
+     rather than naming a person. The plain-card version is parked above.
+     ============================================================ -->
+<section class="ways" id="testimonials" style="border-bottom:0">
+  <div class="wrap">
+    <div class="head" data-reveal><div><span class="label">Testimonials</span><h2>What clients say</h2></div></div>
+  </div>
+
+  <div class="qmarquee" data-reveal>
+    <div class="qtrack">
+      <div class="qset">
+        <figure class="qcard" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1743865319740-32121cae5959?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; Wunderman Thompson</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+        <figure class="qcard" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1730458001105-2c363a8c9c6e?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; PragmaTech</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+        <figure class="qcard" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1765648580808-76d75e4f3833?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; InCorp Advisory Australia</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+      </div>
+      <div class="qset">
+        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1743865319740-32121cae5959?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; Wunderman Thompson</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1730458001105-2c363a8c9c6e?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; PragmaTech</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1765648580808-76d75e4f3833?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; InCorp Advisory Australia</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+      </div>
+      <div class="qset">
+        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1743865319740-32121cae5959?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; Wunderman Thompson</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1730458001105-2c363a8c9c6e?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; PragmaTech</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1765648580808-76d75e4f3833?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; InCorp Advisory Australia</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+      </div>
+      <div class="qset">
+        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1743865319740-32121cae5959?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;Access to high-quality engineering talent gave us the confidence to scale our projects more reliably.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; Wunderman Thompson</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1730458001105-2c363a8c9c6e?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;The tech lead assigned to our project was extremely capable, provided valuable input beyond the brief, and delivered courteously and professionally throughout.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; PragmaTech</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+        <figure class="qcard" aria-hidden="true" data-photo="Client portrait — sample image, replace with the real client photo">
+          <img src="https://images.unsplash.com/photo-1765648580808-76d75e4f3833?w=800&q=70&auto=format&fit=crop" alt="" loading="lazy">
+          <div class="qcard-text">
+            <blockquote>&ldquo;The level and quality of candidates provided is of the highest standard.&rdquo;</blockquote>
+            <span class="attr"><b>&mdash; InCorp Advisory Australia</b> <span>Name &amp; role TBC</span></span>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCUBATOR -->
+<section class="dark incubator" id="incubator" data-spotlight>
+  <div class="inc-mesh"></div>
+  <div class="inc-spot"></div>
+
+  <div class="wrap inc-grid">
+    <div data-reveal="left">
+      <span class="label">AI Council Incubator</span>
+      <h2>We'll build it before you buy it.</h2>
+    </div>
+
+    <div data-reveal style="--d:.1s">
+      <p class="lede">Every quarter, we open two seats in the AI Council Incubator. We build one real AI system inside your operations, at no cost, and prove it works in six weeks. A working system and tailored expertise to fit your business operations seamlessly.</p>
+      <p class="seats"><i></i>Two seats &middot; this quarter is open</p>
+      <div><a class="btn btn-orange" href="#contact">Apply now <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FREE TOOLS  ·  tabbed panels
+     Tool names and benefit lines are verbatim from the content doc; the second
+     line of each panel is a light expansion using the doc's own phrases.
+     ============================================================ -->
+<section id="tools">
+  <div class="wrap">
+    <div class="tools-head" data-stagger="0.08">
+      <div><span class="label">Resources</span><h2>Free tools</h2></div>
+      <p class="lede">Start with a number, not a pitch.</p>
+    </div>
+
+    <div data-reveal style="--d:.12s">
+      <div class="tabbar" role="tablist" aria-label="Free tools">
+        <span class="tab-ind" aria-hidden="true"></span>
+        <button class="tab" type="button" role="tab" id="tab-roi" aria-controls="panel-roi" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 12h3M13 12h3M8 16h3M13 16h3"/></svg>ROI Calculator</button>
+        <button class="tab" type="button" role="tab" id="tab-readiness" aria-controls="panel-readiness" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7l2 2 4-4M5 13l2 2 4-4M5 19l2 2 4-4M14 6h6M14 12h6M14 18h6"/></svg>AI Readiness Checklist</button>
+      </div>
+
+      <div class="tool-panels">
+      <div class="tp" id="panel-roi" role="tabpanel" aria-labelledby="tab-roi" data-on="true">
+        <div class="tp-media" data-photo="Spreadsheet of admin hours on a real office desk &mdash; sample image">
+          <img src="https://images.unsplash.com/photo-1783115259399-3a5a3e0e4592?w=1200&q=70&auto=format&fit=crop" alt="" loading="lazy">
+        </div>
+        <div class="tp-body">
+          <span class="tp-tag">Calculator</span>
+          <h3>ROI Calculator</h3>
+          <p>See what admin overhead is costing you. Two minutes.</p>
+          <a class="textlink" href="#">Open the calculator <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </div>
+      <div class="tp" id="panel-readiness" role="tabpanel" aria-labelledby="tab-readiness" data-on="false">
+        <div class="tp-media" data-photo="Working through a checklist by hand &mdash; sample image">
+          <img src="https://images.unsplash.com/photo-1754039985008-a15410211b67?w=1200&q=70&auto=format&fit=crop" alt="" loading="lazy">
+        </div>
+        <div class="tp-body">
+          <span class="tp-tag">Checklist</span>
+          <h3>AI Readiness Checklist</h3>
+          <p>Find out where AI creates the most value. Five minutes.</p>
+          <a class="textlink" href="#">Open the checklist <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </div>
+      </div>
+
+      <div class="tools-foot"><a class="textlink" href="#">Explore resources <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" style="padding-top:0">
+  <div class="wrap faq-grid">
+    <div data-reveal="left"><span class="label">FAQ</span><h2>Questions, answered plainly</h2><p class="lede" style="margin-top:18px">The things AU and UK operations leaders ask us first.</p></div>
+    <div data-stagger="0.06">
+      <details open><summary>What does humaniseAI do?</summary><p>We build AI into your highest-friction workflows and prove the result, typically within six weeks.</p></details>
+      <details><summary>Is humaniseAI the same company as Swivel?</summary><p>Yes. humaniseAI is the new name for Swivel's technology, finance, and AI capability, brought together under one brand. Your contract, your team, and your point of contact don't change.</p></details>
+      <details><summary>What is the AI Council Incubator?</summary><p>Our flagship offer. One working AI system, built into your operations, at no cost. Two organisations a quarter.</p></details>
+      <details><summary>Do you replace our existing systems?</summary><p>No. Every system integrates with what you already run. Zero disruption is a core design requirement.</p></details>
+      <details><summary>Is your AI auditable?</summary><p>Yes. Every recommendation is traceable to source, every action logged.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT  ·  imagery background with a glass form card
+     Background is a sample Unsplash frame — swap for real client footage.
+     ============================================================ -->
+<section class="contact" id="contact">
+
+  <div class="contact-media" data-scroll-y="20" data-photo="A scoping call in progress — sample image">
+    <img src="https://images.unsplash.com/photo-1771408662069-7a78b1942801?w=2000&q=72&auto=format&fit=crop" alt="" aria-hidden="true">
+  </div>
+  <div class="contact-scrim"></div>
+  <div class="contact-glow"></div>
+
+  <div class="wrap contact-grid">
+    <div data-reveal="left">
+      <span class="label">Contact</span>
+      <h2>Let's find your highest-value use case.</h2>
+      <p class="lede">A 45-minute scoping call. We'll tell you honestly whether we can help. No follow-up pitch if we can't.</p>
+    </div>
+
+    <div class="contact-card" data-reveal style="--d:.1s">
+      <form class="form" onsubmit="event.preventDefault()">
+        <div class="row">
+          <div class="field"><label for="f-name">Full name</label><input id="f-name" type="text" name="name" autocomplete="name" placeholder="Alex Morgan"></div>
+          <div class="field"><label for="f-org">Organisation</label><input id="f-org" type="text" name="org" autocomplete="organization" placeholder="Company Pty Ltd"></div>
+        </div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" type="email" name="email" autocomplete="email" placeholder="alex@company.com.au"></div>
+        <div class="field"><label for="f-msg">What's your biggest workflow challenge right now?</label><textarea id="f-msg" name="challenge" placeholder="e.g. Our front desk misses calls every morning and we can't tell how many."></textarea></div>
+        <button class="btn btn-primary" type="submit">Book the call <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+        <p class="fine">We reply within one business day, Australian and UK hours.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot" data-stagger="0.08">
+
+      <div class="foot-brand">
+        <a class="logo" href="#top" aria-label="humaniseAI home" style="width:clamp(168px,16vw,206px)">
+          <img class="on-dark" src="assets/logo-white.svg" alt="" width="258" height="62">
+        </a>
+        <p class="blurb">An AI-native professional services firm working at the intersection of business, technology, and humanity.</p>
+        <div class="socials">
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM3 9h4v12H3zM10 9h3.8v1.7c.6-1 1.9-2 3.9-2 4.1 0 4.3 2.7 4.3 6.1V21h-4v-5.5c0-1.4 0-3-1.9-3s-2.1 1.4-2.1 2.9V21h-4z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 7.2s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.3-1C16.5 3.7 12 3.7 12 3.7s-4.5 0-7.8.2c-.5.1-1.5.1-2.3 1C1.2 5.6 1 7.2 1 7.2S.8 9.1.8 11v1.8c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.6 1 1.9.2 7.5.2 7.5.2s4.5 0 7.8-.2c.5-.1 1.5-.1 2.3-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8V11c0-1.9-.2-3.8-.2-3.8zM9.7 15V8.7l6 3.2z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.2 2h3.4l-7.4 8.5L23 22h-6.8l-5.3-7-6.1 7H1.4l7.9-9L1 2h7l4.8 6.4zM17 20h1.9L7.1 3.9H5.1z"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Work with us</h4>
+        <ul>
+          <li><a href="#ways">Studio</a></li>
+          <li><a href="#ways">Talent</a></li>
+          <li><a href="#ways">Advisory</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Sitemap</a></li>
+        </ul>
+      </div>
+
+      <div class="nl">
+        <div class="foot-offices">
+          <h4>Office addresses:</h4>
+          <div class="addr-grid">
+            <address>10&ndash;20 Gwynne Street,<br>Cremorne VIC 3121,<br>Australia</address>
+            <address>Compass Building,<br>Ras Al Khaimah,<br>United Arab Emirates</address>
+          </div>
+        </div>
+        <p class="nl-title">Join our newsletter</p>
+        <form class="nl-form" onsubmit="event.preventDefault()">
+          <label for="nl-email" class="sr-only">Email address</label>
+          <input id="nl-email" type="email" name="email" autocomplete="email" placeholder="Enter your email" required>
+          <button type="submit">Send <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg></button>
+        </form>
+      </div>
+
+      <p class="foot-legal" data-no-reveal>&copy; 2026 humaniseAI.</p>
+
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Photo slots: write the brief on each placeholder; if a data-src is set, show the image instead.
+  var cam = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>';
+  document.querySelectorAll('.ph[data-photo]').forEach(function(el){
+    if (el.dataset.src) { el.classList.add('has-img'); el.style.backgroundImage = 'url(' + el.dataset.src + ')'; el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center'; return; }
+    var b = document.createElement('div'); b.className = 'brief'; b.innerHTML = cam + '<span>Photo · ' + el.dataset.photo + '</span>'; el.appendChild(b);
+  });
+
+  /* ============================================================
+     MOTION  ·  everything here has a native Framer equivalent
+       navSolid      → Nav component + Scroll variant
+       hero parallax → Scroll Transform on the video frame + content stack
+       [data-reveal] → "Animate on: Scroll into view" Appear animation
+     ============================================================ */
+  (function(){
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+
+    // Nav: transparent over the hero, glass once scrolled. Framer: scroll variant.
+    var nav = document.querySelector('.nav');
+    // Hero scroll transform. Framer: Scroll Transform, section enter → exit.
+    var hero  = document.querySelector('.hero');
+    var media = document.querySelector('[data-parallax="media"]');
+    var inner = document.querySelector('[data-parallax="content"]');
+    var cue   = document.querySelector('.hero-cue');
+    var queued = false;
+
+    function frame(){
+      queued = false;
+      var y = window.scrollY || window.pageYOffset;
+      if (nav) nav.classList.toggle('is-solid', y > 32);
+      if (reduce.matches || !hero) return;
+      var p = Math.min(1, Math.max(0, y / Math.max(1, hero.offsetHeight)));
+      if (media) media.style.transform = 'translate3d(0,' + (p * 120).toFixed(2) + 'px,0) scale(' + (1 + p * 0.06).toFixed(4) + ')';
+      if (inner) { inner.style.transform = 'translate3d(0,' + (p * 64).toFixed(2) + 'px,0)'; inner.style.opacity = (1 - p * 1.15).toFixed(3); }
+      if (cue) cue.style.opacity = (1 - p * 4).toFixed(3);
+    }
+    function onScroll(){ if (!queued) { queued = true; requestAnimationFrame(frame); } }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    frame();
+
+    // [data-stagger] containers — step each child's delay. Framer equivalent:
+    // the same increasing Appear delay set on each layer of the stack.
+    document.querySelectorAll('[data-stagger]').forEach(function(box){
+      var step = parseFloat(box.dataset.stagger) || 0.08;
+      [].forEach.call(box.children, function(child, i){
+        if (child.hasAttribute('data-no-reveal')) return;
+        if (!child.hasAttribute('data-reveal')) child.setAttribute('data-reveal', box.dataset.staggerAs || '');
+        if (!child.style.getPropertyValue('--d')) child.style.setProperty('--d', (i * step).toFixed(3) + 's');
+      });
+    });
+
+    // Scroll Transforms — Framer: "Scroll Transform", mapped over the element's
+    // enter → exit range.
+    //   [data-scroll-y="26"]     Y −26 → 26
+    var movers = [].slice.call(document.querySelectorAll('[data-scroll-y]'));
+    if (movers.length && !reduce.matches) {
+      var mq = false;
+      var move = function(){
+        mq = false;
+        var vh = innerHeight;
+        movers.forEach(function(el){
+          var r = el.getBoundingClientRect();
+          if (r.bottom < -240 || r.top > vh + 240) return;
+          var p = Math.min(1, Math.max(0, 1 - r.bottom / (vh + r.height)));
+          var d = parseFloat(el.dataset.scrollY) || 0;
+          el.style.transform = 'translate3d(0,' + ((p - .5) * 2 * d).toFixed(1) + 'px,0)';
+        });
+      };
+      addEventListener('scroll', function(){ if (!mq) { mq = true; requestAnimationFrame(move); } }, { passive: true });
+      addEventListener('resize', move);
+      addEventListener('load', move);
+      move();
+    }
+
+    // Tabs: move the white pill to the selected tab and cross-fade the panels.
+    // Framer: one variant per tab with a Smart Animate transition.
+    document.querySelectorAll('.tabbar').forEach(function(bar){
+      var tabs = [].slice.call(bar.querySelectorAll('.tab'));
+      var ind  = bar.querySelector('.tab-ind');
+      var panels = tabs.map(function(t){ return document.getElementById(t.getAttribute('aria-controls')); });
+
+      function place(instant){
+        var on = tabs.find(function(t){ return t.getAttribute('aria-selected') === 'true'; }) || tabs[0];
+        if (instant) ind.style.transition = 'none';
+        ind.style.width = on.offsetWidth + 'px';
+        ind.style.transform = 'translateX(' + on.offsetLeft + 'px)';
+        if (instant) requestAnimationFrame(function(){ ind.style.transition = ''; });
+      }
+      function select(i){
+        tabs.forEach(function(t, j){ t.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+        panels.forEach(function(pn, j){ if (pn) pn.dataset.on = j === i ? 'true' : 'false'; });
+        place();
+      }
+      tabs.forEach(function(t, i){
+        t.addEventListener('click', function(){ select(i); });
+        // left/right arrows move between tabs, as a tablist should
+        t.addEventListener('keydown', function(e){
+          var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+          if (!d) return;
+          e.preventDefault();
+          var next = (i + d + tabs.length) % tabs.length;
+          select(next); tabs[next].focus();
+        });
+      });
+      place(true);
+      addEventListener('resize', function(){ place(true); });
+      // the bar can be a scroller on small screens, so keep the pill aligned
+      bar.addEventListener('scroll', function(){ place(true); }, { passive: true });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ place(true); });
+    });
+
+    // [data-spotlight]: a glow that trails the cursor across the section.
+    // The lerp is what makes it feel unhurried — the light eases toward the
+    // pointer instead of snapping to it. Framer: a code override writing the
+    // same two custom properties onto the gradient frame.
+    if (matchMedia('(hover:hover)').matches && !reduce.matches) {
+      document.querySelectorAll('[data-spotlight]').forEach(function(sec){
+        var tx = 50, ty = 50, cx = 50, cy = 50, raf = null;
+        function loop(){
+          cx += (tx - cx) * 0.12;
+          cy += (ty - cy) * 0.12;
+          sec.style.setProperty('--mx', cx.toFixed(2) + '%');
+          sec.style.setProperty('--my', cy.toFixed(2) + '%');
+          raf = (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) ? requestAnimationFrame(loop) : null;
+        }
+        sec.addEventListener('pointermove', function(e){
+          var r = sec.getBoundingClientRect();
+          tx = ((e.clientX - r.left) / r.width) * 100;
+          ty = ((e.clientY - r.top) / r.height) * 100;
+          if (!raf) raf = requestAnimationFrame(loop);
+        });
+        sec.addEventListener('pointerenter', function(){ sec.classList.add('is-pointing'); });
+        sec.addEventListener('pointerleave', function(){ sec.classList.remove('is-pointing'); });
+      });
+    }
+
+    // Scroll-into-view reveals.
+    var items = document.querySelectorAll('[data-reveal]');
+    if (!('IntersectionObserver' in window) || reduce.matches) {
+      items.forEach(function(el){ el.classList.add('in'); });
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
+      items.forEach(function(el){ io.observe(el); });
+      // The bottom rootMargin hides the last screenful from the observer, so an
+      // element sitting at the very end of the page would never reveal. Once the
+      // document bottom is reached, release anything still waiting.
+      addEventListener('scroll', function(){
+        if (innerHeight + scrollY < document.documentElement.scrollHeight - 4) return;
+        items.forEach(function(el){ el.classList.add('in'); io.unobserve(el); });
+      }, { passive: true });
+    }
+
+    // Hero video: hold still for reduced motion, and don't decode off-screen.
+    var vid = document.querySelector('.hero-media video');
+    if (vid) {
+      if (reduce.matches) { vid.removeAttribute('autoplay'); vid.pause(); }
+      else if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function(en){
+          en.forEach(function(e){ e.isIntersecting ? vid.play().catch(function(){}) : vid.pause(); });
+        }, { threshold: 0.01 }).observe(vid);
+      }
+    }
+  })();
+
+  /* ============================================================
+     REEL  ·  centre-focus video slider
+     In Framer: the track is a horizontal Scroll frame with snapping and the
+     cards carry Hover variants; this script covers the three things Framer
+     needs a code component for — centre-focus scaling, drag-to-scroll, and
+     the lightbox.
+     ============================================================ */
+  (function(){
+    var track = document.getElementById('reel');
+    if (!track) return;
+    var cards  = [].slice.call(track.querySelectorAll('.reel-card'));
+    var bar    = document.querySelector('.reel-bar i');
+    var box    = document.getElementById('reel-lightbox');
+    var boxVid = box.querySelector('video');
+    var boxCap = box.querySelector('.lb-cap');
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    var hovered = null, queued = false, touched = false;
+
+    function play(card){
+      var v = card.querySelector('video');
+      if (!v || reduce.matches) return;
+      if (v.readyState === 0) v.load();
+      v.play().catch(function(){});
+      card.querySelector('.r-play').innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+    }
+    function stop(card){
+      var v = card.querySelector('video');
+      if (!v) return;
+      v.pause();
+      card.querySelector('.r-play').innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg>';
+    }
+
+    // Focus = the card nearest the centre of the track viewport (or the hovered one).
+    function paint(){
+      queued = false;
+      var mid = track.scrollLeft + track.clientWidth / 2, best = null, bestD = 1e9;
+      cards.forEach(function(c){
+        var d = Math.abs((c.offsetLeft + c.offsetWidth / 2) - mid);
+        if (d < bestD) { bestD = d; best = c; }
+      });
+      var focus = hovered || (touched ? best : cards[0]);
+      cards.forEach(function(c){
+        var on = c === focus;
+        c.classList.toggle('is-focus', on);
+        on ? play(c) : stop(c);
+      });
+      if (bar) {
+        var max = track.scrollWidth - track.clientWidth;
+        var p = max > 0 ? track.scrollLeft / max : 0;
+        bar.style.transform = 'translateX(' + (p * (100 / 0.28 - 100)).toFixed(2) + '%)';
+      }
+    }
+    function schedule(){ if (!queued) { queued = true; requestAnimationFrame(paint); } }
+    track.addEventListener('scroll', function(){ touched = true; schedule(); }, { passive: true });
+    addEventListener('resize', schedule);
+
+    cards.forEach(function(c){
+      c.addEventListener('mouseenter', function(){ hovered = c; schedule(); });
+      c.addEventListener('mouseleave', function(){ if (hovered === c) { hovered = null; schedule(); } });
+
+      c.querySelector('.r-play').addEventListener('click', function(e){
+        e.stopPropagation();
+        var v = c.querySelector('video');
+        v.paused ? play(c) : stop(c);
+      });
+      c.querySelector('.r-mute').addEventListener('click', function(e){
+        e.stopPropagation();
+        var v = c.querySelector('video');
+        v.muted = !v.muted;
+        this.setAttribute('aria-label', v.muted ? 'Unmute' : 'Mute');
+        this.style.background = v.muted ? '' : 'rgba(87,0,255,.85)';
+      });
+      c.querySelector('.reel-expand').addEventListener('click', function(e){
+        e.stopPropagation();
+        open(c);
+      });
+    });
+
+    // Arrows — one card per press.
+    function step(dir){
+      var w = cards[0].offsetWidth + 20;
+      track.scrollBy({ left: dir * w, behavior: reduce.matches ? 'auto' : 'smooth' });
+    }
+    document.querySelector('.r-prev').addEventListener('click', function(){ step(-1); });
+    document.querySelector('.r-next').addEventListener('click', function(){ step(1); });
+
+    // Drag to scroll (pointer events cover mouse, pen and touch).
+    var down = false, startX = 0, startLeft = 0, moved = 0;
+    track.addEventListener('pointerdown', function(e){
+      if (e.target.closest('.rbtn')) return;
+      down = true; moved = 0; startX = e.clientX; startLeft = track.scrollLeft;
+      track.classList.add('dragging');
+      track.setPointerCapture(e.pointerId);
+    });
+    track.addEventListener('pointermove', function(e){
+      if (!down) return;
+      var dx = e.clientX - startX; moved = Math.abs(dx);
+      track.scrollLeft = startLeft - dx;
+    });
+    function release(){
+      if (!down) return;
+      down = false; track.classList.remove('dragging'); schedule();
+    }
+    track.addEventListener('pointerup', release);
+    track.addEventListener('pointercancel', release);
+
+    // Lightbox
+    function open(card){
+      boxVid.src = card.dataset.hd;
+      boxCap.textContent = card.dataset.cap.replace('&middot;', '·');
+      box.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      boxVid.play().catch(function(){});
+    }
+    function close(){
+      box.classList.remove('open');
+      boxVid.pause(); boxVid.removeAttribute('src'); boxVid.load();
+      document.body.style.overflow = '';
+    }
+    box.querySelector('.close').addEventListener('click', close);
+    box.addEventListener('click', function(e){ if (e.target === box) close(); });
+    addEventListener('keydown', function(e){ if (e.key === 'Escape' && box.classList.contains('open')) close(); });
+
+    // Start with the second card centred so the row reads as a reel.
+    paint();
+  })();
+
+  /* ---- PROOF: numbers count up once, on scroll into view ----
+     Framer: a code component (or the marketplace "stats-section"). */
+  (function(){
+    var nums = document.querySelectorAll('[data-count]');
+    if (!nums.length) return;
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+
+    function run(el){
+      var target = parseFloat(el.dataset.count), suffix = el.dataset.suffix || '';
+      if (reduce.matches) { el.textContent = target + suffix; return; }
+      var t0 = null, dur = 1400;
+      function frame(t){
+        if (t0 === null) t0 = t;
+        var p = Math.min(1, (t - t0) / dur);
+        var eased = 1 - Math.pow(1 - p, 3);            // ease-out cubic
+        el.textContent = Math.round(target * eased) + suffix;
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      el.textContent = '0' + suffix;
+      requestAnimationFrame(frame);
+    }
+
+    // Scroll Transform on the background (Framer: Scale 1.08 → 1 over the section)
+    var sec = document.getElementById('proof'), media = document.querySelector('[data-parallax="proof"]');
+    if (sec && media && !reduce.matches) {
+      var q = false;
+      function pf(){
+        q = false;
+        var r = sec.getBoundingClientRect();
+        var p = Math.min(1, Math.max(0, 1 - r.bottom / (innerHeight + r.height)));
+        media.style.transform = 'scale(' + (1.08 - p * 0.08).toFixed(4) + ') translate3d(0,' + ((p - .5) * 26).toFixed(1) + 'px,0)';
+      }
+      addEventListener('scroll', function(){ if (!q) { q = true; requestAnimationFrame(pf); } }, { passive: true });
+      addEventListener('resize', pf);
+      pf();
+    }
+
+    if (!('IntersectionObserver' in window)) { nums.forEach(run); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { run(e.target); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.4 });
+    nums.forEach(function(el){ io.observe(el); });
+  })();
+</script>

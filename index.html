@@ -142,8 +142,7 @@
         │   hero-media itself gets the Scroll Transform (Y 0→120, Scale 1→1.06)
         ├ hero-scrim (Frame · absolute inset 0 · stacked gradient fills)
         ├ hero-inner (Stack · vertical · left · max-w 960 · z above scrim)
-        │        headline + CTAs only; the trust block that used to sit here
-        │        now has its own section, so it is not competing with the H1
+        │        headline + CTAs only, so nothing competes with the H1
         └ hero-cue  (Frame · absolute bottom centre · Loop animation)
      ============================================================ */
   .hero{position:relative;min-height:min(100svh,940px);display:flex;align-items:center;
@@ -235,52 +234,6 @@
      --lh trims the ones whose glyphs fill more of their own box. */
   .pband-item img{height:var(--lh,40px);width:auto;display:block}
   .pband-item small{font-size:13.5px;line-height:1.45;color:var(--ink-3)}
-
-  /* ============================================================
-     TRUSTED BY — static logo wall + technology partners
-     FRAMER MAP
-       Section "Trusted by"
-        ├ head        → label + H2, left column
-        ├ logowall    → Grid in the right column, 2 cols → 3 from 1200
-        │    each cell: Frame with a centred Image layer, desaturated
-        │    Hover variant: Image saturation 0 → 1, cell Fill --ground
-        │    → in Framer this is a CMS Collection List on "Clients"
-        └ partners    → Stack, 2 up, the rows moved out of the hero
-       Deliberately NOT a ticker. A moving logo row reads as decoration and
-       cannot be studied; these need to carry weight, so the wall is static
-       and every name stays put long enough to read.
-     ============================================================ */
-  .trust{padding-top:clamp(48px,6vw,88px);padding-bottom:clamp(48px,6vw,88px);
-    background:var(--paper);border-bottom:1px solid var(--line)}
-  /* Title left, wall right. Stacks under 960, where the title would be too
-     narrow to hold the line without breaking awkwardly. */
-  .trust .wrap{display:grid;gap:clamp(26px,3.4vw,42px)}
-  @media(min-width:960px){
-    .trust .wrap{grid-template-columns:minmax(0,4.2fr) minmax(0,7.8fr);
-      gap:clamp(40px,5vw,72px);align-items:start}
-  }
-  .trust .head{margin-bottom:0}
-  .trust h2{font-size:clamp(30px,3vw,42px);line-height:1.08}
-
-  /* One hairline between cells: the wall's own background shows through a 1px
-     grid gap, so there are no doubled borders to reconcile. */
-  .logowall{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
-    background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-  /* 3-up only from 1200: below that the right-hand column is too narrow for
-     three cells to hold a 150px logo with air around it. */
-  @media(min-width:1200px){.logowall{grid-template-columns:repeat(3,1fr)}}
-  .logowall .cell{background:var(--paper);display:grid;place-items:center;
-    min-height:clamp(104px,10vw,142px);padding:20px 16px;transition:background .3s ease}
-  .logowall .cell:hover{background:var(--ground)}
-  /* Desaturated so a wall of unrelated brand colours still reads as one set;
-     colour comes back on hover. Delete the filter line for full colour. */
-  .logowall img{max-width:min(100%,150px);max-height:clamp(36px,3.6vw,50px);
-    width:auto;height:auto;object-fit:contain;display:block;
-    filter:grayscale(1);opacity:.74;transition:filter .35s ease,opacity .35s ease}
-  .logowall .cell:hover img{filter:none;opacity:1}
-  .logowall .slot{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--ink-3);opacity:.55}
-
 
   /* ============================================================
      PROBLEM — text block, then the reel
@@ -444,37 +397,6 @@
   .dark{background:var(--violet);color:#fff}
   .dark h2{color:#fff}
   .dark .lede{color:rgba(255,255,255,.75)}
-
-  /* ============================================================
-     PROOF — minimal, light
-     No photo, no gradient, no grid. Title and lede split across the top,
-     then the numbers in a hairline-divided row.
-     FRAMER MAP
-       Section "Proof" (Fill #FFF)
-        ├ head.split → the existing two-column header component
-        └ pmin-stats → Stack horizontal, 3 columns, 1px dividers between
-             The numbers use the [data-count] hook that the count-up
-             component reads.
-     Divider logic is the fiddly part: a top border on the row plus a
-     left border on every item except the first, which gives single hairlines
-     with no doubling and no trailing rule. Stacked, it flips to top borders.
-     ============================================================ */
-  .proof-min{background:var(--paper)}
-  .pmin-stats{display:grid;margin-top:clamp(30px,3.6vw,48px);
-    border-top:1px solid var(--line)}
-  @media(min-width:760px){.pmin-stats{grid-template-columns:repeat(3,1fr)}}
-  .pmin{padding:clamp(26px,3vw,40px) 0}
-  .pmin+.pmin{border-top:1px solid var(--line)}
-  @media(min-width:760px){
-    .pmin{padding:clamp(30px,3.2vw,46px) clamp(22px,2.6vw,40px)}
-    .pmin:first-child{padding-left:0}
-    .pmin+.pmin{border-top:0;border-left:1px solid var(--line)}
-  }
-  .pmin .n{display:block;font-family:var(--display);font-weight:600;line-height:.95;
-    font-size:clamp(42px,5.2vw,68px);letter-spacing:-.035em;
-    font-variant-numeric:tabular-nums;color:var(--ink)}
-  .pmin .n.orange{color:var(--tangelo)}
-  .pmin p{margin-top:12px;font-size:15.5px;line-height:1.5;color:var(--ink-3);max-width:26ch}
 
   /* ============================================================
      CASE STUDIES — full-bleed slider
@@ -898,7 +820,7 @@
   </div>
 
   <!-- Scroll cue. Framer: Loop animation on the rule (Y −6→4, 2.4s, alternate) -->
-  <a class="hero-cue" href="#trust" aria-label="Scroll down"><span class="cue-in" data-appear style="--d:1.15s"><span>Scroll</span><i></i></span></a>
+  <a class="hero-cue" href="#problem" aria-label="Scroll down"><span class="cue-in" data-appear style="--d:1.15s"><span>Scroll</span><i></i></span></a>
 </section>
 
 <!-- ============================================================
@@ -920,33 +842,6 @@
         <small>Accounting and ERP integration partner &mdash; connecting the financial and operational systems businesses already run on.</small>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     TRUSTED BY  ·  static logo wall
-     Moved out of the hero and given its own section so the client logos are
-     not competing with the H1. Static on purpose, not a ticker.
-     Cells are swap-in slots: drop assets/logo-<client>.png in and add a cell.
-     ============================================================ -->
-<section class="trust" id="trust">
-  <div class="wrap">
-    <div class="head" data-reveal>
-      <div>
-        <span class="label">Clients</span>
-        <h2>Trusted by teams across Australia &amp; the UK</h2>
-      </div>
-    </div>
-
-    <div class="logowall" data-reveal style="--d:.08s">
-      <div class="cell"><img src="assets/logo-wunderman-thompson.png" alt="Wunderman Thompson"></div>
-      <div class="cell"><img src="assets/logo-pragmatech.png" alt="PragmaTech"></div>
-      <div class="cell"><img src="assets/logo-incorp.png" alt="InCorp Advisory Australia"></div>
-      <div class="cell"><span class="slot">Client logo</span></div>
-      <div class="cell"><span class="slot">Client logo</span></div>
-      <div class="cell"><span class="slot">Client logo</span></div>
-    </div>
-
   </div>
 </section>
 
@@ -1164,38 +1059,6 @@
           <img src="https://images.unsplash.com/photo-1630487656049-6db93a53a7e9?w=700&q=70&auto=format&fit=crop" alt="" loading="lazy">
         </div>
       </a>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     PROOF  ·  minimal, light
-     Replaced the full-bleed gradient panel; it takes the #proof id so links
-     and the Framer handoff keep one canonical name for this section.
-     ============================================================ -->
-<section class="proof-min" id="proof">
-  <div class="wrap">
-    <div class="head split" data-stagger="0.08">
-      <div>
-        <span class="label">Proof</span>
-        <h2>What this delivers, in numbers</h2>
-      </div>
-      <p class="lede">Real outcomes from AI systems built inside real operations, not lab demos.</p>
-    </div>
-
-    <div class="pmin-stats" data-stagger="0.1">
-      <div class="pmin">
-        <span class="n" data-count="70" data-suffix="+">70+</span>
-        <p>hrs saved per team, per month.</p>
-      </div>
-      <div class="pmin">
-        <span class="n" data-count="60" data-suffix="%">60%</span>
-        <p>compliance time cut.</p>
-      </div>
-      <div class="pmin">
-        <span class="n orange">$0</span>
-        <p>to start with the Incubator.</p>
-      </div>
     </div>
   </div>
 </section>
@@ -1903,35 +1766,4 @@
     paint();
   })();
 
-  /* ---- PROOF: numbers count up once, on scroll into view ----
-     Framer: a code component (or the marketplace "stats-section"). */
-  (function(){
-    var nums = document.querySelectorAll('[data-count]');
-    if (!nums.length) return;
-    var reduce = matchMedia('(prefers-reduced-motion: reduce)');
-
-    function run(el){
-      var target = parseFloat(el.dataset.count), suffix = el.dataset.suffix || '';
-      if (reduce.matches) { el.textContent = target + suffix; return; }
-      var t0 = null, dur = 1400;
-      function frame(t){
-        if (t0 === null) t0 = t;
-        var p = Math.min(1, (t - t0) / dur);
-        var eased = 1 - Math.pow(1 - p, 3);            // ease-out cubic
-        el.textContent = Math.round(target * eased) + suffix;
-        if (p < 1) requestAnimationFrame(frame);
-      }
-      el.textContent = '0' + suffix;
-      requestAnimationFrame(frame);
-    }
-
-
-    if (!('IntersectionObserver' in window)) { nums.forEach(run); return; }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if (e.isIntersecting) { run(e.target); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.4 });
-    nums.forEach(function(el){ io.observe(el); });
-  })();
 </script>
